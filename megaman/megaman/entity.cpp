@@ -6,7 +6,32 @@ Entity::Entity(float x, float y) {
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
 
-	texture = new Texture();
+	//animation
+
+	//dont forget to create, or its nullptr!
+
+	texture_idle_left = new Texture();
+	texture_idle_right = new Texture();
+	texture_jump_left = new Texture();
+	texture_jump_right = new Texture();
+
+	texture_shoot_left = new Texture();
+	texture_shoot_right = new Texture();
+	texture_shoot_jump_left = new Texture();
+	texture_shoot_jump_right = new Texture();
+
+
+	//-----These require animation-----
+
+
+	texture_movement_left = new Texture();
+	texture_movement_right = new Texture();
+	texture_movement_shoot_left = new Texture();
+	texture_movement_shoot_right = new Texture();
+
+	//dont forget this
+
+	CreateAnimationComponent();
 }
 
 Entity::Entity() {
@@ -14,12 +39,62 @@ Entity::Entity() {
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
 
-	texture = new Texture();
+	//animation
+
+	//dont forget to create, or its nullptr!
+
+	texture_idle_left = new Texture();
+	texture_idle_right = new Texture();
+	texture_jump_left = new Texture();
+	texture_jump_right = new Texture();
+
+	texture_shoot_left = new Texture();
+	texture_shoot_right = new Texture();
+	texture_shoot_jump_left = new Texture();
+	texture_shoot_jump_right = new Texture();
+
+
+	//-----These require animation-----
+
+
+	texture_movement_left = new Texture();
+	texture_movement_right = new Texture();
+	texture_movement_shoot_left = new Texture();
+	texture_movement_shoot_right = new Texture();
+
+	//dont forget this
+
+	CreateAnimationComponent();
 }
 
 Entity::~Entity() {
-	delete texture;
+	//textures
+
+	delete texture_idle_left;
+	delete texture_idle_right;
+	delete texture_jump_left;
+	delete texture_jump_right;
+
+	delete texture_shoot_left;
+	delete texture_shoot_right;
+	delete texture_shoot_jump_left;
+	delete texture_shoot_jump_right;
+	//animations
+
+	delete texture_movement_left;
+	delete texture_movement_right;
+	delete texture_movement_shoot_right;
+	delete texture_movement_shoot_left;
+
+
+
+	delete movingAnimation;
 }
+
+void Entity::CreateAnimationComponent() {
+	movingAnimation = new AnimationComponent(sprite);
+}
+
 
 void Entity::Render(RenderWindow* l_window) {
 	l_window->draw(frame);
@@ -54,7 +129,7 @@ void Entity::Jump(float delt) {
 		//std::cout << "Jump!" << '\n';
 
 		isJumping = true;
-		velocityY = -jumpStrength;
+		velocityY = -jumpStrength * 0.1;
 	}
 }
 
@@ -197,6 +272,86 @@ bool Entity::isHeadBlocked(Obstacle* obs) {
 	}
 
 	return false;
+}
+
+//update
+
+
+//Update performing actions & animations when moving all here
+void Entity::UpdateCharacter(float delt) {
+
+	//---Movement----
+
+	if (isJumping || fall) {
+		//(make character fall)
+		if ((!left || !right) && fall) {
+			velocityY += slowGravity * delt;
+			isGrabbing = true;
+		}
+		else {
+			velocityY += gravity * delt;
+			isGrabbing = false;
+		}
+
+		//when reaches a limit, fall & isJumping will be turned to false
+		//by our canKeepFalling function
+
+
+		//move our 2 attributes
+
+		sprite.move(0, velocityY * delt);
+		frame.setPosition({ frame.getPosition().x, frame.getPosition().y + velocityY * delt });
+	}
+	else velocityY = 0.0f; //not falling & not jumping = 0 velocityY ?? :D
+
+	//-----ANIMATION UPDATE---------
+
+	if (isJumping) {
+		if (isShooting) {
+			if (direction == Direction::Right) sprite.setTexture(*texture_shoot_jump_right, true);
+			if (direction == Direction::Left) sprite.setTexture(*texture_shoot_jump_left, true);
+		}
+		else {
+			if (direction == Direction::Right) sprite.setTexture(*texture_jump_right, true);
+			if (direction == Direction::Left) sprite.setTexture(*texture_jump_left, true);
+		}
+	}
+	else if (isRight) {
+		if (isShooting) movingAnimation->Play("MovingShootRight", delt);
+		else movingAnimation->Play("MovingRight", delt);
+	}
+	else if (isLeft) {
+		if (isShooting) movingAnimation->Play("MovingShootLeft", delt);
+		else movingAnimation->Play("MovingLeft", delt);
+	}
+	else {
+		//Character not jumping, not running
+
+
+		//jesus, this one fucking helps!
+		movingAnimation->Reset();
+
+		if (isShooting) {
+			if (direction == Direction::Left) sprite.setTexture(*texture_shoot_left);
+			else sprite.setTexture(*texture_shoot_right);
+		}
+		else if (direction == Direction::Right) {
+			sprite.setTexture(*texture_idle_right, true);
+		}
+		else {
+			sprite.setTexture(*texture_idle_left, true);
+		}
+	}
+}
+
+
+
+//getters
+
+Vector2f Entity::getCenterPosition() {
+	auto width = frame.getSize().x;
+	auto height = frame.getSize().y;
+	return { frame.getPosition().x + width / 2, frame.getPosition().y + height / 2 };
 }
 
 Vector2f Entity::getUpLeftPosition() {

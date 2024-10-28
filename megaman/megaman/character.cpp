@@ -15,29 +15,6 @@ Character::Character(float x, float y): Entity(x,y) {
 	blaster = new Shooter();
 
 
-	//animation
-
-	//dont forget to create, or its nullptr!
-
-	texture_idle_left = new Texture();
-	texture_idle_right = new Texture();
-	texture_jump_left = new Texture();
-	texture_jump_right = new Texture();
-
-	texture_shoot_left = new Texture();
-    texture_shoot_right = new Texture();
-	texture_shoot_jump_left = new Texture();
-	texture_shoot_jump_right = new Texture();
-
-
-	//-----These require animation-----
-
-
-	texture_movement_left = new Texture();
-	texture_movement_right = new Texture();
-	texture_movement_shoot_left = new Texture();
-	texture_movement_shoot_right = new Texture();
-
 	//--------Load--------------
 
 
@@ -59,8 +36,6 @@ Character::Character(float x, float y): Entity(x,y) {
 	texture_movement_shoot_right->loadFromFile("Animation\\X_MovementShootRight.png");
 	texture_movement_shoot_left->loadFromFile("Animation\\X_MovementShootLeft.png");
 
-	//temporarily using this
-	CreateAnimationComponent();
 
 
 	movingAnimation->AddAnimation("MovingRight", *texture_movement_right, 100.f, 0, 0, 6, 0, 137, 142);
@@ -74,28 +49,6 @@ Character::~Character() {
 	//others
 
 	delete blaster;
-
-	//textures
-
-	delete texture_idle_left; 
-	delete texture_idle_right;
-	delete texture_jump_left;
-	delete texture_jump_right;
-
-	delete texture_shoot_left;
-	delete texture_shoot_right;
-	delete texture_shoot_jump_left;
-	delete texture_shoot_jump_right;
-	//animations
-
-	delete texture_movement_left;
-	delete texture_movement_right;
-	delete texture_movement_shoot_right;
-	delete texture_movement_shoot_left;
-
-
-
-	delete movingAnimation;
 }
 
 //virtual drawing
@@ -106,11 +59,7 @@ void Character::Render(RenderWindow* l_window) {
 	blaster->RenderProjectiles(l_window);
 }
 
-//animations
 
-void Character::CreateAnimationComponent() {
-	movingAnimation = new AnimationComponent(sprite);
-}
 
 
 //actions
@@ -164,6 +113,14 @@ void Character::HandleProjectileCollision(Obstacle* obs) {
 	blaster->HandleProjectileCollision(obs);
 }
 
+void Character::HandleProjectileCollision(Obstacle* obs, Entity* en) {
+	blaster->HandleProjectileCollision(obs, en);
+}
+
+void Character::HandleProjectileCollision(Entity* en) {
+	blaster->HandleProjectileCollision(en);
+}
+
 
 
 bool Character::canKeepFalling(Obstacle* obs) {
@@ -194,77 +151,12 @@ bool Character::canKeepFalling(Obstacle* obs) {
 
 void Character::UpdateCharacterProjectiles(float delt) {
 
-	Vector2f pos = frame.getPosition();
-	Vector2f size = frame.getSize();
+	Vector2f pos = getPosition();
+	Vector2f size = getFrameSize();
 
 	blaster->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y + size.y / 2 });
 }
 
-void Character::UpdateCharacter(float delt) {
-
-			//---Movement----
-
-	if (isJumping || fall) {
-		//(make character fall)
-		if ((!left || !right) && fall) {
-			velocityY += slowGravity * delt;
-			isGrabbing = true;
-		}
-		else {
-			velocityY += gravity * delt;
-			isGrabbing = false;
-		}
-
-		//when reaches a limit, fall & isJumping will be turned to false
-		//by our canKeepFalling function
-
-		
-		//move our 2 attributes
-
-		sprite.move(0, velocityY * delt);
-		frame.setPosition({ frame.getPosition().x, frame.getPosition().y + velocityY * delt });
-	}
-	else velocityY = 0.0f; //not falling & not jumping = 0 velocityY ?? :D
-
-	//-----ANIMATION UPDATE---------
-
-	 if (isJumping) {
-		if (isShooting) {
-			if(direction == Direction::Right) sprite.setTexture(*texture_shoot_jump_right, true);
-			if (direction == Direction::Left) sprite.setTexture(*texture_shoot_jump_left , true);
-		}
-		else {
-			if (direction == Direction::Right) sprite.setTexture(*texture_jump_right, true);
-			if (direction == Direction::Left) sprite.setTexture(*texture_jump_left, true);
-		}
-	}
-	 else if (isRight) {
-		 if(isShooting) movingAnimation->Play("MovingShootRight", delt);
-		 else movingAnimation->Play("MovingRight", delt);
-	 }
-	 else if (isLeft) {
-		 if (isShooting) movingAnimation->Play("MovingShootLeft", delt);
-		 else movingAnimation->Play("MovingLeft", delt);
-	 }
-	else {
-		//Character not jumping, not running
-
-
-		//jesus, this one fucking helps!
-		movingAnimation->Reset();
-
-		if (isShooting) {
-			if(direction == Direction::Left) sprite.setTexture(*texture_shoot_left);
-			else sprite.setTexture(*texture_shoot_right);
-		}
-		else if (direction == Direction::Right) {
-			sprite.setTexture(*texture_idle_right, true);
-		}
-		else{
-			sprite.setTexture(*texture_idle_left, true);
-		}
-	}
-}
 
 void Character::fixSpriteToFrame() {
 	auto vec = getUpLeftPosition();

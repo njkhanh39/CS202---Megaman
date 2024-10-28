@@ -37,8 +37,15 @@ void Game::Handling() {
 }
 
 void Game::HandleCollision() {
-	m_world->HandleProjectileCollision(m_character);
-	m_world->HandleCharacterCollision(m_character);
+
+	//handle collisions from all projectiles (enemies + char)
+	m_world->HandleAllProjectileCollisions(m_character);
+
+	//character physics
+	m_world->HandleEntityCollision(m_character);
+
+	//enemies physics
+	m_world->HandleEntityCollision(m_world->enemy);
 }
 
 void Game::Update() {
@@ -46,8 +53,15 @@ void Game::Update() {
 
 	//Obj.update()...
 	//Npc.update()...
+
+	//-----------------CHARACTER--------------------
+
 	m_character->UpdateCharacter(m_elapsed.asSeconds());
 	m_character->UpdateCharacterProjectiles(m_elapsed.asSeconds());
+
+	//-----------------ENEMIES--------------------
+
+	m_world->UpdateAllEnemies(m_character, m_elapsed.asSeconds());
 }
 
 void Game::Render() {

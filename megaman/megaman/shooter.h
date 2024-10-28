@@ -80,10 +80,42 @@ public:
 		}
 	}
 
+	void HandleProjectileCollision(Obstacle* obs, Entity* en) {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			if (bullets[i]->IsHit(obs) || bullets[i]->IsHit(en)) {
+
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+			}
+		}
+	}
+
 	void HandleProjectileCollision(Obstacle* obs) {
 		int n = bullets.size();
 		for (int i = n - 1; i >= activeBullets; --i) {
 			if (bullets[i]->IsHit(obs)) {
+
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+			}
+		}
+	}
+
+	void HandleProjectileCollision(Entity* en) {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			if (bullets[i]->IsHit(en)) {
 
 				//pop that bullet out
 				std::swap(bullets[i], bullets[n - 1]);

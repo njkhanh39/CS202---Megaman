@@ -2,9 +2,12 @@
 
 #include "obstacle.h"
 #include "character.h"
+#include "enemy.h"
+#include <typeinfo>
 
 class World {
 public:
+	ShooterEnemy* enemy;
 	Obstacle *wall;
 	Obstacle* platform[1];
 
@@ -14,14 +17,29 @@ public:
 
 	void Render(RenderWindow* l_window);
 
-	void HandleProjectileCollision(Character* character) {
+	void HandleAllProjectileCollisions(Character* character) {
+
+		//-----------Character----------------
+
+		//for loops through all obstacles
 		character->HandleProjectileCollision(wall);
 		character->HandleProjectileCollision(platform[0]);
+
+		//for loops through all entities but itself
+		character->HandleProjectileCollision(enemy);
+
+		//-----------Enemy----------------
+
+		//for loops through all obstacles
+		enemy->HandleProjectileCollision(wall);
+		enemy->HandleProjectileCollision(platform[0]);
+
+		//for loops through all entities but itself
+		enemy->HandleProjectileCollision(character);
 	}
 
-	//called during loop
 
-	void HandleCharacterCollision(Character* character) {
+	void HandleEntityCollision(Entity* en) {
 		
 		//obstacles: wall, platform,.... 
 
@@ -32,45 +50,55 @@ public:
 		bool headBlock = false;
 
 		for (int i = 0; i < 1; ++i) {
-			if (!character->canMoveRight(platform[i])) yesRight = false;
-			if (!character->canMoveLeft(platform[i])) yesLeft = false;
-			if (!character->canKeepFalling(platform[i])) yesFall = false;
-			if (character->isHeadBlocked(platform[i])) headBlock = true;
+			if (!en->canMoveRight(platform[i])) yesRight = false;
+			if (!en->canMoveLeft(platform[i])) yesLeft = false;
+			if (!en->canKeepFalling(platform[i])) yesFall = false;
+			if (en->isHeadBlocked(platform[i])) headBlock = true;
 		}
 
-		if (yesRight && character->canMoveRight(wall)) {
-			character->right = true;
+		if (yesRight && en->canMoveRight(wall)) {
+			en->right = true;
 		}
-		else character->right = false;
+		else en->right = false;
 		
 
-		if (yesLeft && character->canMoveLeft(wall)) {
-			character->left = true;
+		if (yesLeft && en->canMoveLeft(wall)) {
+			en->left = true;
 		}
-		else character->left = false;
+		else en->left = false;
 
 		//fall and jump
-		if (yesFall && character->canKeepFalling(wall)) {
-			character->fall = true;
+		if (yesFall && en->canKeepFalling(wall)) {
+			en->fall = true;
 		}
 		else {
-			character->fall = false;
+			en->fall = false;
 			//allow jump again! Resetting!
-			character->isJumping = false;
+			en->isJumping = false;
 		}
 		
-		//wall grab - jump
+		//wall grab - jump - only for char
 
-		if ((!character->left || !character->right) && character->fall) {
-			character->isJumping = false;
+		if (dynamic_cast<Character*>(en)) {
+
+			if ((!en->left || !en->right) && en->fall) {
+				en->isJumping = false;
+			}
 		}
-
+		
 		//head blocked
 
-		if (headBlock || character->isHeadBlocked(wall)) {
-			character->setVelocityY(10);
+		if (headBlock || en->isHeadBlocked(wall)) {
+			en->setVelocityY(10);
 		}
 		
+	}
+
+	void UpdateAllEnemies(Character* character, float delt) {
+		enemy->UpdateCharacter(delt);
+
+		enemy->UpdateEnemyBehaviour(character, delt);
+		enemy->UpdateEnemyProjectiles(delt);
 	}
 
 private:

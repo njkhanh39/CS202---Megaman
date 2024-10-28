@@ -16,6 +16,8 @@ public:
 	//constructor
 	Projectile();
 
+	~Projectile();
+
 
 	//----------PHYSICS-----------------
 
@@ -29,25 +31,9 @@ public:
 
 	bool IsHit(Entity* en);
 
-	//---------------OOP stuffs------------------
-
-	Projectile(const Projectile& other);
-
-	~Projectile();
-
-	friend void swap(Projectile& obj1, Projectile& obj2) {
-		std::swap(obj1.frame, obj2.frame);
-		std::swap(obj1.sprite, obj2.sprite);
-		//shallow copy, but don't worry!
-		std::swap(obj1.texture, obj2.texture);
-	}
-
-	Projectile& operator=(Projectile other);
 	
 
 	//setters
-
-	void setPosition(Vector2f pos);
 
 	void setDirection(Direction dir);
 	

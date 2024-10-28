@@ -2,7 +2,6 @@
 #include <iostream>
 #include "entity.h"
 #include <SFML/Graphics.hpp>
-#include "animation.h"
 #include "shooter.h"
 
 using namespace sf;
@@ -15,16 +14,6 @@ private:
 
 	//sheets
 
-	Texture* texture_idle_left, * texture_idle_right, *texture_jump_left, *texture_jump_right;
-
-	Texture* texture_shoot_left, * texture_shoot_right, * texture_shoot_jump_left, * texture_shoot_jump_right;
-
-	Texture* texture_movement_right,* texture_movement_left, *texture_movement_shoot_right
-		, *texture_movement_shoot_left;
-
-
-
-	AnimationComponent* movingAnimation;
 
 
 	//------Weapon----------//
@@ -47,8 +36,6 @@ public:
 
 	//animations - is called in constructor
 
-	void CreateAnimationComponent();
-
 
 	//--------actions-------
 
@@ -61,6 +48,10 @@ public:
 
 	void HandleProjectileCollision(Obstacle* obs);
 
+	void HandleProjectileCollision(Obstacle* obs, Entity* en);
+
+	void HandleProjectileCollision(Entity* en);
+
 
 	//virtual
 	bool canKeepFalling(Obstacle* obs);
@@ -70,10 +61,20 @@ public:
 
 	void UpdateCharacterProjectiles(float delt);
 
-	void UpdateCharacter(float delt);
+
+		
+
+
 
 
 	//helper
 
 	void fixSpriteToFrame();
+
+	void setPosition(Vector2f vec) {
+		frame.setPosition(vec);
+		auto x = vec.x;
+		auto y = vec.y;
+		sprite.setPosition({ x - 20.f,y });
+	}
 };

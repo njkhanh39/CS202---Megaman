@@ -139,24 +139,24 @@ Projectile::Projectile(){
 }
 
 //OOP stuffs
-
-Projectile::Projectile(const Projectile& other) {
-	gravity = other.gravity;
-
-	velocityX = other.velocityX;
-	velocityY = other.velocityY;
-
-	isFired = other.isFired;
-
-	direction = other.direction;
-
-	frame = other.frame;
-	sprite = other.sprite;
-
-	this->texture = new Texture();
-
-	*texture = *other.texture;
-}
+//
+//Projectile::Projectile(const Projectile& other) {
+//	gravity = other.gravity;
+//
+//	velocityX = other.velocityX;
+//	velocityY = other.velocityY;
+//
+//	isFired = other.isFired;
+//
+//	direction = other.direction;
+//
+//	frame = other.frame;
+//	sprite = other.sprite;
+//
+//	this->texture = new Texture();
+//
+//	*texture = *other.texture;
+//}
 
 Projectile::~Projectile() {
 	
@@ -164,18 +164,14 @@ Projectile::~Projectile() {
 
 
 
-Projectile& 
-Projectile::operator=(Projectile other) {
-	swap(*this, other);
-	return *this;
-}
+//Projectile& 
+//Projectile::operator=(Projectile other) {
+//	swap(*this, other);
+//	return *this;
+//}
 
 //setters
 
-void Projectile::setPosition(Vector2f pos) {
-	frame.setPosition(pos);
-	sprite.setPosition(pos);
-}
 
 void Projectile::setDirection(Direction dir) {
 	direction = dir;

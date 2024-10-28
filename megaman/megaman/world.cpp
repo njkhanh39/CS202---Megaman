@@ -5,6 +5,8 @@ World::World() {
 	wall = new Obstacle({ 900.f,300.f }, { 50.f, 200.f });
 	wall->setColor(Color(118, 57, 49));
 	wall->loadImage("wall.jpg");
+
+	enemy = new ShooterEnemy(1100.f, 600.f, false, 0.f, 800.f);
 }
 
 World::~World() {
@@ -13,6 +15,7 @@ World::~World() {
 	}
 
 	delete wall;
+	delete enemy;
 }
 
 void World::Render(RenderWindow* l_window) {
@@ -21,4 +24,5 @@ void World::Render(RenderWindow* l_window) {
 	}
 
 	wall->Render(l_window);
+	enemy->Render(l_window);
 }
