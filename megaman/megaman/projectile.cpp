@@ -159,7 +159,7 @@ Projectile::Projectile(){
 //}
 
 Projectile::~Projectile() {
-	
+	std::cout << "Destructor of Projectile.\n";
 }
 
 
@@ -169,10 +169,3 @@ Projectile::~Projectile() {
 //	swap(*this, other);
 //	return *this;
 //}
-
-//setters
-
-
-void Projectile::setDirection(Direction dir) {
-	direction = dir;
-}

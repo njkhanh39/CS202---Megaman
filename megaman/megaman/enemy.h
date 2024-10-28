@@ -31,6 +31,10 @@ public:
 		viewRange = _viewRange;
 	}
 
+	~Enemy() override {
+		std::cout << "Destructor of Enemy\n";
+	}
+
 
 	//helpers to locate the character and attack
 
@@ -65,7 +69,8 @@ public:
 		setSize({ 50.f, 100.f });
 	}
 
-	~ShooterEnemy() {
+	~ShooterEnemy() override {
+		std::cout << "Destructor of the ShooterEnemy.\n";
 		delete weapon;
 	}
 
@@ -77,6 +82,21 @@ public:
 	}
 
 
+	//handling collision
+
+	void HandleProjectileCollision(Obstacle* obs, Entity* en) {
+		weapon->HandleProjectileCollision(obs, en);
+	}
+
+	void HandleProjectileCollision(Entity* en) {
+		weapon->HandleProjectileCollision(en);
+	}
+
+	void HandleProjectileCollision(Obstacle* obs) {
+		weapon->HandleProjectileCollision(obs);
+	}
+
+	//Attacking character
 
 	void AttackCharacter(Character* character, float delt) {
 		auto dir = LocateCharacterDir(character);
@@ -96,21 +116,16 @@ public:
 		}
 	}
 
-	//handling collision
-
-	void HandleProjectileCollision(Obstacle* obs, Entity* en) {
-		weapon->HandleProjectileCollision(obs, en);
-	}
-
-	void HandleProjectileCollision(Entity* en) {
-		weapon->HandleProjectileCollision(en);
-	}
-
-	void HandleProjectileCollision(Obstacle* obs) {
-		weapon->HandleProjectileCollision(obs);
-	}
-
 	//updates
+
+	void Update(Character* character, float delt) {
+		UpdateMovements(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+	}
+
+
+private:
 
 	void UpdateEnemyProjectiles(float delt) {
 		Vector2f pos = getPosition();

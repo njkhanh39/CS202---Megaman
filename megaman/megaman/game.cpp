@@ -38,26 +38,16 @@ void Game::Handling() {
 
 void Game::HandleCollision() {
 
-	//handle collisions from all projectiles (enemies + char)
-	m_world->HandleAllProjectileCollisions(m_character);
+	//handle collisions from character + every entity in world (including projectiles)
+	m_world->HandleAllEntitiesCollisions(m_character);
 
-	//character physics
-	m_world->HandleEntityCollision(m_character);
-
-	//enemies physics
-	m_world->HandleEntityCollision(m_world->enemy);
 }
 
-void Game::Update() {
-	//m_window.Update(); //update window events
-
-	//Obj.update()...
-	//Npc.update()...
+void Game::Update() { //game updating
 
 	//-----------------CHARACTER--------------------
 
-	m_character->UpdateCharacter(m_elapsed.asSeconds());
-	m_character->UpdateCharacterProjectiles(m_elapsed.asSeconds());
+	m_character->Update(m_elapsed.asSeconds());
 
 	//-----------------ENEMIES--------------------
 

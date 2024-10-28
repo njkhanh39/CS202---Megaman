@@ -8,41 +8,28 @@ using namespace sf;
 
 class Character: public Entity {
 private:
-
-	//------Animation-------//
-
-
-	//sheets
-
-
-
 	//------Weapon----------//
 
 	Shooter* blaster;
 
 
 public:
-
-
 	//constructor and destructor
 
 	Character(float x, float y);
 
-	~Character();
+	~Character() override;
 
-	//virtual drawing
-	void Render(RenderWindow* l_window);
+	//Rendering character
+	void Render(RenderWindow* l_window) override;
 
+	//animations
 
-	//animations - is called in constructor
-
-
-	//--------actions-------
-
+	//Handle keyboard inputs
 	void HandleInput(Time& elapsed);
 
-	//virtual
-	void Shoot();
+	//Shooting
+	void Shoot() override;
 
 	//-----collision checks-----
 
@@ -54,27 +41,29 @@ public:
 
 
 	//virtual
-	bool canKeepFalling(Obstacle* obs);
+	bool canKeepFalling(Obstacle* obs) override;
 
 
 	//-------UPDATING-------
 
-	void UpdateCharacterProjectiles(float delt);
-
-
-		
-
-
-
+	//literally everything
+	void Update(float delt) {
+		UpdateMovements(delt);
+		UpdateCharacterProjectiles(delt);
+	}
 
 	//helper
 
+	void setPosition(Vector2f vec) override;
+
+private:
+	//animations
+	void LoadAndAddAnimations();
+
+	//update
+	void UpdateCharacterProjectiles(float delt);
+
+	//helper
 	void fixSpriteToFrame();
 
-	void setPosition(Vector2f vec) {
-		frame.setPosition(vec);
-		auto x = vec.x;
-		auto y = vec.y;
-		sprite.setPosition({ x - 20.f,y });
-	}
 };

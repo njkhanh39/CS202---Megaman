@@ -12,11 +12,10 @@ private:
 public:
     bool isFired = false;
 	
-
 	//constructor
 	Projectile();
 
-	~Projectile();
+	~Projectile() override;
 
 
 	//----------PHYSICS-----------------
@@ -31,10 +30,5 @@ public:
 
 	bool IsHit(Entity* en);
 
-	
-
-	//setters
-
-	void setDirection(Direction dir);
 	
 };

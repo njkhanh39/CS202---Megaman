@@ -10,6 +10,9 @@ class Shooter {
 private:
 	int activeBullets;
 	std::vector<Projectile*> bullets;
+
+	float timer = 0.f;
+	float delay;
 public:
 	Shooter() {
 		activeBullets = 1;
@@ -25,6 +28,7 @@ public:
 	}
 
 	~Shooter() {
+		std::cout << "Destructor of the Shooter (gun).\n";
 		for (auto b: bullets) {
 			if(b) delete b;
 		}
@@ -48,7 +52,7 @@ public:
 		bullets.back() = new Projectile();
 		++activeBullets;
 
-		bullets.back()->setDirection(dir);
+		bullets.back()->FaceDirection(dir);
 		std::swap(bullets[activeBullets - 1], bullets.back());
 	}
 
@@ -64,13 +68,13 @@ public:
 
 		int n = bullets.size();
 
-		bullets[activeBullets-1]->setDirection(dir);
+		bullets[activeBullets-1]->FaceDirection(dir);
 		--activeBullets;
 		
 		//load
 		Load(dir);
 
-		//std::cout << "Number of bullets: " << (int)bullets.size() << '\n';
+		std::cout << "Number of bullets in vector: " << (int)bullets.size() << '\n';
 	}
 
 	void UpdateMovingProjectiles(float delt, Vector2f pos) {

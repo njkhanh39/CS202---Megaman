@@ -8,29 +8,6 @@ Entity::Entity(float x, float y) {
 
 	//animation
 
-	//dont forget to create, or its nullptr!
-
-	texture_idle_left = new Texture();
-	texture_idle_right = new Texture();
-	texture_jump_left = new Texture();
-	texture_jump_right = new Texture();
-
-	texture_shoot_left = new Texture();
-	texture_shoot_right = new Texture();
-	texture_shoot_jump_left = new Texture();
-	texture_shoot_jump_right = new Texture();
-
-
-	//-----These require animation-----
-
-
-	texture_movement_left = new Texture();
-	texture_movement_right = new Texture();
-	texture_movement_shoot_left = new Texture();
-	texture_movement_shoot_right = new Texture();
-
-	//dont forget this
-
 	CreateAnimationComponent();
 }
 
@@ -40,29 +17,6 @@ Entity::Entity() {
 	direction = Direction::Right;
 
 	//animation
-
-	//dont forget to create, or its nullptr!
-
-	texture_idle_left = new Texture();
-	texture_idle_right = new Texture();
-	texture_jump_left = new Texture();
-	texture_jump_right = new Texture();
-
-	texture_shoot_left = new Texture();
-	texture_shoot_right = new Texture();
-	texture_shoot_jump_left = new Texture();
-	texture_shoot_jump_right = new Texture();
-
-
-	//-----These require animation-----
-
-
-	texture_movement_left = new Texture();
-	texture_movement_right = new Texture();
-	texture_movement_shoot_left = new Texture();
-	texture_movement_shoot_right = new Texture();
-
-	//dont forget this
 
 	CreateAnimationComponent();
 }
@@ -89,9 +43,32 @@ Entity::~Entity() {
 
 
 	delete movingAnimation;
+
+	std::cout << "Destructor of Entity.\n";
 }
 
 void Entity::CreateAnimationComponent() {
+	//dont forget to create, or its nullptr!
+
+	texture_idle_left = new Texture();
+	texture_idle_right = new Texture();
+	texture_jump_left = new Texture();
+	texture_jump_right = new Texture();
+
+	texture_shoot_left = new Texture();
+	texture_shoot_right = new Texture();
+	texture_shoot_jump_left = new Texture();
+	texture_shoot_jump_right = new Texture();
+
+
+	//-----These require animation-----
+
+
+	texture_movement_left = new Texture();
+	texture_movement_right = new Texture();
+	texture_movement_shoot_left = new Texture();
+	texture_movement_shoot_right = new Texture();
+
 	movingAnimation = new AnimationComponent(sprite);
 }
 
@@ -129,7 +106,7 @@ void Entity::Jump(float delt) {
 		//std::cout << "Jump!" << '\n';
 
 		isJumping = true;
-		velocityY = -jumpStrength * 0.1;
+		velocityY = -jumpStrength;
 	}
 }
 
@@ -137,6 +114,24 @@ void Entity::Shoot() {
 	if (!isShooting) {
 		isShooting = true;
 	}
+}
+
+void Entity::TurnLeft() {
+	direction = Direction::Left;
+	sprite.setTexture(*texture_idle_left, true);
+}
+
+void Entity::TurnRight() {
+	direction = Direction::Right;
+	sprite.setTexture(*texture_idle_right, true);
+}
+
+void Entity::FaceDirection(Direction dir) {
+	direction = dir;
+	if (dir == Direction::Left) {
+		sprite.setTexture(*texture_idle_left, true);
+	}
+	else sprite.setTexture(*texture_idle_right, true);
 }
 
 
@@ -278,7 +273,7 @@ bool Entity::isHeadBlocked(Obstacle* obs) {
 
 
 //Update performing actions & animations when moving all here
-void Entity::UpdateCharacter(float delt) {
+void Entity::UpdateMovements(float delt) {
 
 	//---Movement----
 
@@ -348,6 +343,10 @@ void Entity::UpdateCharacter(float delt) {
 
 //getters
 
+Vector2f Entity::getPosition() {
+	return getUpLeftPosition();
+}
+
 Vector2f Entity::getCenterPosition() {
 	auto width = frame.getSize().x;
 	auto height = frame.getSize().y;
@@ -388,4 +387,27 @@ float Entity::getUpMostY() {
 
 float Entity::getDownMostY() {
 	return (frame.getPosition().y + frame.getSize().y);
+}
+
+Vector2f Entity::getFrameSize() {
+	return frame.getSize();
+}
+
+//setters
+
+void Entity::setSpritePosition(Vector2f pos) {
+	sprite.setPosition(pos);
+}
+
+void Entity::setSize(Vector2f size) {
+	frame.setSize(size);
+}
+
+void Entity::setVelocityY(float _y) {
+	velocityY = _y;
+}
+
+void Entity::setPosition(Vector2f pos) {
+	frame.setPosition(pos);
+	sprite.setPosition(pos);
 }

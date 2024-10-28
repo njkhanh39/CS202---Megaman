@@ -9,6 +9,9 @@ using namespace sf;
 
 class Entity {
 protected:
+
+	//--------Basic shapes--------
+
 	RectangleShape frame;
 	Sprite sprite;
 
@@ -25,9 +28,12 @@ protected:
 	
 	AnimationComponent* movingAnimation;
 
+	//---------Physic variables----------------------
+
 	float gravity = 980.0f, slowGravity = 10.0f, jumpStrength = 600.0f;
 	float velocityY = 0.0f, velocityX = 400;
 public:
+	//direction
 	Direction direction;
 
 	//moving permission flags
@@ -42,19 +48,23 @@ public:
 	bool isJumping = false;
 	bool isGrabbing = false;
 
+	//--------Constructors and Destructor-------------
+
 	Entity();
 
 	Entity(float x, float y);
 
-	~Entity();
+	virtual ~Entity(); 
 
-
+	// ptr = new Animation()...
 	void CreateAnimationComponent();
+
+	//-------------Render-----------------------------
 
 	virtual void Render(RenderWindow* l_window);
 
 
-	//movements
+	//-------------Actions---------------------------
 
 	void MoveLeft(float delt);
 
@@ -64,18 +74,13 @@ public:
 
 	virtual void Shoot();
 
-	void TurnLeft() {
-		direction = Direction::Left;
-		sprite.setTexture(*texture_idle_left, true);
-	}
+	void TurnLeft();
 
-	void TurnRight() {
-		direction = Direction::Right;
-		sprite.setTexture(*texture_idle_right, true);
-	}
+	void TurnRight();
 
+	void FaceDirection(Direction dir);
 
-	//collision checks
+	//------------Collision checks----------------------
 
 	bool canMoveRight(Obstacle* obs);
 
@@ -85,15 +90,14 @@ public:
 
 	bool isHeadBlocked(Obstacle* obs);
 
+	//-------------------------------------------------
 
 	//updates
-	void UpdateCharacter(float delt);
+	void UpdateMovements(float delt);
 
 
 	//getters
-	Vector2f getPosition() {
-		return getUpLeftPosition();
-	}
+	Vector2f getPosition();
 
 	Vector2f getCenterPosition();
 
@@ -113,28 +117,18 @@ public:
 
 	float getDownMostY();
 
-	Vector2f getFrameSize() {
-		return frame.getSize();
-	}
+	Vector2f getFrameSize();
 
 	//setters
 
-	void setSpritePosition(Vector2f pos) {
-		sprite.setPosition(pos);
-	}
+	void setSpritePosition(Vector2f pos);
 
-	void setSize(Vector2f size) {
-		frame.setSize(size);
-	}
+	void setSize(Vector2f size);
 
-	void setVelocityY(float _y) {
-		velocityY = _y;
-	}
+	void setVelocityY(float _y);
 
-	virtual void setPosition(Vector2f pos) {
-		frame.setPosition(pos);
-		sprite.setPosition(pos);
-	}
+	virtual void setPosition(Vector2f pos);
+
 
 	//OOP stuffs
 

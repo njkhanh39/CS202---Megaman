@@ -15,39 +15,15 @@ Character::Character(float x, float y): Entity(x,y) {
 	blaster = new Shooter();
 
 
-	//--------Load--------------
+	//--------Load and add animations--------------
 
-
-	texture_idle_left->loadFromFile("Animation\\X_IdleLeft.png");
-	texture_idle_right->loadFromFile("Animation\\X_IdleRight.png");
-	texture_jump_left->loadFromFile("Animation\\X_JumpLeft.png");
-	texture_jump_right->loadFromFile("Animation\\X_JumpRight.png");
-
-	texture_shoot_left->loadFromFile("Animation\\X_ShootLeft.png");
-	texture_shoot_right->loadFromFile("Animation\\X_ShootRight.png");
-	texture_shoot_jump_left->loadFromFile("Animation\\X_ShootJumpLeft.png");
-	texture_shoot_jump_right->loadFromFile("Animation\\X_ShootJumpRight.png");
-
-
-	//animations
-
-	texture_movement_right->loadFromFile("Animation\\X_MovementRight.png");
-	texture_movement_left->loadFromFile("Animation\\X_MovementLeft.png");
-	texture_movement_shoot_right->loadFromFile("Animation\\X_MovementShootRight.png");
-	texture_movement_shoot_left->loadFromFile("Animation\\X_MovementShootLeft.png");
-
-
-
-	movingAnimation->AddAnimation("MovingRight", *texture_movement_right, 100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingLeft", *texture_movement_left,100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootRight", *texture_movement_shoot_right, 100.f, 0, 0, 5, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootLeft", *texture_movement_shoot_left, 100.f, 0, 0, 5, 0, 137, 142);
+	LoadAndAddAnimations();
 }
 
 Character::~Character() {
 
 	//others
-
+	std::cout << "Destructor of Character.\n";
 	delete blaster;
 }
 
@@ -146,6 +122,35 @@ bool Character::canKeepFalling(Obstacle* obs) {
 	return true;
 }
 
+//--------------------PRIVATES-----------------------
+
+void Character::LoadAndAddAnimations() {
+	texture_idle_left->loadFromFile("Animation\\X_IdleLeft.png");
+	texture_idle_right->loadFromFile("Animation\\X_IdleRight.png");
+	texture_jump_left->loadFromFile("Animation\\X_JumpLeft.png");
+	texture_jump_right->loadFromFile("Animation\\X_JumpRight.png");
+
+	texture_shoot_left->loadFromFile("Animation\\X_ShootLeft.png");
+	texture_shoot_right->loadFromFile("Animation\\X_ShootRight.png");
+	texture_shoot_jump_left->loadFromFile("Animation\\X_ShootJumpLeft.png");
+	texture_shoot_jump_right->loadFromFile("Animation\\X_ShootJumpRight.png");
+
+
+	//animations
+
+	texture_movement_right->loadFromFile("Animation\\X_MovementRight.png");
+	texture_movement_left->loadFromFile("Animation\\X_MovementLeft.png");
+	texture_movement_shoot_right->loadFromFile("Animation\\X_MovementShootRight.png");
+	texture_movement_shoot_left->loadFromFile("Animation\\X_MovementShootLeft.png");
+
+
+
+	movingAnimation->AddAnimation("MovingRight", *texture_movement_right, 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingLeft", *texture_movement_left, 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootRight", *texture_movement_shoot_right, 100.f, 0, 0, 5, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootLeft", *texture_movement_shoot_left, 100.f, 0, 0, 5, 0, 137, 142);
+}
+
 
 //-------UPDATING-------
 
@@ -157,6 +162,15 @@ void Character::UpdateCharacterProjectiles(float delt) {
 	blaster->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y + size.y / 2 });
 }
 
+
+//------Helpers----
+
+void Character::setPosition(Vector2f vec){
+	frame.setPosition(vec);
+	auto x = vec.x;
+	auto y = vec.y;
+	sprite.setPosition({ x - 20.f,y });
+}
 
 void Character::fixSpriteToFrame() {
 	auto vec = getUpLeftPosition();
