@@ -55,7 +55,7 @@ void MainWindow::ToggleFullscreen() {
 
 //#4,5 - BeginDraw (clear) and EndDraw (display)
 
-void MainWindow::BeginDraw() { m_window.clear(sf::Color::White); }
+void MainWindow::BeginDraw() { m_window.clear(sf::Color::Black); }
 void MainWindow::EndDraw() { m_window.display(); }
 
 //#6 - Helper methods

@@ -17,12 +17,11 @@ protected:
 
 
 	//---------Textures----------
+
 	Texture* texture_idle_left, * texture_idle_right, * texture_jump_left, * texture_jump_right;
 
 	Texture* texture_shoot_left, * texture_shoot_right, * texture_shoot_jump_left, * texture_shoot_jump_right;
 
-	Texture* texture_movement_right, * texture_movement_left, * texture_movement_shoot_right
-		, * texture_movement_shoot_left;
 
 	//---------Animation----------
 	
@@ -54,7 +53,46 @@ public:
 
 	Entity(float x, float y);
 
+	//copy
+	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
+	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
+	velocityY(other.velocityY) {
+
+		direction = other.direction;
+		left = other.left;
+		right = other.right;
+		fall = other.fall;
+
+		isLeft = other.isLeft;
+		isRight = other.isRight;
+		isShooting = other.isShooting;
+		isJumping = other.isJumping;
+		isGrabbing = other.isGrabbing;
+
+		CreateTextures();
+
+		*texture_idle_left = *other.texture_idle_left;
+		*texture_idle_right = *other.texture_idle_right;
+		*texture_jump_left = *other.texture_jump_left;
+		*texture_jump_right = *other.texture_jump_right;
+
+		*texture_shoot_left = *other.texture_shoot_left;
+		*texture_shoot_right = *other.texture_shoot_right;
+		*texture_shoot_jump_left = *other.texture_shoot_jump_left;
+		*texture_shoot_jump_right = *other.texture_shoot_jump_right;
+
+
+		//Invoke "shallow copy on sprite, deep copy on others"
+		movingAnimation = new AnimationComponent(*other.movingAnimation);
+
+		//Aftert that, we change animation sprite*
+
+		movingAnimation->SetAllAnimationsSprite(&sprite);
+	}
+
 	virtual ~Entity(); 
+
+	void CreateTextures();
 
 	// ptr = new Animation()...
 	void CreateAnimationComponent();
@@ -130,7 +168,7 @@ public:
 	virtual void setPosition(Vector2f pos);
 
 
-	//OOP stuffs
+	//helpers
 
 
 };

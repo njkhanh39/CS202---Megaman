@@ -17,12 +17,14 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 
 	//draw
 	if (direction == Direction::Right) {
-		sprite.move(velocityX * delt, velocityY * delt);
-		frame.move(velocityX * delt, velocityY * delt);
+		MoveRight(delt);
+		
 	}
 	else {
-		sprite.move(-velocityX * delt, velocityY * delt);
-		frame.move(-velocityX * delt, velocityY * delt);
+		/*sprite.move(-velocityX * delt, velocityY * delt);
+		frame.move(-velocityX * delt, velocityY * delt);*/
+		MoveLeft(delt);
+
 	}
 }
 
@@ -127,45 +129,36 @@ bool Projectile::IsHit(Entity* en) {
 
 
 Projectile::Projectile(){
-	gravity = 0;
+	gravity = 0.f;
 
 	velocityY = 0.f;
-	velocityX = 800.f;
+	velocityX = 400.f;
+
+	jumpStrength = 0;
 
 	direction = Direction::Right;
 
 	frame.setFillColor(Color::Red);
-	frame.setSize({ 20.f,20.f });
+
+	Entity::setSize({ 20.f , 20.f });
 }
 
-//OOP stuffs
-//
-//Projectile::Projectile(const Projectile& other) {
-//	gravity = other.gravity;
-//
-//	velocityX = other.velocityX;
-//	velocityY = other.velocityY;
-//
-//	isFired = other.isFired;
-//
-//	direction = other.direction;
-//
-//	frame = other.frame;
-//	sprite = other.sprite;
-//
-//	this->texture = new Texture();
-//
-//	*texture = *other.texture;
-//}
+Projectile::Projectile(float _gravity, float _veloX, float _veloY) {
+	gravity = _gravity;
+
+	velocityY = _veloY;
+	velocityX = _veloX;
+
+	jumpStrength = 0;
+
+	frame.setFillColor(Color::Red);
+	
+	Entity::setSize({ 20.f, 20.f });
+}
+
 
 Projectile::~Projectile() {
 	std::cout << "Destructor of Projectile.\n";
 }
 
 
-
-//Projectile& 
-//Projectile::operator=(Projectile other) {
-//	swap(*this, other);
-//	return *this;
-//}

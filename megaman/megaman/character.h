@@ -25,7 +25,10 @@ public:
 
 	//animations
 
-	//Handle keyboard inputs
+	//Handle EVENT INPUT
+	void HandleEventInput(Event& evt);
+
+	//Handle instant keyboard inputs
 	void HandleInput(Time& elapsed);
 
 	//Shooting
@@ -56,9 +59,11 @@ public:
 
 	void setPosition(Vector2f vec) override;
 
-private:
 	//animations
 	void LoadAndAddAnimations();
+
+private:
+	
 
 	//update
 	void UpdateCharacterProjectiles(float delt);

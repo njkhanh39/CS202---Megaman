@@ -14,6 +14,10 @@ public:
 
 	//------CALL IN ORDER!--------
 
+	void HandlingEvent(Event& evt) {
+		m_character->HandleEventInput(evt);
+	}
+
 	void Handling(); 
 
 	void Update();

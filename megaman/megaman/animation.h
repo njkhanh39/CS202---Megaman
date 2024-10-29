@@ -10,18 +10,22 @@ class AnimationComponent {
 private:
 	class Animation {
 	public:
-		Sprite& sprite;
-		Texture& textureSheet;
+		Sprite* sprite;
+		Texture* textureSheet;
 		float animationTimer;
 		float timer;
 		int width, height;
 		IntRect currentRect, startRect,endRect;
 		int curRectIndex;
 
-		Animation(Sprite& _sprite, Texture& _textureSheet, float animation_timer, int start_frame_x, int start_frame_y,
+		Animation(Sprite* _sprite, const std::string& sheetFile, float animation_timer, int start_frame_x, int start_frame_y,
 			int frames_x, int frames_y, int _width, int _height) 
-			: sprite(_sprite), textureSheet(_textureSheet), animationTimer(animation_timer), width(_width), height(_height)
+			: sprite(_sprite), animationTimer(animation_timer), width(_width), height(_height)
 		{	
+
+			textureSheet = new Texture();
+			textureSheet->loadFromFile(sheetFile);
+
 			curRectIndex = 0;
 			timer = 0;
 			
@@ -29,9 +33,43 @@ private:
 			currentRect = startRect;
 			endRect = IntRect(frames_x*width, frames_y*height, _width, _height);
 
-			sprite.setTexture(textureSheet, true);
-			sprite.setTextureRect(startRect);
+			sprite->setTexture(*textureSheet, true);
+			sprite->setTextureRect(startRect);
 		}
+
+
+		//----**THIS ONE DOES SHALLOW COPY ON SPRITE, DEEP COPY ON OTHERS**------//
+
+		Animation(const Animation& other): animationTimer(other.animationTimer), timer(other.timer), width(other.width),
+		height(other.height), currentRect(other.currentRect), startRect(other.startRect), endRect(other.endRect),
+		curRectIndex(other.curRectIndex){
+
+			//sprite is initially shallowly copied
+			sprite = other.sprite;
+
+
+			//deep copy
+			textureSheet = new Texture();
+			*textureSheet = *other.textureSheet;
+		}
+
+		/*friend void swap(Animation& obj1, Animation& obj2) {
+			std::swap(obj1.sprite, obj2.sprite);
+			std::swap(obj1.textureSheet, obj2.textureSheet);
+			std::swap(obj1.animationTimer, obj2.animationTimer);
+			std::swap(obj1.timer, obj2.timer);
+			std::swap(obj1.width, obj2.width);
+			std::swap(obj1.height, obj2.height);
+			std::swap(obj1.currentRect, obj2.currentRect);
+			std::swap(obj1.startRect, obj2.startRect);
+			std::swap(obj1.endRect, obj2.endRect);
+			std::swap(obj1.curRectIndex, obj2.curRectIndex);
+		}
+
+		Animation& operator=(Animation obj) {
+			swap(*this, obj);
+			return *this;
+		}*/
 
 		//Functions
 
@@ -53,17 +91,25 @@ private:
 				}
 
 				//note this, since sprite can changes textureSheet explicitly!
-				sprite.setTexture(textureSheet, true);
-				sprite.setTextureRect(currentRect);
+				sprite->setTexture(*textureSheet, true);
+				sprite->setTextureRect(currentRect);
 			}
+		}
+
+		~Animation() {
+			std::cout << "Destructor of Animation Component\n";
+			
+			delete textureSheet;
+
+			//dont delete sprite, it will be deleted in entity
 		}
 
 		void Reset() {
 			timer = 0.f;
 			currentRect = startRect;
 
-			sprite.setTexture(textureSheet, true);
-			sprite.setTextureRect(startRect);
+			sprite->setTexture(*textureSheet, true);
+			sprite->setTextureRect(startRect);
 		}
 
 		//getters
@@ -74,23 +120,48 @@ private:
 		}
 	};
 
-	Sprite& sprite;
+	Sprite* sprite;
 	std::map<std::string, Animation*> animations;
-
 public:
+
+	
 	//pick which animation to update in here
-	AnimationComponent(Sprite& sprite);	
+	AnimationComponent(Sprite* sprite);	
+
+
+	//----------**Does Shallow copy on sprite, deep copy on others**----------//
+
+	AnimationComponent(const AnimationComponent& other) {
+		sprite = other.sprite;
+		for (auto& a : other.animations) {
+			std::string key = a.first;
+
+			//invoke copy constructor
+			animations[key] = new Animation(*a.second);
+		}
+	}
+
 	virtual ~AnimationComponent();
 
 	//functions
 
-	void AddAnimation(const std::string key, Texture& texture_sheet, 
+	void AddAnimation(const std::string key, const std::string& sheetFile, 
 		float animation_timer, int start_frame_x, int start_frame_y,
 		int frames_x, int frames_y, int _width, int _height);
+
 
 	void Play(const std::string key, const float& dt);
 
 	void Reset(const std::string key);
 
 	void Reset();
+
+	//helpers
+
+	void SetAllAnimationsSprite(Sprite* ptr) {
+		sprite = ptr;
+		for (auto& a : animations) {
+			a.second->sprite = ptr;
+		}
+	}
 };

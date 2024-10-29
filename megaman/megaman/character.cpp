@@ -13,6 +13,8 @@ Character::Character(float x, float y): Entity(x,y) {
 	//Weapon
 
 	blaster = new Shooter();
+	blaster->LoadAnimationForSampleBullet("Animation\\XBuster_FullChargeLeft.png", "Animation\\XBuster_FullChargeRight.png",
+		70.f, 0, 0, 5, 0, 150, 90);
 
 
 	//--------Load and add animations--------------
@@ -40,6 +42,15 @@ void Character::Render(RenderWindow* l_window) {
 
 //actions
 
+void Character::HandleEventInput(Event& evt) {
+	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
+		Shoot();
+	}
+	if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::E) {
+		isShooting = false;
+	}
+}
+
 void Character::HandleInput(Time& elapsed) {
 	float f_elapsed = elapsed.asSeconds();
 
@@ -53,7 +64,7 @@ void Character::HandleInput(Time& elapsed) {
 		else isRight = false;
 	}
 	else isRight = false;
-
+	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		if (left) {
 			MoveLeft(f_elapsed);
@@ -68,10 +79,12 @@ void Character::HandleInput(Time& elapsed) {
 		//isJumping is handled outside
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		Shoot();//isShooting is handled in the function
-	}
-	else isShooting = false;
+	//-------Shooting needs to be in "HandlingEvent"
+
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+	//	Shoot();//isShooting is handled in the function
+	//}
+	//else isShooting = false;
 
 	// (right,left,jump) flags are modified by World::HandleCollision() in game loop
 }
@@ -138,17 +151,11 @@ void Character::LoadAndAddAnimations() {
 
 	//animations
 
-	texture_movement_right->loadFromFile("Animation\\X_MovementRight.png");
-	texture_movement_left->loadFromFile("Animation\\X_MovementLeft.png");
-	texture_movement_shoot_right->loadFromFile("Animation\\X_MovementShootRight.png");
-	texture_movement_shoot_left->loadFromFile("Animation\\X_MovementShootLeft.png");
 
-
-
-	movingAnimation->AddAnimation("MovingRight", *texture_movement_right, 100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingLeft", *texture_movement_left, 100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootRight", *texture_movement_shoot_right, 100.f, 0, 0, 5, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootLeft", *texture_movement_shoot_left, 100.f, 0, 0, 5, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingRight", "Animation\\X_MovementRight.png", 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingLeft", "Animation\\X_MovementLeft.png", 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootRight", "Animation\\X_MovementShootRight.png", 100.f, 0, 0, 5, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootLeft", "Animation\\X_MovementShootLeft.png", 100.f, 0, 0, 5, 0, 137, 142);
 }
 
 

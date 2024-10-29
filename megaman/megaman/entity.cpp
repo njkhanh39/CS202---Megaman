@@ -6,9 +6,12 @@ Entity::Entity(float x, float y) {
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
 
+	CreateTextures();
 	//animation
 
 	CreateAnimationComponent();
+
+	
 }
 
 Entity::Entity() {
@@ -16,9 +19,11 @@ Entity::Entity() {
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
 
+	CreateTextures();
 	//animation
 
 	CreateAnimationComponent();
+
 }
 
 Entity::~Entity() {
@@ -35,11 +40,6 @@ Entity::~Entity() {
 	delete texture_shoot_jump_right;
 	//animations
 
-	delete texture_movement_left;
-	delete texture_movement_right;
-	delete texture_movement_shoot_right;
-	delete texture_movement_shoot_left;
-
 
 
 	delete movingAnimation;
@@ -47,9 +47,7 @@ Entity::~Entity() {
 	std::cout << "Destructor of Entity.\n";
 }
 
-void Entity::CreateAnimationComponent() {
-	//dont forget to create, or its nullptr!
-
+void Entity::CreateTextures() {
 	texture_idle_left = new Texture();
 	texture_idle_right = new Texture();
 	texture_jump_left = new Texture();
@@ -59,17 +57,13 @@ void Entity::CreateAnimationComponent() {
 	texture_shoot_right = new Texture();
 	texture_shoot_jump_left = new Texture();
 	texture_shoot_jump_right = new Texture();
+}
 
+void Entity::CreateAnimationComponent() {
+	//dont forget to create, or its nullptr!
 
-	//-----These require animation-----
+	movingAnimation = new AnimationComponent(&sprite);
 
-
-	texture_movement_left = new Texture();
-	texture_movement_right = new Texture();
-	texture_movement_shoot_left = new Texture();
-	texture_movement_shoot_right = new Texture();
-
-	movingAnimation = new AnimationComponent(sprite);
 }
 
 
@@ -82,22 +76,25 @@ void Entity::Render(RenderWindow* l_window) {
 
 void Entity::MoveLeft(float delt) {
 
+	isLeft = true;
 	direction = Direction::Left;
 
 	//move sprite
-	sprite.move(-velocityX * delt, 0);
+	sprite.move(-velocityX * delt, velocityY*delt);
 	//move frame
 	/*frame.setPosition({ frame.getPosition().x - (float)speed * delt,frame.getPosition().y });*/
-	frame.move(-velocityX * delt, 0);
+	frame.move(-velocityX * delt, velocityY * delt);
 }
 
 void Entity::MoveRight(float delt) {
+
+	isRight = true;
 	direction = Direction::Right;
 
 	//move sprite
-	sprite.move(velocityX * delt, 0);
+	sprite.move(velocityX * delt, velocityY * delt);
 	//move frame
-	frame.move(velocityX * delt, 0);
+	frame.move(velocityX * delt, velocityY * delt);
 
 }
 

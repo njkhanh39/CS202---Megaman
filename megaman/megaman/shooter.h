@@ -7,15 +7,17 @@
 #include <stack>
 
 class Shooter {
-private:
+protected:
 	int activeBullets;
 	std::vector<Projectile*> bullets;
+	bool yesAnimation = false;
 
-	float timer = 0.f;
-	float delay;
+	Projectile* sampleBullet = nullptr;
 public:
 	Shooter() {
 		activeBullets = 1;
+		sampleBullet = new Projectile(0.f, 500.f, 0.f);
+		
 
 		for (int i = 0; i < 1; ++i) {
 			Projectile* tmp = nullptr;
@@ -23,15 +25,17 @@ public:
 		}
 
 		for (int i = 0; i < 1; ++i) {
-			bullets[i] = new Projectile();
+			bullets[i] = new Projectile(*sampleBullet);
 		}
 	}
 
-	~Shooter() {
+	virtual ~Shooter() {
 		std::cout << "Destructor of the Shooter (gun).\n";
 		for (auto b: bullets) {
 			if(b) delete b;
 		}
+
+		delete sampleBullet;
 	}
 
 	//render
@@ -45,11 +49,11 @@ public:
 
 	//load
 
-	void Load(Direction dir) {
+	virtual void Load(Direction dir) {
 		Projectile* tmp = nullptr;
 		bullets.push_back(tmp);
 		
-		bullets.back() = new Projectile();
+		bullets.back() = new Projectile(*sampleBullet);
 		++activeBullets;
 
 		bullets.back()->FaceDirection(dir);
@@ -77,10 +81,12 @@ public:
 		std::cout << "Number of bullets in vector: " << (int)bullets.size() << '\n';
 	}
 
-	void UpdateMovingProjectiles(float delt, Vector2f pos) {
+	//make it virtual for bullets that use animations
+	virtual void UpdateMovingProjectiles(float delt, Vector2f pos) {
 		int n = bullets.size();
 		for (int i = n - 1; i >= activeBullets; --i) {
 			bullets[i]->ProjectileFly(delt, pos);
+			bullets[i]->Entity::UpdateMovements(delt);
 		}
 	}
 
@@ -131,4 +137,42 @@ public:
 			}
 		}
 	}
+
+	//allow bullets animation
+
+	void LoadAnimationForSampleBullet(const std::string& l_file, const std::string& r_file
+		, float animationTimer, int start_frame_x, int start_frame_y,
+		int frames_x, int frames_y, int _width, int _height) {
+		
+
+		sampleBullet->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
+			frames_x, frames_y, _width, _height);
+
+		//edit the frame
+
+		sampleBullet->setSize({ float(_width),float(_height) });
+	}
+};
+
+//-------WEAPON--------
+
+class XBuster : public Shooter {
+private:
+	class FullChargeBuster : public Shooter {
+	public:
+		FullChargeBuster() {
+			//bulletVelocityX = 900.f; //make it a little faster
+			if (sampleBullet) {
+				delete sampleBullet;
+				sampleBullet = new Projectile(0, 900.f, 0); //faster
+			}
+
+			
+			
+		}
+
+	};
+public:
+
+	
 };
