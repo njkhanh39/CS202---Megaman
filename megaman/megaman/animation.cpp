@@ -7,7 +7,7 @@ AnimationComponent::AnimationComponent(Sprite* sprite)
 }
 
 AnimationComponent::~AnimationComponent() {
-	std::cout << "Destructor of Animation Component\n";
+	//std::cout << "Destructor of Animation Component\n";
 	for (auto& it : animations) {
 		if(it.second) delete it.second;
 	}
@@ -20,7 +20,9 @@ void AnimationComponent::AddAnimation(const std::string key, const std::string& 
 		frames_x, frames_y, _width, _height);
 
 	animations[key]->textureSheet = new Texture();
-	animations[key]->textureSheet->loadFromFile(sheetFile);
+	if (!animations[key]->textureSheet->loadFromFile(sheetFile)) {
+		std::cout << "Could not load " << sheetFile << '\n';
+	}
 }
 
 void AnimationComponent::Play(const std::string key, const float& dt) {

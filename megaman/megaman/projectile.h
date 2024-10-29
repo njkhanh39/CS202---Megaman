@@ -9,6 +9,8 @@ using namespace sf;
 
 class Projectile: public Entity {
 private:
+	Clock clk;
+	float lifespan = 2.0f;
 public:
     bool isFired = false;
 	

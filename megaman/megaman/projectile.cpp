@@ -10,10 +10,15 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 
 		//innit a position right in front of gun barrel
 		setPosition(pos);
+
+		//start counting
+		clk.restart();
+
 	}
 
 	velocityY += gravity * delt;
 
+	
 
 	//draw
 	if (direction == Direction::Right) {
@@ -31,7 +36,9 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 //is Hit
 
 bool Projectile::IsHit(Obstacle* obs) {
-
+	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) {
+		return true;
+	}
 
 	float l1 = obs->getLeftMostX(), l2 = getLeftMostX();
 	float r1 = obs->getRightMostX(), r2 = getRightMostX();
@@ -41,8 +48,8 @@ bool Projectile::IsHit(Obstacle* obs) {
 
 	//----temporary---
 
-	if (r2 >= 1600.f) return true;
-	if (l2 <= 0.f) return true;
+	//if (r2 >= 1600.f) return true;
+	//if (l2 <= 0.f) return true;
 
 	//----------------
 
@@ -79,6 +86,9 @@ bool Projectile::IsHit(Obstacle* obs) {
 }
 
 bool Projectile::IsHit(Entity* en) {
+	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) {
+		return true;
+	}
 
 	float l1 = en->getLeftMostX(), l2 = getLeftMostX();
 	float r1 = en->getRightMostX(), r2 = getRightMostX();
@@ -158,7 +168,7 @@ Projectile::Projectile(float _gravity, float _veloX, float _veloY) {
 
 
 Projectile::~Projectile() {
-	std::cout << "Destructor of Projectile.\n";
+	//std::cout << "Destructor of Projectile.\n";
 }
 
 

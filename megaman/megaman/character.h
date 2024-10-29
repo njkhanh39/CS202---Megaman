@@ -10,8 +10,7 @@ class Character: public Entity {
 private:
 	//------Weapon----------//
 
-	Shooter* blaster;
-
+	XBuster* blaster;
 
 public:
 	//constructor and destructor
@@ -26,13 +25,20 @@ public:
 	//animations
 
 	//Handle EVENT INPUT
-	void HandleEventInput(Event& evt);
+	void HandleEventInput(Event& evt, Time& elapsed);
 
 	//Handle instant keyboard inputs
 	void HandleInput(Time& elapsed);
 
 	//Shooting
 	void Shoot() override;
+
+	void ChargeShoot() {
+		isShooting = false;
+		blaster->UnCharge();
+		blaster->ChargeShoot(direction);
+		isChargeShooting = true;
+	}
 
 	//-----collision checks-----
 

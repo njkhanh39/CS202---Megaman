@@ -26,7 +26,7 @@ void Game::Handling() {
 	while (getwin->pollEvent(evt)) {
 		m_window.HandleInput(evt);
 
-		HandlingEvent(evt);
+		HandlingEvent(evt, m_elapsed);
 	}	
 	m_character->HandleInput(m_elapsed);
 

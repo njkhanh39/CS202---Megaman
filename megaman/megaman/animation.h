@@ -97,7 +97,7 @@ private:
 		}
 
 		~Animation() {
-			std::cout << "Destructor of Animation Component\n";
+			//std::cout << "Destructor of Animation Component\n";
 			
 			delete textureSheet;
 

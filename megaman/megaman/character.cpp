@@ -12,9 +12,8 @@ Character::Character(float x, float y): Entity(x,y) {
 
 	//Weapon
 
-	blaster = new Shooter();
-	blaster->LoadAnimationForSampleBullet("Animation\\XBuster_FullChargeLeft.png", "Animation\\XBuster_FullChargeRight.png",
-		70.f, 0, 0, 5, 0, 150, 90);
+	blaster = new XBuster();
+	
 
 
 	//--------Load and add animations--------------
@@ -42,13 +41,17 @@ void Character::Render(RenderWindow* l_window) {
 
 //actions
 
-void Character::HandleEventInput(Event& evt) {
+void Character::HandleEventInput(Event& evt, Time& elapsed) {
 	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
 		Shoot();
 	}
-	if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::E) {
-		isShooting = false;
+	else if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::E) {
+		std::cout << "Release!\n";
+
+		ChargeShoot();
 	}
+	else isChargeShooting = false;
+	
 }
 
 void Character::HandleInput(Time& elapsed) {
@@ -91,7 +94,9 @@ void Character::HandleInput(Time& elapsed) {
 
 void Character::Shoot() {
 	if (!isShooting) {
+		isChargeShooting = false;
 		blaster->Shoot(direction);
+		blaster->Charge();
 		isShooting = true;
 	}
 }

@@ -47,6 +47,9 @@ public:
 	bool isJumping = false;
 	bool isGrabbing = false;
 
+	//---X only----
+	bool isChargeShooting = false;
+
 	//--------Constructors and Destructor-------------
 
 	Entity();

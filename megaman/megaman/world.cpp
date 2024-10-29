@@ -4,8 +4,8 @@ World::World() {
 
 	CreatePlatform(900.f,300.f, 50.f, 200.f, "wall.jpg");
 	
-	CreateShooterEnemy(1100.f, 600.f, false, 0.f, 700.f);
-	CreateShooterEnemy(1200.f, 200.f, false, 0.f, 800.f);
+	//CreateShooterEnemy(1100.f, 600.f, false, 0.f, 700.f);
+	//CreateShooterEnemy(1200.f, 200.f, false, 0.f, 800.f);
 }
 
 World::~World() {

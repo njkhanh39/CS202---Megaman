@@ -44,7 +44,7 @@ Entity::~Entity() {
 
 	delete movingAnimation;
 
-	std::cout << "Destructor of Entity.\n";
+	//std::cout << "Destructor of Entity.\n";
 }
 
 void Entity::CreateTextures() {

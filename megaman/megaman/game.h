@@ -14,8 +14,8 @@ public:
 
 	//------CALL IN ORDER!--------
 
-	void HandlingEvent(Event& evt) {
-		m_character->HandleEventInput(evt);
+	void HandlingEvent(Event& evt, Time& delt) {
+		m_character->HandleEventInput(evt, delt);
 	}
 
 	void Handling(); 
