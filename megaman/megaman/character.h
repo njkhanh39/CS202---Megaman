@@ -28,18 +28,12 @@ public:
 	void HandleEventInput(Event& evt, Time& elapsed);
 
 	//Handle instant keyboard inputs
-	void HandleInput(Time& elapsed);
+	void HandleMovements(Time& elapsed);
 
 	//Shooting
 	void Shoot() override;
 
-	void ChargeShoot() {
-		isShooting = false;
-		blaster->UnCharge();
-		blaster->ChargeShoot(direction);
-		isChargeShooting = true;
-	}
-
+	void ChargeShoot();
 	//-----collision checks-----
 
 	void HandleProjectileCollision(Obstacle* obs);

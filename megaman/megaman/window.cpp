@@ -33,7 +33,7 @@ void MainWindow::Destroy() {
 
 //#2 - Update function
 
-void MainWindow::HandleInput(Event& evt) {
+void MainWindow::HandleEvents(Event& evt) {
 	if (evt.type == sf::Event::Closed) {
 		m_isDone = true;
 	}
@@ -51,6 +51,11 @@ void MainWindow::ToggleFullscreen() {
 	m_isFullscreen = !m_isFullscreen;
 	Destroy(); //gotta destroy then re-draw
 	Create();
+}
+
+//#3.2 Finish game loop
+void MainWindow::SetFinish() {
+	this->m_isDone = true;
 }
 
 //#4,5 - BeginDraw (clear) and EndDraw (display)

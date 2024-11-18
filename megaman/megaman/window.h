@@ -15,11 +15,13 @@ public:
 
 	//funcs
 
+	//when setting this, m_done becomes true, main gameloop will stop
+	void SetFinish();
 	void BeginDraw(); // Clear the window.
 	void EndDraw(); // Display the changes.
 
 	//---Important----
-	void HandleInput(Event& evt); 
+	void HandleEvents(Event& evt); 
 
 	//-------------
 

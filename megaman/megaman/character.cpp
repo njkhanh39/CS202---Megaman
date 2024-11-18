@@ -31,7 +31,7 @@ Character::~Character() {
 //virtual drawing
 
 void Character::Render(RenderWindow* l_window) {
-	l_window->draw(frame);
+	//l_window->draw(frame);
 	l_window->draw(sprite);
 	blaster->RenderProjectiles(l_window);
 }
@@ -54,11 +54,11 @@ void Character::HandleEventInput(Event& evt, Time& elapsed) {
 	
 }
 
-void Character::HandleInput(Time& elapsed) {
+void Character::HandleMovements(Time& elapsed) {
 	float f_elapsed = elapsed.asSeconds();
 
 
-	//moving, shooting
+	//moving
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if (right) {
 			MoveRight(f_elapsed);
@@ -99,6 +99,14 @@ void Character::Shoot() {
 		blaster->Charge();
 		isShooting = true;
 	}
+}
+
+
+void Character::ChargeShoot() {
+	isShooting = false;
+	blaster->UnCharge();
+	blaster->ChargeShoot(direction);
+	isChargeShooting = true;
 }
 
 //-----collision checks-----

@@ -1,6 +1,12 @@
 #include "game.h"
 
 Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
+
+	//------------STATE------------
+	
+	this->initState();
+	 
+	
 	//setting up class members
 
 	//in actual project, world may be loaded somewhere else
@@ -11,6 +17,14 @@ Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
 } 
 
 Game::~Game() {
+
+	//states
+	while (!states.empty()) {
+		delete states.top();
+		states.pop();
+	}
+
+	//game
 	delete m_world;
 	delete m_character;
 	std::cout << "Game Terminated!\n";
@@ -24,11 +38,12 @@ void Game::Handling() {
 
 
 	while (getwin->pollEvent(evt)) {
-		m_window.HandleInput(evt);
+		m_window.HandleEvents(evt);
 
 		HandlingEvent(evt, m_elapsed);
 	}	
-	m_character->HandleInput(m_elapsed);
+
+	m_character->HandleMovements(m_elapsed);
 
 	//update character jump,fall
 
@@ -47,6 +62,25 @@ void Game::HandleCollision() {
 
 void Game::Update() { //game updating
 
+	//-----------------STATES-----------------------
+
+	if (!this->states.empty()) {
+		this->states.top()->Update(m_elapsed.asSeconds());
+
+		//when running update function, at some time, getQuit() may be set to true
+		if (this->states.top()->getQuit()) {
+			//end state
+			this->states.top()->EndState();
+			delete this->states.top();
+			this->states.pop();
+		}
+	}
+	//application ends, since no states :0
+	else {
+		this->m_window.SetFinish();
+	}
+	 
+	
 	//-----------------CHARACTER--------------------
 
 	m_character->Update(m_elapsed.asSeconds());
@@ -58,6 +92,15 @@ void Game::Update() { //game updating
 
 void Game::Render() {
 	m_window.BeginDraw(); //clear
+
+
+	//-----------------STATES-----------------------
+
+	if (!this->states.empty()) {
+		this->states.top()->Render(&this->m_window);
+	}
+
+	//-----------------CHARACTER & WORLD-------------
 
 	//draw sth...
 	m_world->Render(m_window.GetRenderWindow());
