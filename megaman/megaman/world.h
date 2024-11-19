@@ -7,6 +7,10 @@
 
 class World {
 public:
+	RectangleShape* background;
+
+	//-----Game stuffs------//
+
 	ShooterEnemy* enemy[30] = {nullptr};
 	Obstacle* platform[30] = {nullptr};
 

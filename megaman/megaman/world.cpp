@@ -1,5 +1,8 @@
 #include "world.h"
 World::World() {
+	background = new RectangleShape({ 1600.f,900.f });
+	background->setFillColor(Color::White);
+
 	CreatePlatform(0.f,700.f, 1600.f,50.f);
 
 	CreatePlatform(900.f,300.f, 50.f, 200.f, "wall.jpg");
@@ -9,6 +12,9 @@ World::World() {
 }
 
 World::~World() {
+
+	delete background;
+
 	for (int i = 0; i < 30; ++i) {
 		if(platform[i]) delete platform[i];
 	}
@@ -19,6 +25,8 @@ World::~World() {
 }
 
 void World::Render(RenderWindow* l_window) {
+	l_window->draw(*background);
+
 	for (int i = 0; i < 30; ++i) {
 		if(platform[i]) platform[i]->Render(l_window);
 	}

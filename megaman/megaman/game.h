@@ -1,7 +1,7 @@
 #pragma once
 #include "world.h"
 #include "character.h"
-#include "States/GameState.h"
+#include "States/MainMenu.h"
 class Game {
 public:
 	Game();
@@ -12,19 +12,12 @@ public:
 	//game loop
 
 	//------CALL IN ORDER!--------
-
-	void HandlingEvent(Event& evt, Time& delt) {
-		//char shooting
-		m_character->HandleEventInput(evt, delt);
-	}
-
 	void Handling(); 
 
 	void Update();
 
-	void HandleCollision();
-
 	void Render();
+
 	void RestartClock();
 	//------------------
 
@@ -45,13 +38,11 @@ private:
 	std::stack<State*> states;
 
 
-	void initState() {
+	void initGameState() {
 		this->states.push(new GameState(&this->m_window));
 	}
-	
 
-	//----game stuffs-----
-
-	World* m_world;
-	Character* m_character;
+	void initMainMenuState() {
+		this->states.push(new MainMenu(&this->m_window));
+	}
 };

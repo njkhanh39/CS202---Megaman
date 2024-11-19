@@ -4,15 +4,14 @@ Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
 
 	//------------STATE------------
 	
-	this->initState();
+	this->initMainMenuState();
+
+	
+	//this->initGameState();
 	 
 	
-	//setting up class members
 
-	//in actual project, world may be loaded somewhere else
-
-	m_world = new World();
-	m_character = new Character(300.f, 10.f);
+	//in actual project, world may be loaded somewhere else -> yeah, in gamestate silly
 
 } 
 
@@ -25,8 +24,6 @@ Game::~Game() {
 	}
 
 	//game
-	delete m_world;
-	delete m_character;
 	std::cout << "Game Terminated!\n";
 }
 
@@ -39,26 +36,29 @@ void Game::Handling() {
 
 	while (getwin->pollEvent(evt)) {
 		m_window.HandleEvents(evt);
-
-		HandlingEvent(evt, m_elapsed);
+		
+		//Only handle state top
+		if(!states.empty()) this->states.top()->HandlingEvent(evt, m_elapsed);
 	}	
 
-	m_character->HandleMovements(m_elapsed);
+	//Only handle state top
+	if (!states.empty()) {
+		this->states.top()->HandleInput(m_elapsed);
 
-	//update character jump,fall
+		
+		//---WE MUST CALL UPDATE TWICE TO MAKE THINGS FASTER---//
+		this->states.top()->Update(m_elapsed.asSeconds());
 
-	Update();
-	
-	HandleCollision();
+		//--Only for game state---
+
+		if (dynamic_cast<GameState*>(states.top())) {
+			this->states.top()->HandleCollision();
+		}
+	}
 	
 }
 
-void Game::HandleCollision() {
 
-	//handle collisions from character + every entity in world (including projectiles)
-	m_world->HandleAllEntitiesCollisions(m_character);
-
-}
 
 void Game::Update() { //game updating
 
@@ -71,7 +71,11 @@ void Game::Update() { //game updating
 		if (this->states.top()->getQuit()) {
 			//end state
 			this->states.top()->EndState();
+
+			//deallocate
+
 			delete this->states.top();
+
 			this->states.pop();
 		}
 	}
@@ -79,15 +83,8 @@ void Game::Update() { //game updating
 	else {
 		this->m_window.SetFinish();
 	}
-	 
 	
-	//-----------------CHARACTER--------------------
-
-	m_character->Update(m_elapsed.asSeconds());
-
-	//-----------------ENEMIES--------------------
-
-	m_world->UpdateAllEnemies(m_character, m_elapsed.asSeconds());
+	//this->states.top()->Update(m_elapsed.asSeconds());
 }
 
 void Game::Render() {
@@ -97,14 +94,10 @@ void Game::Render() {
 	//-----------------STATES-----------------------
 
 	if (!this->states.empty()) {
-		this->states.top()->Render(&this->m_window);
+		this->states.top()->Render(m_window.GetRenderWindow());
 	}
 
-	//-----------------CHARACTER & WORLD-------------
-
-	//draw sth...
-	m_world->Render(m_window.GetRenderWindow());
-	m_character->Render(m_window.GetRenderWindow());
+	//----------------------------------------------
 
 	m_window.EndDraw(); //display
 }

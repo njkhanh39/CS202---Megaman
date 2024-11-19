@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animation.cpp" />
+    <ClCompile Include="Auxiliaries\Button.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="Auxiliaries\Button.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />
     <ClInclude Include="States\GameState.h" />
+    <ClInclude Include="States\MainMenu.h" />
     <ClInclude Include="States\State.h" />
     <ClInclude Include="window.h" />
     <ClInclude Include="world.h" />
