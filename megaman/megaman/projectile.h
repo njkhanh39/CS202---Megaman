@@ -19,6 +19,7 @@ public:
 
 	Projectile(float _gravity,float _veloX, float _veloY);
 
+	//NOTE: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Projectile(const Projectile& other): Entity(other), isFired(other.isFired) {
 		
 	}

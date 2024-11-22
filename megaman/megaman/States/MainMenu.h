@@ -7,21 +7,28 @@
 class MainMenu : public State {
 private:
 	RectangleShape* background;
-	Button* mainMenu_button;
+	Button* new_game_btn;
 public:
-	MainMenu(MainWindow* window): background(nullptr) , State(window) {
+	MainMenu(MainWindow* window, std::stack<State*>* states): background(nullptr) , State(window, states) {
 		background = new RectangleShape({ 1600.f,900.f });
 		background->setFillColor(Color::Black);
 
+		this->innitButtons();
+	}
+
+	//innit button
+	void innitButtons() override {
 		sf::Font fnt; fnt.loadFromFile("Fonts\\palatinobold.ttf");
 
-		mainMenu_button = new Button(100, 100, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
+		new_game_btn = new Button(300, 300, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
 			Color(255, 153, 51));
-
 	}
+
 	virtual ~MainMenu() {
 		delete background;
-		delete mainMenu_button;
+
+		//buttons
+		delete new_game_btn;
 	}
 
 	void EndState() override {
@@ -30,15 +37,19 @@ public:
 		delete background;
 	}
 
+	void UpdateButtons() override {
+		this->new_game_btn->Update(mousePos);
+	}
+
 	void UpdateKeyBinds(const float& dt) override {
-		this->CheckForQuit(); //constantly checking
+		
 	}
 
 
 	//----FUNCTIONS CALLED IN GAME HANDLING----//
 
 	void HandlingEvent(Event& evt, Time& dt) override {
-
+		this->new_game_btn->Handling(this->mousePos, evt);
 	}
 
 	void HandleInput(Time& dt) override {
@@ -52,17 +63,22 @@ public:
 	//---FUNCTIONS CALLED IN GAME UPDATE-----//
 
 	void Update(const float& dt) override {
-		this->UpdateKeyBinds(dt);
-		this->UpdateMousePosition();
 
-		this->mainMenu_button->Update(mousePos);
+		
+		this->UpdateKeyBinds(dt);
+
+		//------------MOUSE
+		this->UpdateMouse();
+
+		//------------BUTTON
+		this->UpdateButtons();
 	}
 
-	//-------------------------------------------------
+	//-----------RENDER------------------------------
 
 	void Render(RenderWindow* target) override {
 		target->draw(*background);
-		mainMenu_button->Render(target);
+		new_game_btn->Render(target);
 	}
 };
 

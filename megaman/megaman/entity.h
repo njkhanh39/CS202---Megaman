@@ -56,7 +56,8 @@ public:
 
 	Entity(float x, float y);
 
-	//copy
+	////Perfect deep copy
+	////NOTE2: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
 	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
 	velocityY(other.velocityY) {
@@ -91,6 +92,7 @@ public:
 		//Aftert that, we change animation sprite*
 
 		movingAnimation->SetAllAnimationsSprite(&sprite);
+		//==> Deep copy now works perfectly
 	}
 
 	virtual ~Entity(); 

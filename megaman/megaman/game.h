@@ -12,9 +12,9 @@ public:
 	//game loop
 
 	//------CALL IN ORDER!--------
-	void Handling(); 
+	void Handling(); //get inputs, turn on booleans,...
 
-	void Update();
+	void Update(); //update animations, movements accordingly to inputs and booleans
 
 	void Render();
 
@@ -39,10 +39,10 @@ private:
 
 
 	void initGameState() {
-		this->states.push(new GameState(&this->m_window));
+		this->states.push(new GameState(&this->m_window, &states));
 	}
 
 	void initMainMenuState() {
-		this->states.push(new MainMenu(&this->m_window));
+		this->states.push(new MainMenu(&this->m_window, &states));
 	}
 };

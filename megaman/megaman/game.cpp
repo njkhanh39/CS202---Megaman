@@ -4,7 +4,7 @@ Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
 
 	//------------STATE------------
 	
-	this->initMainMenuState();
+	this->initGameState();
 
 	
 	//this->initGameState();
@@ -69,12 +69,12 @@ void Game::Update() { //game updating
 
 		//when running update function, at some time, getQuit() may be set to true
 		if (this->states.top()->getQuit()) {
-			//end state
+			//end state and deallocate
 			this->states.top()->EndState();
 
 			//deallocate
 
-			delete this->states.top();
+			if(this->states.top()) delete this->states.top();
 
 			this->states.pop();
 		}

@@ -38,7 +38,9 @@ public:
 
 	//Functions
 
-	void Update(sf::Vector2f mousePos);
+	void Handling(sf::Vector2f mousePos, sf::Event& evt);
+
+	void Update(sf::Vector2f mousePos); 
 
 	void Render(sf::RenderTarget* target);
 };

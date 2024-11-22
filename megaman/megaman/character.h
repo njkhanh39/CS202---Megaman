@@ -52,6 +52,7 @@ public:
 	//literally everything
 	void Update(float delt) {
 		UpdateMovements(delt);
+		//update char's projectiles
 		UpdateCharacterProjectiles(delt);
 	}
 

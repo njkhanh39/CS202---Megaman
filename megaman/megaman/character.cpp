@@ -179,6 +179,7 @@ void Character::UpdateCharacterProjectiles(float delt) {
 	Vector2f pos = getPosition();
 	Vector2f size = getFrameSize();
 
+	//update char's projectiles by updating his gun's projectiles
 	blaster->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y + size.y / 2 });
 }
 

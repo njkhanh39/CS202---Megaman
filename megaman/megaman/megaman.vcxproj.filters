@@ -92,5 +92,8 @@
     <ClInclude Include="Auxiliaries\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="States\PauseMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
