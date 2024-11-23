@@ -1,12 +1,15 @@
 #include "entity.h"
 
-Entity::Entity(float x, float y) {
+Entity::Entity(TextureManager* textureManager, float x, float y) {
 	frame.setPosition({ x, y });
 	frame.setSize({ 50.f,50.f });
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
+	
+	this->textureManager = textureManager;
 
-	CreateTextures();
+	this->InnitNullTextures();
+
 	//animation
 
 	CreateAnimationComponent();
@@ -14,12 +17,15 @@ Entity::Entity(float x, float y) {
 	
 }
 
-Entity::Entity() {
+Entity::Entity(TextureManager* textureManager) {
 	frame.setSize({ 50.f,50.f });
 	frame.setFillColor(Color::Red);
 	direction = Direction::Right;
 
-	CreateTextures();
+	this->textureManager = textureManager;
+
+	this->InnitNullTextures();
+
 	//animation
 
 	CreateAnimationComponent();
@@ -27,17 +33,9 @@ Entity::Entity() {
 }
 
 Entity::~Entity() {
-	//textures
-
-	delete texture_idle_left;
-	delete texture_idle_right;
-	delete texture_jump_left;
-	delete texture_jump_right;
-
-	delete texture_shoot_left;
-	delete texture_shoot_right;
-	delete texture_shoot_jump_left;
-	delete texture_shoot_jump_right;
+	
+	//do not delete textures
+	
 	//animations
 
 
@@ -47,22 +45,34 @@ Entity::~Entity() {
 	//std::cout << "Destructor of Entity.\n";
 }
 
-void Entity::CreateTextures() {
-	texture_idle_left = new Texture();
-	texture_idle_right = new Texture();
-	texture_jump_left = new Texture();
-	texture_jump_right = new Texture();
+//void Entity::CreateTextures() {
+//	texture_idle_left = new Texture();
+//	texture_idle_right = new Texture();
+//	texture_jump_left = new Texture();
+//	texture_jump_right = new Texture();
+//
+//	texture_shoot_left = new Texture();
+//	texture_shoot_right = new Texture();
+//	texture_shoot_jump_left = new Texture();
+//	texture_shoot_jump_right = new Texture();
+//}
 
-	texture_shoot_left = new Texture();
-	texture_shoot_right = new Texture();
-	texture_shoot_jump_left = new Texture();
-	texture_shoot_jump_right = new Texture();
+void Entity::InnitNullTextures() {
+	texture_idle_left = nullptr;
+	texture_idle_right = nullptr;
+	texture_jump_left = nullptr;
+	texture_jump_right = nullptr;
+
+	texture_shoot_left = nullptr;
+	texture_shoot_right = nullptr;
+	texture_shoot_jump_left = nullptr;
+	texture_shoot_jump_right = nullptr;
 }
 
 void Entity::CreateAnimationComponent() {
 	//dont forget to create, or its nullptr!
 
-	movingAnimation = new AnimationComponent(&sprite);
+	movingAnimation = new AnimationComponent(textureManager, &sprite);
 
 }
 
@@ -115,20 +125,20 @@ void Entity::Shoot() {
 
 void Entity::TurnLeft() {
 	direction = Direction::Left;
-	sprite.setTexture(*texture_idle_left, true);
+	if(texture_idle_left) sprite.setTexture(*texture_idle_left, true);
 }
 
 void Entity::TurnRight() {
 	direction = Direction::Right;
-	sprite.setTexture(*texture_idle_right, true);
+	if(texture_idle_right) sprite.setTexture(*texture_idle_right, true);
 }
 
 void Entity::FaceDirection(Direction dir) {
 	direction = dir;
 	if (dir == Direction::Left) {
-		sprite.setTexture(*texture_idle_left, true);
+		if(texture_idle_left) sprite.setTexture(*texture_idle_left, true);
 	}
-	else sprite.setTexture(*texture_idle_right, true);
+	else if(texture_idle_right) sprite.setTexture(*texture_idle_right, true);
 }
 
 
@@ -300,12 +310,12 @@ void Entity::UpdateMovements(float delt) {
 
 	if (isJumping) {
 		if (isShooting) {
-			if (direction == Direction::Right) sprite.setTexture(*texture_shoot_jump_right, true);
-			if (direction == Direction::Left) sprite.setTexture(*texture_shoot_jump_left, true);
+			if (direction == Direction::Right && texture_shoot_jump_right) sprite.setTexture(*texture_shoot_jump_right, true);
+			if (direction == Direction::Left && texture_shoot_jump_left) sprite.setTexture(*texture_shoot_jump_left, true);
 		}
 		else {
-			if (direction == Direction::Right) sprite.setTexture(*texture_jump_right, true);
-			if (direction == Direction::Left) sprite.setTexture(*texture_jump_left, true);
+			if (direction == Direction::Right && texture_jump_right) sprite.setTexture(*texture_jump_right, true);
+			if (direction == Direction::Left && texture_jump_left) sprite.setTexture(*texture_jump_left, true);
 		}
 	}
 	else if (isRight) {
@@ -324,13 +334,13 @@ void Entity::UpdateMovements(float delt) {
 		movingAnimation->Reset();
 
 		if (isShooting) {
-			if (direction == Direction::Left) sprite.setTexture(*texture_shoot_left);
-			else sprite.setTexture(*texture_shoot_right);
+			if (direction == Direction::Left && texture_shoot_left) sprite.setTexture(*texture_shoot_left);
+			else if (texture_shoot_right) sprite.setTexture(*texture_shoot_right);
 		}
-		else if (direction == Direction::Right) {
+		else if (direction == Direction::Right && texture_idle_right) {
 			sprite.setTexture(*texture_idle_right, true);
 		}
-		else {
+		else if (texture_idle_left) {
 			sprite.setTexture(*texture_idle_left, true);
 		}
 	}

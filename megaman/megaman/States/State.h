@@ -8,11 +8,9 @@
 #include "window.h"
 #include "Auxiliaries/Button.h"
 
-
 class State {
 protected:
 	MainWindow* window; //points to game->m_window??
-	std::vector<sf::Texture> textures;
 	bool quit;
 	bool paused;
 
@@ -25,8 +23,12 @@ protected:
 	//---VIEW
 
 	sf::View view;
+
+	//--Texture manager
+	TextureManager* textureManager;
 public:
-	State(MainWindow* window, std::stack<State*>* states): view(window->GetDefaultView()), paused(false), quit(false), mousePos({0,0}) {
+	State(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states): 
+		textureManager(textureManager), view(window->GetDefaultView()), paused(false), quit(false), mousePos({0,0}) {
 		this->window = window;
 		this->states = states;
 	}

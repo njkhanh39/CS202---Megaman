@@ -11,11 +11,12 @@ private:
 
 	PauseMenu* pauseMenu;
 public:
-	GameState(MainWindow* window, std::stack<State*>* states): State(window, states)
+	GameState(MainWindow* window, TextureManager* textureManager, std::stack<State*>* states):
+		State(window, textureManager, states)
 	, pauseMenu(nullptr){
 		std::cout << "Creating GameState\n";
-		m_world = new World();
-		m_character = new Character(100, 150);
+		m_world = new World(textureManager);
+		m_character = new Character(textureManager, 100, 150);
 
 		pauseMenu = new PauseMenu(window);
 	}

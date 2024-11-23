@@ -7,6 +7,7 @@
 
 class World {
 public:
+	TextureManager* textureManager;
 	RectangleShape* background;
 
 	//-----Game stuffs------//
@@ -16,7 +17,7 @@ public:
 
 	int numEnemy = 0, numObs = 0;
 
-	World();
+	World(TextureManager* textureManager);
 
 	~World();
 
@@ -145,7 +146,7 @@ private:
 	void CreateShooterEnemy(float x, float y, bool canMove, float movingRange
 	, float viewRange) {
 		if (numEnemy >= 30) return;
-		enemy[numEnemy] = new ShooterEnemy(x, y, canMove, movingRange, viewRange);
+		enemy[numEnemy] = new ShooterEnemy(textureManager, x, y, canMove, movingRange, viewRange);
 		++numEnemy;
 	}
 

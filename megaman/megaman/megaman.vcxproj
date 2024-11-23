@@ -144,6 +144,7 @@
     <ClCompile Include="character.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="Manager\TextureManager.cpp" />
     <ClCompile Include="megaman.cpp" />
     <ClCompile Include="obstacle.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="enumdirection.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="Manager\TextureManager.h" />
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />

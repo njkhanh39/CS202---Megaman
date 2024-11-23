@@ -15,7 +15,7 @@ private:
 public:
 	//constructor and destructor
 
-	Character(float x, float y);
+	Character(TextureManager* textureManager, float x, float y);
 
 	~Character() override;
 

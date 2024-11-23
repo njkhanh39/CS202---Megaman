@@ -17,11 +17,13 @@ protected:
 	float cntDelay = 0.f;
 	//-------------
 
+	TextureManager* textureManager;
+
 	Projectile* sampleBullet = nullptr;
 public:
-	Shooter() {
+	Shooter(TextureManager* textureManager): textureManager(textureManager) {
 		activeBullets = 1;
-		sampleBullet = new Projectile(0.f, 500.f, 0.f);
+		sampleBullet = new Projectile(textureManager, 0.f, 500.f, 0.f);
 		
 
 		for (int i = 0; i < 1; ++i) {
@@ -173,12 +175,12 @@ class XBuster : public Shooter {
 public:
 	class FullChargeBuster : public Shooter {
 	public:
-		FullChargeBuster() {
+		FullChargeBuster(TextureManager* textureManager): Shooter(textureManager) {
 			if (this->sampleBullet) {
 				delete this->sampleBullet;
-				this->sampleBullet = new Projectile(0, 550.f, 0); //faster
+				this->sampleBullet = new Projectile(textureManager, 0, 550.f, 0); //faster
 			}
-			LoadAnimationForBullet("Animation\\XBuster_FullChargeLeft.png", "Animation\\XBuster_FullChargeRight.png",
+			LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
 				70.f, 0, 0, 5, 0, 150, 90);
 		}
 		~FullChargeBuster() {
@@ -187,7 +189,7 @@ public:
 	};
 	class SemiChargeBuster : public Shooter {
 	public:
-		SemiChargeBuster() {
+		SemiChargeBuster(TextureManager* textureManager): Shooter(textureManager) {
 
 		}
 		~SemiChargeBuster() {
@@ -201,10 +203,10 @@ public:
 	FullChargeBuster* fullcharge;
 	SemiChargeBuster* semicharge;
 public:
-	XBuster() {
+	XBuster(TextureManager* textureManager): Shooter(textureManager) {
 		
-		fullcharge = new FullChargeBuster();
-		semicharge = new SemiChargeBuster();
+		fullcharge = new FullChargeBuster(textureManager);
+		semicharge = new SemiChargeBuster(textureManager);
 	}
 	
 	~XBuster() override {

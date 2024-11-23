@@ -1,7 +1,7 @@
 #include "character.h"
 
 
-Character::Character(float x, float y): Entity(x,y) {
+Character::Character(TextureManager* textureManager, float x, float y): Entity(textureManager, x,y) {
 
 
 	setSize({ 80.f, 145.f });
@@ -12,7 +12,7 @@ Character::Character(float x, float y): Entity(x,y) {
 
 	//Weapon
 
-	blaster = new XBuster();
+	blaster = new XBuster(textureManager);
 	
 
 
@@ -151,24 +151,23 @@ bool Character::canKeepFalling(Obstacle* obs) {
 //--------------------PRIVATES-----------------------
 
 void Character::LoadAndAddAnimations() {
-	texture_idle_left->loadFromFile("Animation\\X_IdleLeft.png");
-	texture_idle_right->loadFromFile("Animation\\X_IdleRight.png");
-	texture_jump_left->loadFromFile("Animation\\X_JumpLeft.png");
-	texture_jump_right->loadFromFile("Animation\\X_JumpRight.png");
 
-	texture_shoot_left->loadFromFile("Animation\\X_ShootLeft.png");
-	texture_shoot_right->loadFromFile("Animation\\X_ShootRight.png");
-	texture_shoot_jump_left->loadFromFile("Animation\\X_ShootJumpLeft.png");
-	texture_shoot_jump_right->loadFromFile("Animation\\X_ShootJumpRight.png");
+	this->textureManager->BorrowTexture("Animation\\X\\X_IdleLeft.png", texture_idle_left);
+	this->textureManager->BorrowTexture("Animation\\X\\X_IdleRight.png", texture_idle_right);
+	this->textureManager->BorrowTexture("Animation\\X\\X_JumpLeft.png", texture_jump_left);
+	this->textureManager->BorrowTexture("Animation\\X\\X_JumpRight.png", texture_jump_right);
 
-
+	this->textureManager->BorrowTexture("Animation\\X\\X_ShootLeft.png", texture_shoot_left);
+	this->textureManager->BorrowTexture("Animation\\X\\X_ShootJumpLeft.png", texture_shoot_jump_left);
+	this->textureManager->BorrowTexture("Animation\\X\\X_ShootRight.png", texture_shoot_right);
+	this->textureManager->BorrowTexture("Animation\\X\\X_ShootJumpRight.png", texture_shoot_jump_right);
 	//animations
 
 
-	movingAnimation->AddAnimation("MovingRight", "Animation\\X_MovementRight.png", 100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingLeft", "Animation\\X_MovementLeft.png", 100.f, 0, 0, 6, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootRight", "Animation\\X_MovementShootRight.png", 100.f, 0, 0, 5, 0, 137, 142);
-	movingAnimation->AddAnimation("MovingShootLeft", "Animation\\X_MovementShootLeft.png", 100.f, 0, 0, 5, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingRight", "Animation\\X\\X_MovementRight.png", 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingLeft", "Animation\\X\\X_MovementLeft.png", 100.f, 0, 0, 6, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootRight", "Animation\\X\\X_MovementShootRight.png", 100.f, 0, 0, 5, 0, 137, 142);
+	movingAnimation->AddAnimation("MovingShootLeft", "Animation\\X\\X_MovementShootLeft.png", 100.f, 0, 0, 5, 0, 137, 142);
 }
 
 

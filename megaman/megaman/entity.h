@@ -4,11 +4,13 @@
 #include "obstacle.h"
 #include "animation.h"
 #include "enumdirection.h"
+//#include "Manager/TextureManager.h"
 
 using namespace sf;
 
 class Entity {
 protected:
+	TextureManager* textureManager; //dont delete
 
 	//--------Basic shapes--------
 
@@ -16,7 +18,7 @@ protected:
 	Sprite sprite;
 
 
-	//---------Textures----------
+	//---------Textures---------- //These will be borrowed from texture manager
 
 	Texture* texture_idle_left, * texture_idle_right, * texture_jump_left, * texture_jump_right;
 
@@ -52,15 +54,15 @@ public:
 
 	//--------Constructors and Destructor-------------
 
-	Entity();
+	Entity(TextureManager* textureManager);
 
-	Entity(float x, float y);
+	Entity(TextureManager* textureManager, float x, float y);
 
 	////Perfect deep copy
 	////NOTE2: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
 	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
-	velocityY(other.velocityY) {
+	velocityY(other.velocityY), textureManager(other.textureManager){
 
 		direction = other.direction;
 		left = other.left;
@@ -73,17 +75,16 @@ public:
 		isJumping = other.isJumping;
 		isGrabbing = other.isGrabbing;
 
-		CreateTextures();
 
-		*texture_idle_left = *other.texture_idle_left;
-		*texture_idle_right = *other.texture_idle_right;
-		*texture_jump_left = *other.texture_jump_left;
-		*texture_jump_right = *other.texture_jump_right;
+		texture_idle_left = other.texture_idle_left;
+		texture_idle_right = other.texture_idle_right;
+		texture_jump_left = other.texture_jump_left;
+		texture_jump_right = other.texture_jump_right;
 
-		*texture_shoot_left = *other.texture_shoot_left;
-		*texture_shoot_right = *other.texture_shoot_right;
-		*texture_shoot_jump_left = *other.texture_shoot_jump_left;
-		*texture_shoot_jump_right = *other.texture_shoot_jump_right;
+		texture_shoot_left = other.texture_shoot_left;
+		texture_shoot_right = other.texture_shoot_right;
+		texture_shoot_jump_left = other.texture_shoot_jump_left;
+		texture_shoot_jump_right = other.texture_shoot_jump_right;
 
 
 		//Invoke "shallow copy on sprite, deep copy on others"
@@ -97,9 +98,10 @@ public:
 
 	virtual ~Entity(); 
 
-	void CreateTextures();
+	//void CreateTextures();
 
-	// ptr = new Animation()...
+	void InnitNullTextures();
+	
 	void CreateAnimationComponent();
 
 	//-------------Render-----------------------------

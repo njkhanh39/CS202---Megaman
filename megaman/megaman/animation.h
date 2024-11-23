@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include "Manager/TextureManager.h"
 
 using namespace sf;
 
@@ -10,21 +11,27 @@ class AnimationComponent {
 private:
 	class Animation {
 	public:
-		Sprite* sprite;
-		Texture* textureSheet;
+		Sprite* sprite; //points to entity's sprite
+		Texture* textureSheet; //we borrow 
 		float animationTimer;
 		float timer;
 		int width, height;
 		IntRect currentRect, startRect,endRect;
 		int curRectIndex;
 
-		Animation(Sprite* _sprite, const std::string& sheetFile, float animation_timer, int start_frame_x, int start_frame_y,
+		TextureManager* textureManager;
+
+		Animation(TextureManager* textureManager, Sprite* _sprite, const std::string& sheetFile, float animation_timer, int start_frame_x, int start_frame_y,
 			int frames_x, int frames_y, int _width, int _height) 
-			: sprite(_sprite), animationTimer(animation_timer), width(_width), height(_height)
+			: textureManager(textureManager), sprite(_sprite), animationTimer(animation_timer), width(_width), height(_height)
 		{	
 
-			textureSheet = new Texture();
-			textureSheet->loadFromFile(sheetFile);
+			/*textureSheet = new Texture();
+			textureSheet->loadFromFile(sheetFile);*/
+			
+			//we borrow texture
+
+			this->textureManager->BorrowTexture(sheetFile, textureSheet);
 
 			curRectIndex = 0;
 			timer = 0;
@@ -38,19 +45,17 @@ private:
 		}
 
 
-		//----**THIS ONE DOES SHALLOW COPY ON SPRITE, DEEP COPY ON OTHERS**------//
+		//----**THIS ONE DOES SHALLOW COPY ON SPRITE AND BORROWED TEXTURE, DEEP COPY ON OTHERS**------//
 
 		Animation(const Animation& other): animationTimer(other.animationTimer), timer(other.timer), width(other.width),
 		height(other.height), currentRect(other.currentRect), startRect(other.startRect), endRect(other.endRect),
-		curRectIndex(other.curRectIndex){
+		curRectIndex(other.curRectIndex), textureSheet(other.textureSheet), textureManager(other.textureManager){
 
 			//sprite is initially shallowly copied
 			sprite = other.sprite;
 
 
-			//deep copy
-			textureSheet = new Texture();
-			*textureSheet = *other.textureSheet;
+			
 		}
 
 		/*friend void swap(Animation& obj1, Animation& obj2) {
@@ -99,7 +104,7 @@ private:
 		~Animation() {
 			//std::cout << "Destructor of Animation Component\n";
 			
-			delete textureSheet;
+			//delete textureSheet;  //borrowed, so do not delete!
 
 			//dont delete sprite, it will be deleted in entity
 		}
@@ -120,19 +125,21 @@ private:
 		}
 	};
 
+	TextureManager* textureManager; //dont delete
 	Sprite* sprite;
 	std::map<std::string, Animation*> animations;
 public:
 
 	
 	//pick which animation to update in here
-	AnimationComponent(Sprite* sprite);	
+	AnimationComponent(TextureManager* textureManager, Sprite* sprite);
 
 
 	//----------**Does Shallow copy on sprite, deep copy on others**----------//
 
 	AnimationComponent(const AnimationComponent& other) {
 		sprite = other.sprite;
+		this->textureManager = other.textureManager;
 		for (auto& a : other.animations) {
 			std::string key = a.first;
 

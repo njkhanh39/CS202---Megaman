@@ -1,7 +1,7 @@
 #include "animation.h"
 
-AnimationComponent::AnimationComponent(Sprite* sprite)
-: sprite(sprite)
+AnimationComponent::AnimationComponent(TextureManager* textureManager,Sprite* sprite)
+: sprite(sprite), textureManager(textureManager)
 {
 	
 }
@@ -16,13 +16,8 @@ AnimationComponent::~AnimationComponent() {
 void AnimationComponent::AddAnimation(const std::string key, const std::string& sheetFile, float animation_timer, int start_frame_x, int start_frame_y,
 	int frames_x, int frames_y, int _width, int _height) {
 
-	animations[key] = new Animation(sprite, sheetFile, animation_timer, start_frame_x, start_frame_y,
+	animations[key] = new Animation(this->textureManager,sprite, sheetFile, animation_timer, start_frame_x, start_frame_y,
 		frames_x, frames_y, _width, _height);
-
-	animations[key]->textureSheet = new Texture();
-	if (!animations[key]->textureSheet->loadFromFile(sheetFile)) {
-		std::cout << "Could not load " << sheetFile << '\n';
-	}
 }
 
 void AnimationComponent::Play(const std::string key, const float& dt) {

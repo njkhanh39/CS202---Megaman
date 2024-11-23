@@ -1,5 +1,5 @@
 #include "world.h"
-World::World() {
+World::World(TextureManager* textureManager): textureManager(textureManager) {
 	background = new RectangleShape({ 1600.f,900.f });
 	background->setFillColor(Color::White);
 

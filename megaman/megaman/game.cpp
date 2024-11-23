@@ -1,6 +1,7 @@
 #include "game.h"
 
 Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
+	this->initTextureManager();
 
 	//------------STATE------------
 	
@@ -39,6 +40,10 @@ void Game::Handling() {
 		
 		//Only handle state top
 		if(!states.empty()) this->states.top()->HandlingEvent(evt, m_elapsed);
+
+		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
+			this->textureManager->ShowAllUses();
+		}
 	}	
 
 	//Only handle state top

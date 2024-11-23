@@ -19,13 +19,15 @@ protected:
 public:
 	bool canMove;
 
-	Enemy(float x, float y, bool _canMove, float _movingRange, float _viewRange): Entity(x,y) {
+	Enemy(TextureManager* textureManager, float x, float y, bool _canMove, float _movingRange, float _viewRange): 
+		Entity(textureManager, x,y) {
 		canMove = _canMove;
 		movingRange = _movingRange;
 		viewRange = _viewRange;
 	}
 
-	Enemy(bool _canMove, float _movingRange, float _viewRange) : Entity() {
+	Enemy(TextureManager* textureManager, bool _canMove, float _movingRange, float _viewRange)
+		: Entity(textureManager) {
 		canMove = _canMove;
 		movingRange = _movingRange;
 		viewRange = _viewRange;
@@ -63,8 +65,9 @@ class ShooterEnemy : public Enemy {
 private:
 	Shooter* weapon;
 public:
-	ShooterEnemy(float x, float y, bool _canMove, float _movingRange, float _viewRange): Enemy(x,y,_canMove, _movingRange, _viewRange) {
-		weapon = new Shooter();
+	ShooterEnemy(TextureManager* textureManager, float x, float y, bool _canMove, float _movingRange, float _viewRange):
+		Enemy(textureManager, x,y,_canMove, _movingRange, _viewRange) {
+		weapon = new Shooter(textureManager);
 
 		setSize({ 50.f, 100.f });
 	}

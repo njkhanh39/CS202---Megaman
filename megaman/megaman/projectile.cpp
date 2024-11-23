@@ -138,7 +138,7 @@ bool Projectile::IsHit(Entity* en) {
 //----------DRAWING RENDERING UPDATING-----------------
 
 
-Projectile::Projectile(){
+Projectile::Projectile(TextureManager* textureManager) : Entity(textureManager){
 	gravity = 0.f;
 
 	velocityY = 0.f;
@@ -153,7 +153,8 @@ Projectile::Projectile(){
 	Entity::setSize({ 20.f , 20.f });
 }
 
-Projectile::Projectile(float _gravity, float _veloX, float _veloY) {
+Projectile::Projectile(TextureManager* textureManager, float _gravity, float _veloX, float _veloY):
+Entity(textureManager){
 	gravity = _gravity;
 
 	velocityY = _veloY;

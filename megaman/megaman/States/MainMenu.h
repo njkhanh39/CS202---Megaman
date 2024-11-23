@@ -9,7 +9,8 @@ private:
 	RectangleShape* background;
 	Button* new_game_btn, *quit_game_btn;
 public:
-	MainMenu(MainWindow* window, std::stack<State*>* states): background(nullptr) , State(window, states) {
+	MainMenu(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states):
+		background(nullptr) , State(window,textureManager, states) {
 		background = new RectangleShape({ 1600.f,900.f });
 		background->setFillColor(Color::Black);
 
@@ -45,7 +46,7 @@ public:
 			std::cout << "New game button pressed :>\n";
 			//push game state
 			this->new_game_btn->SetIdle();
-			this->states->push(new GameState(this->window, this->states));
+			this->states->push(new GameState(this->window,textureManager, this->states));
 		}
 	}
 
