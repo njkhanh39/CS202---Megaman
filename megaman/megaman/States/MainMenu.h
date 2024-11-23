@@ -7,7 +7,7 @@
 class MainMenu : public State {
 private:
 	RectangleShape* background;
-	Button* new_game_btn;
+	Button* new_game_btn, *quit_game_btn;
 public:
 	MainMenu(MainWindow* window, std::stack<State*>* states): background(nullptr) , State(window, states) {
 		background = new RectangleShape({ 1600.f,900.f });
@@ -22,6 +22,7 @@ public:
 
 		new_game_btn = new Button(300, 300, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
 			Color(255, 153, 51));
+		quit_game_btn = nullptr;
 	}
 
 	virtual ~MainMenu() {
@@ -38,7 +39,14 @@ public:
 	}
 
 	void UpdateButtons() override {
-		this->new_game_btn->Update(mousePos);
+		this->new_game_btn->Update(mousePos); // appearance
+
+		if (this->new_game_btn->isPressed()) {
+			std::cout << "New game button pressed :>\n";
+			//push game state
+			this->new_game_btn->SetIdle();
+			this->states->push(new GameState(this->window, this->states));
+		}
 	}
 
 	void UpdateKeyBinds(const float& dt) override {

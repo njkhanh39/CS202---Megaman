@@ -38,6 +38,10 @@ public:
 
 	//Functions
 
+	void SetIdle() {
+		this->buttonState = button_states::BTN_IDLE;
+	}
+
 	void Handling(sf::Vector2f mousePos, sf::Event& evt);
 
 	void Update(sf::Vector2f mousePos); 

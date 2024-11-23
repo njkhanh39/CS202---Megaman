@@ -4,10 +4,10 @@ Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
 
 	//------------STATE------------
 	
-	this->initGameState();
+	//this->initGameState();
 
 	
-	//this->initGameState();
+	this->initMainMenuState();
 	 
 	
 

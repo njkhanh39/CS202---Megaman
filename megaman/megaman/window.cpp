@@ -79,3 +79,7 @@ RenderWindow* MainWindow::GetRenderWindow() {
 	auto ptr = &m_window;
 	return ptr;
 }
+
+sf::View MainWindow::GetDefaultView() {
+	return m_window.getDefaultView();
+}

@@ -34,6 +34,7 @@ public:
 	//getters
 
 	RenderWindow* GetRenderWindow();
+	sf::View GetDefaultView();
 private:
 	sf::RenderWindow m_window;
 	sf::Vector2u m_windowSize;

@@ -1,26 +1,4 @@
-﻿  game.cpp
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(49,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(80,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(93,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(101,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(117,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(133,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(261,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'game.cpp')
-  
-  megaman.cpp
+﻿  megaman.cpp
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(49,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'megaman.cpp')
   
@@ -43,8 +21,8 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(
   (compiling source file 'megaman.cpp')
   
   Generating code
-  67 of 537 functions (12.5%) were compiled, the rest were copied from previous compilation.
-    59 functions were new in current compilation
-    59 functions had inline decision re-evaluated but remain unchanged
+  32 of 518 functions ( 6.2%) were compiled, the rest were copied from previous compilation.
+    3 functions were new in current compilation
+    15 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   megaman.vcxproj -> C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\x64\Release\megaman.exe

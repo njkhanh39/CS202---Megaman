@@ -13,6 +13,7 @@ private:
 public:
 	GameState(MainWindow* window, std::stack<State*>* states): State(window, states)
 	, pauseMenu(nullptr){
+		std::cout << "Creating GameState\n";
 		m_world = new World();
 		m_character = new Character(100, 150);
 

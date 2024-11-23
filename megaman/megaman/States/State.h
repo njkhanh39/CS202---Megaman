@@ -21,8 +21,12 @@ protected:
 
 	//it needs to know this, so that states can be pushed from a state
 	std::stack<State*>* states;
+
+	//---VIEW
+
+	sf::View view;
 public:
-	State(MainWindow* window, std::stack<State*>* states): paused(false), quit(false), mousePos({0,0}) {
+	State(MainWindow* window, std::stack<State*>* states): view(window->GetDefaultView()), paused(false), quit(false), mousePos({0,0}) {
 		this->window = window;
 		this->states = states;
 	}
@@ -81,6 +85,8 @@ public:
 		auto win = window->GetRenderWindow();
 		this->mousePos = win->mapPixelToCoords(sf::Mouse::getPosition(*win));
 	}
+
+	sf::View& GetView() { return this->view; }
 };
 
 #endif

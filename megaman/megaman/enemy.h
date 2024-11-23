@@ -98,6 +98,10 @@ public:
 
 	//Attacking character
 
+	void Shoot() override {
+
+	}
+
 	void AttackCharacter(Character* character, float delt) {
 		auto dir = LocateCharacterDir(character);
 
