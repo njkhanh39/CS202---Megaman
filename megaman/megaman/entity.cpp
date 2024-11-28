@@ -32,6 +32,21 @@ Entity::Entity(TextureManager* textureManager) {
 
 }
 
+Entity::Entity(TextureManager* textureManager, float x, float y, float width, float height) {
+	frame.setSize({ width, height });
+	frame.setPosition({ x, y });
+	frame.setFillColor(Color::Red);
+	direction = Direction::Right;
+
+	this->textureManager = textureManager;
+
+	this->InnitNullTextures();
+
+	//animation
+
+	CreateAnimationComponent();
+}
+
 Entity::~Entity() {
 	
 	//do not delete textures
@@ -282,6 +297,8 @@ bool Entity::isHeadBlocked(Obstacle* obs) {
 //Update performing actions & animations when moving all here
 void Entity::UpdateMovements(float delt) {
 
+	if (this->IsDead()) return;
+
 	//---Movement----
 
 	if (isJumping || fall) {
@@ -346,7 +363,17 @@ void Entity::UpdateMovements(float delt) {
 	}
 }
 
+//helper update
 
+bool Entity::IsDead() {
+	if (health) return false;
+	return true;
+}
+
+void Entity::TakeDamage(int damage) {
+	health = std::max(0, health - damage);
+	std::cout << "Entity takes " << damage << " damage!\n";
+}
 
 //getters
 
@@ -402,6 +429,11 @@ Vector2f Entity::getFrameSize() {
 
 //setters
 
+void Entity::setSpriteScale(float s1, float s2) {
+	this->sprite.setScale(s1, s2);
+}
+
+
 void Entity::setSpritePosition(Vector2f pos) {
 	sprite.setPosition(pos);
 }
@@ -413,6 +445,15 @@ void Entity::setSize(Vector2f size) {
 void Entity::setVelocityY(float _y) {
 	velocityY = _y;
 }
+
+void Entity::setVelocityX(float _x) {
+	velocityX = _x;
+}
+
+void Entity::setGravity(float _g) {
+	this->gravity = _g;
+}
+
 
 void Entity::setPosition(Vector2f pos) {
 	frame.setPosition(pos);

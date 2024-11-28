@@ -3,7 +3,7 @@
 #include "projectile.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
-
+#include <memory>
 #include <stack>
 
 class Shooter {
@@ -17,156 +17,54 @@ protected:
 	float cntDelay = 0.f;
 	//-------------
 
+	int damage = 5;
+
 	TextureManager* textureManager;
 
 	Projectile* sampleBullet = nullptr;
 public:
-	Shooter(TextureManager* textureManager): textureManager(textureManager) {
-		activeBullets = 1;
-		sampleBullet = new Projectile(textureManager, 0.f, 500.f, 0.f);
-		
+	Shooter(TextureManager* textureManager);
+	Shooter(TextureManager* textureManager, float bulletsizeX, float bulletsizeY);
+	Shooter(TextureManager* textureManager, float bulletsizeX, float bulletsizeY, float gravity, float velox, float veloy);
 
-		for (int i = 0; i < 1; ++i) {
-			Projectile* tmp = nullptr;
-			bullets.push_back(tmp);
-		}
-
-		for (int i = 0; i < 1; ++i) {
-			bullets[i] = new Projectile(*sampleBullet);
-		}
-	}
-
-	virtual ~Shooter() {
-		std::cout << "Destructor of the Shooter (gun).\n";
-		for (auto b: bullets) {
-			if(b) delete b;
-		}
-
-		delete sampleBullet;
-	}
+	virtual ~Shooter();
 
 	//render
 
-	virtual void RenderProjectiles(RenderWindow* l_window) {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			bullets[i]->Render(l_window);
-		}
-	}
+	virtual void RenderProjectiles(RenderWindow* l_window);
 
-	//load
-
-	virtual void Load(Direction dir) {
-		Projectile* tmp = nullptr;
-		bullets.push_back(tmp);
-		
-		bullets.back() = new Projectile(*sampleBullet);
-		++activeBullets;
-
-		bullets.back()->FaceDirection(dir);
-		std::swap(bullets[activeBullets - 1], bullets.back());
-	}
 
 	//shoot
 
-	void Shoot(Direction dir) {
+	void Shoot(Direction dir);
 
 
+	virtual void UpdateMovingProjectiles(float delt, Vector2f pos);
 
-		if (activeBullets == 0) {
-		//temporarily, we only give 10 bullets
-			return;
-		}
+	//call these in world
 
+	//some projectiles can pierce through stuffs, so we need to make it virtual
 
-		int n = bullets.size();
+	virtual void HandleProjectileCollision(Obstacle* obs, Entity* en);
 
-		bullets[activeBullets-1]->FaceDirection(dir);
-		--activeBullets;
-		
-		//load
-		Load(dir);
+	virtual void HandleProjectileCollision(Obstacle* obs);
 
-		std::cout << "Number of bullets in vector: " << (int)bullets.size() << '\n';
-	}
-
-	//make it virtual for bullets that use animations
-	virtual void UpdateMovingProjectiles(float delt, Vector2f pos) {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			bullets[i]->ProjectileFly(delt, pos);
-			bullets[i]->Entity::UpdateMovements(delt);
-		}
-	}
-
-	virtual void HandleProjectileCollision(Obstacle* obs, Entity* en) {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			if (bullets[i]->IsHit(obs) || bullets[i]->IsHit(en)) {
-
-				//pop that bullet out
-				std::swap(bullets[i], bullets[n - 1]);
-
-				//this bullet go out of scope, hence deleted
-				delete bullets.back();
-				bullets.pop_back();
-				--n;
-			}
-		}
-	}
-
-	virtual void HandleProjectileCollision(Obstacle* obs) {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			if (bullets[i]->IsHit(obs)) {
-
-				//pop that bullet out
-				std::swap(bullets[i], bullets[n - 1]);
-
-				//this bullet go out of scope, hence deleted
-				delete bullets.back();
-				bullets.pop_back();
-				--n;
-			}
-		}
-	}
-
-	virtual void HandleProjectileCollision(Entity* en) {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			if (bullets[i]->IsHit(en)) {
-
-				//pop that bullet out
-				std::swap(bullets[i], bullets[n - 1]);
-
-				//this bullet go out of scope, hence deleted
-				delete bullets.back();
-				bullets.pop_back();
-				--n;
-			}
-		}
-	}
+	virtual void HandleProjectileCollision(Entity* en);
 
 	//allow bullets animation
 
 	void LoadAnimationForBullet(const std::string& l_file, const std::string& r_file
 		, float animationTimer, int start_frame_x, int start_frame_y,
-		int frames_x, int frames_y, int _width, int _height) {
-		
+		int frames_x, int frames_y, int _width, int _height);
 
-		sampleBullet->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
-			frames_x, frames_y, _width, _height);
 
-		//edit the frame
+	//scale animation
 
-		sampleBullet->setSize({ float(_width),float(_height) });
+	virtual void ScaleProjectileAnimation(float f1, float f2);
+private:
+	//load
 
-		if (!bullets.empty()) {
-			bullets.back()->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
-				frames_x, frames_y, _width, _height);
-			bullets.back()->setSize({float(_width),float(_height)});
-		}
-	}
+	virtual void Load(Direction dir);
 };
 
 //-------WEAPON--------
@@ -175,95 +73,48 @@ class XBuster : public Shooter {
 public:
 	class FullChargeBuster : public Shooter {
 	public:
-		FullChargeBuster(TextureManager* textureManager): Shooter(textureManager) {
-			if (this->sampleBullet) {
-				delete this->sampleBullet;
-				this->sampleBullet = new Projectile(textureManager, 0, 550.f, 0); //faster
-			}
-			LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
-				70.f, 0, 0, 5, 0, 150, 90);
-		}
-		~FullChargeBuster() {
+		FullChargeBuster(TextureManager* textureManager);
 
-		}
+		~FullChargeBuster();
+
+		//Full charge is piercing
+
+		void HandleProjectileCollision(Obstacle* obs, Entity* en) override;
+
+		void HandleProjectileCollision(Entity* en) override;
 	};
 	class SemiChargeBuster : public Shooter {
 	public:
-		SemiChargeBuster(TextureManager* textureManager): Shooter(textureManager) {
-
-		}
-		~SemiChargeBuster() {
-
-		}
+		SemiChargeBuster(TextureManager* textureManager);
+		~SemiChargeBuster();
 	};
-	Clock clk;
+	Clock clk; //for charging
 	float maxTime = 2.f;
 	float deltCharge = 0.f;
 
 	FullChargeBuster* fullcharge;
 	SemiChargeBuster* semicharge;
 public:
-	XBuster(TextureManager* textureManager): Shooter(textureManager) {
-		
-		fullcharge = new FullChargeBuster(textureManager);
-		semicharge = new SemiChargeBuster(textureManager);
-	}
+	XBuster(TextureManager* textureManager);
 	
-	~XBuster() override {
-		delete fullcharge;
-		delete semicharge;
-	}
+	~XBuster() override;
 
-	void Charge() {
-		clk.restart();
-	}
+	void Charge();
 
-	void UnCharge() {
-		deltCharge = std::min(maxTime, clk.getElapsedTime().asSeconds());
-	}
+	void UnCharge();
 
-	void ChargeShoot(Direction dir){
-		if (deltCharge < 0.2f) {
-			return; //delay
-		}
-
-		if (deltCharge > 0.7f) {
-			std::cout << deltCharge << '\n';
-			fullcharge->Shoot(dir);
-		}
-	}
+	void ChargeShoot(Direction dir);
 
 	//overrides
 
-	void UpdateMovingProjectiles(float delt, Vector2f pos) override {
-		this->Shooter::UpdateMovingProjectiles(delt, pos);
-		fullcharge->Shooter::UpdateMovingProjectiles(delt, pos);
-		//semicharge->Shooter::UpdateMovingProjectiles(delt, pos);
-	}
+	void UpdateMovingProjectiles(float delt, Vector2f pos) override;
 
-	void HandleProjectileCollision(Obstacle* obs, Entity* en) override {
-		this->Shooter::HandleProjectileCollision(obs, en);
-		fullcharge->Shooter::HandleProjectileCollision(obs, en);
-		//semicharge->Shooter::HandleProjectileCollision(obs, en);
-	}
-	
-	void HandleProjectileCollision(Obstacle* obs) override {
-		this->Shooter::HandleProjectileCollision(obs);
-		fullcharge->Shooter::HandleProjectileCollision(obs);
-		//semicharge->Shooter::HandleProjectileCollision(obs);
-	}
+	void HandleProjectileCollision(Obstacle* obs, Entity* en) override;
+	void HandleProjectileCollision(Obstacle* obs) override;
 
-	void HandleProjectileCollision(Entity* en) override {
-		this->Shooter::HandleProjectileCollision(en);
-		fullcharge->Shooter::HandleProjectileCollision(en);
-		//semicharge->Shooter::HandleProjectileCollision(en);
-	}
+	void HandleProjectileCollision(Entity* en) override;
 
-	void RenderProjectiles(RenderWindow* l_window) override {
-		int n = bullets.size();
-		for (int i = n - 1; i >= activeBullets; --i) {
-			bullets[i]->Render(l_window);
-		}
-		fullcharge->RenderProjectiles(l_window);
-	}
+	void RenderProjectiles(RenderWindow* l_window) override;
+
+	void ScaleProjectileAnimation(float f1, float f2) override;
 };

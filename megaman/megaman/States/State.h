@@ -20,17 +20,21 @@ protected:
 	//it needs to know this, so that states can be pushed from a state
 	std::stack<State*>* states;
 
-	//---VIEW
-
-	sf::View view;
 
 	//--Texture manager
 	TextureManager* textureManager;
+
+	//View
+	View* stateview;
 public:
 	State(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states): 
-		textureManager(textureManager), view(window->GetDefaultView()), paused(false), quit(false), mousePos({0,0}) {
+		textureManager(textureManager), paused(false), quit(false), mousePos({0,0}) {
 		this->window = window;
 		this->states = states;
+
+		//initialy, the view = window view. It may change during gamestate!
+		stateview = new View();
+		*stateview = window->GetDefaultView();
 	}
 
 	//Innit
@@ -38,9 +42,29 @@ public:
 	virtual void innitButtons(){}
 
 	virtual ~State() {
+		delete stateview;
 		//delete window; //Do not!
 	}
 
+	float getLeftView() {
+		return (stateview->getCenter().x - stateview->getSize().x / 2);
+	}
+
+	float getTopView() {
+		return (stateview->getCenter().y - stateview->getSize().y / 2);
+	}
+
+	float getCenterViewX() {
+		return (stateview->getCenter().x);
+	}
+
+	float getCenterViewY() {
+		return (stateview->getCenter().y);
+	}
+
+	const sf::View* getView() {
+		return this->stateview;
+	}
 
 	const bool& getQuit() const {
 		return this->quit;
@@ -87,8 +111,6 @@ public:
 		auto win = window->GetRenderWindow();
 		this->mousePos = win->mapPixelToCoords(sf::Mouse::getPosition(*win));
 	}
-
-	sf::View& GetView() { return this->view; }
 };
 
 #endif

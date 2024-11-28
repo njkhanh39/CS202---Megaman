@@ -2,7 +2,7 @@
 
 //#1 - Constructors and destructor
 
-MainWindow::MainWindow() { Setup("Window", sf::Vector2u(1600, 900)); }
+MainWindow::MainWindow() { Setup("Window", sf::Vector2u(1280, 720)); }
 
 MainWindow::MainWindow(const std::string& l_title, const sf::Vector2u& l_size){
 	Setup(l_title, l_size);
@@ -18,6 +18,7 @@ void MainWindow::Setup(const std::string& l_title, const sf::Vector2u& l_size) {
 	m_windowSize = l_size;
 	m_isFullscreen = false;
 	m_isDone = false;
+
 	Create();
 }
 
@@ -26,6 +27,8 @@ void MainWindow::Setup(const std::string& l_title, const sf::Vector2u& l_size) {
 void MainWindow::Create() {
 	auto style = (m_isFullscreen ? sf::Style::Fullscreen: sf::Style::Default);
 	m_window.create({ m_windowSize.x, m_windowSize.y, 32 }, m_windowTitle, style); //32 has sth to do with u32int
+
+	this->m_view = m_window.getDefaultView();
 }
 void MainWindow::Destroy() {
 	m_window.close();
@@ -60,7 +63,9 @@ void MainWindow::SetFinish() {
 
 //#4,5 - BeginDraw (clear) and EndDraw (display)
 
-void MainWindow::BeginDraw() { m_window.clear(sf::Color::Black); }
+void MainWindow::BeginDraw() {
+	m_window.clear(sf::Color::Black); 
+}
 void MainWindow::EndDraw() { m_window.display(); }
 
 //#6 - Helper methods
@@ -83,3 +88,4 @@ RenderWindow* MainWindow::GetRenderWindow() {
 sf::View MainWindow::GetDefaultView() {
 	return m_window.getDefaultView();
 }
+

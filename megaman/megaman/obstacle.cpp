@@ -1,37 +1,59 @@
 #include "obstacle.h"
-Obstacle::Obstacle() {
-	position = { 50.f,50.f };
-	size = position;
 
-	frame = new RectangleShape();
 
-	frame->setPosition(position);
-	frame->setSize(size);
-	frame->setFillColor(Color(35, 101, 51));
-
-	texture = new Texture();
-	sprite = new Sprite();
-
-	sprite->setPosition(position);
-}
-Obstacle::Obstacle(Vector2f pos, Vector2f siz) {
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz): position(pos), textureManager(textureManager) {
 	position = pos;
-	size = siz;
 
-	frame = new RectangleShape();
+	frame = new RectangleShape(siz);
 
 	frame->setPosition(position);
-	frame->setSize(size);
 	frame->setFillColor(Color(35, 101, 51));
 
-	texture = new Texture();
 	sprite = new Sprite();
+	texture = nullptr;
 
 	sprite->setPosition(position);
 }
+
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible) : 
+	invisible(invisible), position(pos), textureManager(textureManager) {
+	position = pos;
+
+	frame = new RectangleShape(siz);
+
+	frame->setPosition(position);
+	frame->setFillColor(Color(35, 101, 51));
+
+	sprite = new Sprite();
+	texture = nullptr;
+
+	sprite->setPosition(position);
+}
+
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file) : position(pos), textureManager(textureManager) {
+	textureManager->BorrowTexture(file, texture);
+
+	Vector2u tmp = textureManager->getTextureSize(file);
+	
+	Vector2f siz = { (float)tmp.x, (float)tmp.y };
+	
+	frame = new RectangleShape(siz);
+
+	frame->setPosition(position);
+	frame->setFillColor(Color(35, 101, 51));
+
+	sprite = new Sprite();
+
+	sprite->setPosition(position);
+
+	//set pic
+	if(texture) sprite->setTexture(*texture);
+
+}
+
 Obstacle::~Obstacle() {
 	delete frame;
-	delete texture;
+	//delete texture; we borrow!
 	delete sprite;
 }
 
@@ -43,7 +65,7 @@ Vector2f Obstacle::getPosition() {
 }
 
 Vector2f Obstacle::getSize() {
-	return size;
+	return frame->getSize();
 }
 
 Vector2f Obstacle::getUpLeftPosition() {
@@ -92,7 +114,6 @@ void Obstacle::setPosition(Vector2f pos) {
 
 //can only setSize of sprite is not loaded
 void Obstacle::setSize(Vector2f siz) {
-	size = siz;
 	frame->setSize(siz);
 }
 
@@ -101,14 +122,12 @@ void Obstacle::setColor(Color col) {
 	frame->setFillColor(col);
 }
 
-void Obstacle::loadImage(const std::string& file) {
-	texture->loadFromFile(file);
-	sprite->setTexture(*texture);
-}
 
 //others
 
 void Obstacle::Render(RenderWindow* l_window) {
-	l_window->draw(*frame);
-	l_window->draw(*sprite);
+	if (!invisible) {
+		if (frame) l_window->draw(*frame);
+		if (sprite) l_window->draw(*sprite);
+	}
 }

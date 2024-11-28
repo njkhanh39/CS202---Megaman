@@ -148,18 +148,21 @@
     <ClCompile Include="megaman.cpp" />
     <ClCompile Include="obstacle.cpp" />
     <ClCompile Include="projectile.cpp" />
+    <ClCompile Include="shooter.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
     <ClInclude Include="Auxiliaries\Button.h" />
+    <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enumdirection.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Manager\TextureManager.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />

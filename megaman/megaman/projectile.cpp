@@ -19,26 +19,18 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 	velocityY += gravity * delt;
 
 	
-
-	//draw
 	if (direction == Direction::Right) {
 		MoveRight(delt);
 		
 	}
 	else {
-		/*sprite.move(-velocityX * delt, velocityY * delt);
-		frame.move(-velocityX * delt, velocityY * delt);*/
 		MoveLeft(delt);
-
 	}
 }
 
 //is Hit
 
 bool Projectile::IsHit(Obstacle* obs) {
-	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) {
-		return true;
-	}
 
 	float l1 = obs->getLeftMostX(), l2 = getLeftMostX();
 	float r1 = obs->getRightMostX(), r2 = getRightMostX();
@@ -86,20 +78,13 @@ bool Projectile::IsHit(Obstacle* obs) {
 }
 
 bool Projectile::IsHit(Entity* en) {
-	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) {
-		return true;
-	}
-
+	
 	float l1 = en->getLeftMostX(), l2 = getLeftMostX();
 	float r1 = en->getRightMostX(), r2 = getRightMostX();
 	float u1 = en->getUpMostY(), u2 = getUpMostY();
 	float d1 = en->getDownMostY(), d2 = getDownMostY();
 
 
-	//----temporary---
-
-	if (r2 >= 1600.f) return true;
-	if (l2 <= 0.f) return true;
 
 	//----------------
 
@@ -111,6 +96,7 @@ bool Projectile::IsHit(Entity* en) {
 
 		//left <- right
 		if (l2 == r1 || (l2 < r1 && r1 - l2 < 1.f)) {
+			std::cout << "Hello?\n";
 			return true;
 		}
 	}
@@ -132,6 +118,11 @@ bool Projectile::IsHit(Entity* en) {
 		}
 	}
 
+	return false;
+}
+
+bool Projectile::IsStopped() {
+	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) return true;
 	return false;
 }
 
@@ -165,6 +156,20 @@ Entity(textureManager){
 	frame.setFillColor(Color::Red);
 	
 	Entity::setSize({ 20.f, 20.f });
+}
+
+Projectile::Projectile(TextureManager* textureManager, float width, float height, float _gravity, float _veloX, float _veloY):
+Entity(textureManager, 0, 0, width, height) {
+	gravity = _gravity;
+
+	velocityY = _veloY;
+	velocityX = _veloX;
+
+	jumpStrength = 0;
+
+	frame.setFillColor(Color::Red);
+
+	Entity::setSize({ width, height });
 }
 
 

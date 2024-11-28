@@ -1,6 +1,6 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
-#include "character.h"
+#include "camera.h"
 #include "PauseMenu.h"
 #include "world.h"
 
@@ -9,6 +9,7 @@ private:
 	World* m_world;
 	Character* m_character;
 
+	Camera* camera;
 	PauseMenu* pauseMenu;
 public:
 	GameState(MainWindow* window, TextureManager* textureManager, std::stack<State*>* states):
@@ -16,15 +17,21 @@ public:
 	, pauseMenu(nullptr){
 		std::cout << "Creating GameState\n";
 		m_world = new World(textureManager);
-		m_character = new Character(textureManager, 100, 150);
+		m_character = new Character(textureManager, 10, 50);
+		
 
-		pauseMenu = new PauseMenu(window);
+		CreateCameraMap1();
+
+		//this comes after camera. Every time we open, it needs to readjust
+
+		pauseMenu = new PauseMenu(window, this->getCenterViewX(), this->getCenterViewY());
 	}
 	~GameState(){
 		std::cout << "GameState destructor!\n";
 		if (m_world) delete m_world;
 		if (m_character) delete m_character;
 		if (pauseMenu) delete pauseMenu;
+		if (camera) delete camera;
 	}
 
 	//dont call inside class
@@ -67,14 +74,14 @@ public:
 		//-------------GAME-------------//
 		//char shooting
 		if (!this->paused) {
-			m_character->HandleEventInput(evt, dt);
+			if(!m_character->IsDead()) m_character->HandleEventInput(evt, dt);
 		}
 	}
 
 	void HandleInput(Time& dt) override {
 		if (!this->paused) {
 			//character input from keyboard
-			m_character->HandleMovements(dt);
+			if(!m_character->IsDead()) m_character->HandleMovements(dt);
 		}
 	}
 
@@ -99,18 +106,26 @@ public:
 			//------------BUTTON
 			this->UpdateButtons();
 
-			//-----------------CHARACTER--------------------
 
-			m_character->Update(dt);
+			if (!m_character->IsDead()) {
+				//-----------------CHARACTER--------------------
+
+				m_character->Update(dt);
+
+
+				//update view
+
+				camera->Update();
+			}
 
 			//-----------------WORLD AND ENEMIES--------------------
 
-			m_world->UpdateAllEnemies(m_character, dt);
+			 m_world->UpdateAllEnemies(m_character, dt);
 
 		}
 		else { //update the pause menu
 
-			pauseMenu->Update(mousePos); //appearance
+			pauseMenu->Update(mousePos, Vector2f(getCenterViewX(), getCenterViewY())); //appearance
 
 			if (pauseMenu->ReturnQuit()) { //if returns quit, we go all the way to main menu
 				this->EndState();
@@ -129,17 +144,22 @@ public:
 		if (this->paused) {
 			//draw this first, always
 			m_world->Render(target);
-			m_character->Render(target);
+			if(m_character && !m_character->IsDead()) m_character->Render(target);
 			//draw pause menu
 			pauseMenu->Render(target);
 		}
 		else {
 			m_world->Render(target);
-			m_character->Render(target);
+			if(m_character && !m_character->IsDead()) m_character->Render(target);
 		}
 	}
-};
 
+private:
+	void CreateCameraMap1() {
+		camera = new Camera(0, 0, 350, 200, MAP1CONST::UPBOUND, MAP1CONST::LOWBOUND, MAP1CONST::UPLIMIT,
+			MAP1CONST::DOWNLIMIT, this->stateview, m_character);
+	}
+};
 
 
 

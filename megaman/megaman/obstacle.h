@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Manager/TextureManager.h"
 
 using namespace sf;
 
@@ -11,13 +12,21 @@ private:
 	Vector2f position;
 
 	//size of texture's boundary
-	Vector2f size;
 	RectangleShape* frame; //boundary for the texture
+
+
+	TextureManager* textureManager; //dont delete
 	Texture* texture;
 	Sprite* sprite;
+
+	bool invisible = false;
 public:
-	Obstacle();
-	Obstacle(Vector2f pos, Vector2f siz);
+
+	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz);
+
+	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible);
+
+	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file);
 	~Obstacle();
 
 	//getters
@@ -51,7 +60,6 @@ public:
 	//set color incase we dont load sprite
 	void setColor(Color col);
 
-	void loadImage(const std::string& file);
 	//others
 	
 	void Render(RenderWindow* l_window);

@@ -19,6 +19,8 @@ public:
 
 	Projectile(TextureManager* textureManager, float _gravity,float _veloX, float _veloY);
 
+	Projectile(TextureManager* textureManager, float width, float height, float _gravity, float _veloX, float _veloY);
+
 	//NOTE: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Projectile(const Projectile& other): Entity(other), isFired(other.isFired) {
 		
@@ -31,6 +33,7 @@ public:
 
 	//Some basic trajectories
 
+	//In the update functions of shooters, we invoke this function of the bullet for flying physics + Entity::UpdateMovement() for animation.
 	void ProjectileFly(float delt, Vector2f pos);
 
 	//is Hit
@@ -38,6 +41,8 @@ public:
 	bool IsHit(Obstacle* obs);
 
 	bool IsHit(Entity* en);
+
+	bool IsStopped();
 
 	//---------ANIMATION----------------
 

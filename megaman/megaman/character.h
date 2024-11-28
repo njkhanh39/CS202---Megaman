@@ -6,12 +6,17 @@
 
 using namespace sf;
 
+
+
 class Character: public Entity {
 private:
 	//------Weapon----------//
 
 	XBuster* blaster;
 
+	const float scaleFactor = 0.25f;
+	const float dilation = 5.f; //differ in position between sprite and hitbox
+	const Vector2f framesize = { 20.f, 35.f };
 public:
 	//constructor and destructor
 
@@ -50,11 +55,7 @@ public:
 	//-------UPDATING-------
 
 	//literally everything
-	void Update(float delt) {
-		UpdateMovements(delt);
-		//update char's projectiles
-		UpdateCharacterProjectiles(delt);
-	}
+	void Update(float delt);
 
 	//helper
 
@@ -68,6 +69,7 @@ private:
 
 	//update
 	void UpdateCharacterProjectiles(float delt);
+
 
 	//helper
 	void fixSpriteToFrame();

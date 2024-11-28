@@ -3,6 +3,7 @@
 #include "obstacle.h"
 #include "character.h"
 #include "enemy.h"
+#include "map.h"
 #include <typeinfo>
 
 class World {
@@ -11,6 +12,8 @@ public:
 	RectangleShape* background;
 
 	//-----Game stuffs------//
+
+	Map* gameMap;
 
 	ShooterEnemy* enemy[30] = {nullptr};
 	Obstacle* platform[30] = {nullptr};
@@ -46,7 +49,7 @@ public:
 
 	void UpdateAllEnemies(Character* character, float delt) {
 		for (int i = 0; i < 30; ++i) {
-			if (enemy[i]) {
+			if (enemy[i] && !enemy[i]->IsDead()) {
 				enemy[i]->Update(character, delt);
 			}
 		}
@@ -62,20 +65,22 @@ private:
 
 		//for loops through all obstacles
 
-		for (int i = 0; i < 30; ++i) {
-			if (platform[i]) {
-				character->HandleProjectileCollision(platform[i]);
+		if (!character->IsDead()) {
+
+			for (int i = 0; i < 30; ++i) {
+				if (platform[i]) {
+					character->HandleProjectileCollision(platform[i]);
+				}
+			}
+
+			//for loops through all entities but itself
+
+			for (int i = 0; i < 30; ++i) {
+				if (enemy[i] && !enemy[i]->IsDead()) {
+					character->HandleProjectileCollision(enemy[i]);
+				}
 			}
 		}
-
-		//for loops through all entities but itself
-
-		for (int i = 0; i < 30; ++i) {
-			if (enemy[i]) {
-				character->HandleProjectileCollision(enemy[i]);
-			}
-		}
-
 		//-----------Enemy----------------
 
 		//for loops through all obstacles **WE CAN OPTIMIZE THIS OFC**
@@ -90,13 +95,15 @@ private:
 		}
 
 		//consider character only, we dont want enemies to hit one another
-		for (int i = 0; i < 30; ++i) {
-			if (enemy[i]) enemy[i]->HandleProjectileCollision(character);
+		if (!character->IsDead()) {
+			for (int i = 0; i < 30; ++i) {
+				if (enemy[i]) enemy[i]->HandleProjectileCollision(character);
+			}
 		}
 	}
 
 	void HandleOneEntityCollision(Entity* en) {
-
+		if (en->IsDead()) return;
 		//obstacles: wall, platform,.... 
 
 		//check obstacle left-touch = character-right touch
@@ -153,15 +160,7 @@ private:
 	void CreatePlatform(float x, float y, float xSize, float ySize) {
 		if (numObs >= 30) return;
 
-		platform[numObs] = new Obstacle({x,y}, {xSize,ySize});
-		++numObs;
-	}
-
-	void CreatePlatform(float x, float y, float xSize, float ySize, const std::string& file) {
-		if (numObs >= 30) return;
-
-		platform[numObs] = new Obstacle({ x,y }, { xSize,ySize });
-		platform[numObs]->loadImage(file);
+		platform[numObs] = new Obstacle(textureManager, Vector2f(x,y), Vector2f(xSize, ySize), true);
 		++numObs;
 	}
 };

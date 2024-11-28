@@ -35,12 +35,24 @@ public:
 
 	RenderWindow* GetRenderWindow();
 	sf::View GetDefaultView();
+
+	void SetView(View v) {
+		m_view = v;
+		//m_view.zoom(0.5f);
+		m_window.setView(m_view);
+	}
+
+	void Zoom(const float& factor) {
+		m_view.zoom(factor);
+		m_window.setView(m_view);
+	}
 private:
 	sf::RenderWindow m_window;
 	sf::Vector2u m_windowSize;
 	std::string m_windowTitle;
 	bool m_isDone;
 	bool m_isFullscreen;
+	sf::View m_view;
 
 	//helpers
 

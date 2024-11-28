@@ -12,7 +12,10 @@ private:
 	std::map<std::string, sf::Texture*> textureMap;
 	std::map<std::string, int> countMap; //count number of use
 public:
-	TextureManager() { InnitCharacter(); }
+	TextureManager() { 
+		InnitCharacter(); 
+		InnitMap();
+	}
 
 	~TextureManager() {
 		for (auto& x : textureMap) {
@@ -30,6 +33,10 @@ public:
 		this->AddTexture("Animation\\X\\X_ShootRight.png");
 		this->AddTexture("Animation\\X\\X_ShootJumpLeft.png");
 		this->AddTexture("Animation\\X\\X_ShootJumpRight.png");
+	}
+
+	void InnitMap() {
+		this->AddTexture("Animation\\highway.png");
 	}
 
 	void AddTexture(const std::string& name) {
@@ -58,6 +65,14 @@ public:
 			std::cout << "File: " << x.first << '\n';
 			std::cout << "Used: " << countMap[x.first] << " times \n\n";
 		}
+	}
+
+	//getters
+
+	sf::Vector2u getTextureSize(const std::string& name) {
+		if (!textureMap[name]) return { 0,0 };
+
+		return textureMap[name]->getSize();
 	}
 };
 

@@ -4,6 +4,7 @@
 #include "obstacle.h"
 #include "animation.h"
 #include "enumdirection.h"
+#include <algorithm>
 //#include "Manager/TextureManager.h"
 
 using namespace sf;
@@ -29,10 +30,13 @@ protected:
 	
 	AnimationComponent* movingAnimation;
 
+
 	//---------Physic variables----------------------
 
-	float gravity = 980.0f, slowGravity = 10.0f, jumpStrength = 600.0f;
-	float velocityY = 0.0f, velocityX = 400;
+	float gravity = 980.0f, slowGravity = 10.0f, jumpStrength = 300.0f;
+	float velocityY = 0.0f, velocityX = 120;
+
+	int health = 50;
 public:
 	//direction
 	Direction direction;
@@ -58,11 +62,13 @@ public:
 
 	Entity(TextureManager* textureManager, float x, float y);
 
+	Entity(TextureManager* textureManager, float x, float y, float width, float height);
+
 	////Perfect deep copy
 	////NOTE2: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
 	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
-	velocityY(other.velocityY), textureManager(other.textureManager){
+	velocityY(other.velocityY), textureManager(other.textureManager), health(other.health){
 
 		direction = other.direction;
 		left = other.left;
@@ -125,6 +131,11 @@ public:
 
 	void FaceDirection(Direction dir);
 
+	//maybe different for each
+	virtual void Die() {
+		this->~Entity();
+	}
+
 	//------------Collision checks----------------------
 
 	bool canMoveRight(Obstacle* obs);
@@ -139,6 +150,13 @@ public:
 
 	//updates
 	void UpdateMovements(float delt);
+
+	
+
+	//helper update
+	bool IsDead();
+
+	void TakeDamage(int damage);
 
 
 	//getters
@@ -166,13 +184,20 @@ public:
 
 	//setters
 
+	void setSpriteScale(float s1, float s2);
+
 	void setSpritePosition(Vector2f pos);
 
 	void setSize(Vector2f size);
 
 	void setVelocityY(float _y);
 
+	void setVelocityX(float _x);
+
+	void setGravity(float _g);
+
 	virtual void setPosition(Vector2f pos);
+
 
 
 	//helpers

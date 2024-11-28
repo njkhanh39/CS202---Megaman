@@ -48,6 +48,9 @@
     <ClCompile Include="Manager\TextureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="shooter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window.h">
@@ -99,6 +102,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Manager\TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

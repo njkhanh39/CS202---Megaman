@@ -4,7 +4,7 @@
 Character::Character(TextureManager* textureManager, float x, float y): Entity(textureManager, x,y) {
 
 
-	setSize({ 80.f, 145.f });
+	setSize(framesize);
 
 	//move sprite accordingly to frame
 	fixSpriteToFrame();
@@ -13,12 +13,22 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	//Weapon
 
 	blaster = new XBuster(textureManager);
-	
 
+
+	//Health
+
+	this->health = 30;
 
 	//--------Load and add animations--------------
 
 	LoadAndAddAnimations();
+
+
+	//------SCALING ORIGINAL IMAGE---------
+
+	//scale image, but dont forget the hitbox!
+	this->sprite.setScale(scaleFactor, scaleFactor);
+	this->blaster->ScaleProjectileAnimation(scaleFactor, scaleFactor);
 }
 
 Character::~Character() {
@@ -31,7 +41,7 @@ Character::~Character() {
 //virtual drawing
 
 void Character::Render(RenderWindow* l_window) {
-	//l_window->draw(frame);
+	l_window->draw(frame);
 	l_window->draw(sprite);
 	blaster->RenderProjectiles(l_window);
 }
@@ -148,6 +158,15 @@ bool Character::canKeepFalling(Obstacle* obs) {
 	return true;
 }
 
+void Character::Update(float delt) {
+
+	//movements
+	this->Entity::UpdateMovements(delt);
+	//update char's projectiles
+	this->UpdateCharacterProjectiles(delt);
+
+}
+
 //--------------------PRIVATES-----------------------
 
 void Character::LoadAndAddAnimations() {
@@ -189,12 +208,12 @@ void Character::setPosition(Vector2f vec){
 	frame.setPosition(vec);
 	auto x = vec.x;
 	auto y = vec.y;
-	sprite.setPosition({ x - 20.f,y });
+	sprite.setPosition({ x - dilation,y });
 }
 
 void Character::fixSpriteToFrame() {
 	auto vec = getUpLeftPosition();
 	auto x = vec.x;
 	auto y = vec.y;
-	sprite.setPosition({ x - 20.f,y });
+	sprite.setPosition({ x - dilation,y });
 }

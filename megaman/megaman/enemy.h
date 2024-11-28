@@ -69,7 +69,7 @@ public:
 		Enemy(textureManager, x,y,_canMove, _movingRange, _viewRange) {
 		weapon = new Shooter(textureManager);
 
-		setSize({ 50.f, 100.f });
+		setSize({ 50.f, 50.f });
 	}
 
 	~ShooterEnemy() override {
@@ -102,7 +102,7 @@ public:
 	//Attacking character
 
 	void Shoot() override {
-
+		this->weapon->Shoot(direction);
 	}
 
 	void AttackCharacter(Character* character, float delt) {
@@ -126,7 +126,7 @@ public:
 	//updates
 
 	void Update(Character* character, float delt) {
-		UpdateMovements(delt);
+		this->Entity::UpdateMovements(delt);
 		UpdateEnemyBehaviour(character, delt);
 		UpdateEnemyProjectiles(delt);
 	}
@@ -142,6 +142,7 @@ private:
 	}
 
 	void UpdateEnemyBehaviour(Character* character, float delt) {
+		if (character->IsDead()) return;
 		if (!CharacterInRange(character)) return; //idle
 
 		AttackCharacter(character, delt);

@@ -1,6 +1,9 @@
 #include "game.h"
 
-Game::Game() : m_window("Chapter 2", Vector2u(1600, 900)){
+Game::Game() : m_window("Chapter 2", Vector2u(1280, 720)){
+
+	//----ALL OF OUR TEXTURES ARE INITIALIZED HERE
+
 	this->initTextureManager();
 
 	//------------STATE------------
@@ -43,6 +46,13 @@ void Game::Handling() {
 
 		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
 			this->textureManager->ShowAllUses();
+
+			auto tmp = this->states.top()->getView();
+			std::cout << "Rect:" << tmp->getSize().x << ", "
+				<< tmp->getSize().y << '\n';
+
+			std::cout << "Rect pos: " << tmp->getCenter().x - tmp->getSize().x / 2 << ","
+				<< tmp->getCenter().y - tmp->getSize().y / 2 << '\n';
 		}
 	}	
 
@@ -70,7 +80,17 @@ void Game::Update() { //game updating
 	//-----------------STATES-----------------------
 
 	if (!this->states.empty()) {
+
+		//------------UPDATE STATE
 		this->states.top()->Update(m_elapsed.asSeconds());
+
+		//------------UPDATE VIEW
+
+		this->m_window.SetView(*this->states.top()->getView());
+
+		/*if (dynamic_cast<GameState*>(states.top())) {
+			this->m_window.Zoom(0.5f);
+		}*/
 
 		//when running update function, at some time, getQuit() may be set to true
 		if (this->states.top()->getQuit()) {
@@ -83,6 +103,7 @@ void Game::Update() { //game updating
 
 			this->states.pop();
 		}
+
 	}
 	//application ends, since no states :0
 	else {

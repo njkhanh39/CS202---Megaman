@@ -11,7 +11,7 @@ private:
 public:
 	MainMenu(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states):
 		background(nullptr) , State(window,textureManager, states) {
-		background = new RectangleShape({ 1600.f,900.f });
+		background = new RectangleShape({ 1280.f,720.f });
 		background->setFillColor(Color::Black);
 
 		this->innitButtons();
@@ -21,7 +21,7 @@ public:
 	void innitButtons() override {
 		sf::Font fnt; fnt.loadFromFile("Fonts\\palatinobold.ttf");
 
-		new_game_btn = new Button(300, 300, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
+		new_game_btn = new Button(600, 300, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
 			Color(255, 153, 51));
 		quit_game_btn = nullptr;
 	}

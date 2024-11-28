@@ -31,6 +31,9 @@ private:
 public:
 	Button(float x, float y, float width, float height,sf::Font font, std::string text, sf::Color idleColor, 
 		sf::Color hoverColor, sf::Color activeColor);
+
+	Button(float x, float y, float width, float height, sf::Font font, int fontsize, std::string text, sf::Color idleColor,
+		sf::Color hoverColor, sf::Color activeColor);
 	~Button();
 
 	//Accessors
@@ -47,5 +50,23 @@ public:
 	void Update(sf::Vector2f mousePos); 
 
 	void Render(sf::RenderTarget* target);
+
+	//setters
+
+	void setPosition(sf::Vector2f v) {
+		shape.setPosition(v);
+
+		sf::Vector2f rectCenter = shape.getPosition() + shape.getSize() / 2.f;
+
+		// Get the text's local bounds
+		sf::FloatRect textBounds = this->text.getLocalBounds();
+
+		// Set the origin of the text to its center
+		this->text.setOrigin(textBounds.left + textBounds.width / 2.f,
+			textBounds.top + textBounds.height / 2.f);
+
+		// Set the text's position to the rectangle's center
+		this->text.setPosition(rectCenter);
+	}
 };
 #endif
