@@ -14,7 +14,7 @@ protected:
 
 	// time stuff
 
-	float enemyTimer = 3.f;
+	float enemyTimer = 60.f;
 	float timer = 0.f;
 public:
 	bool canMove;
@@ -36,6 +36,8 @@ public:
 	~Enemy() override {
 		std::cout << "Destructor of Enemy\n";
 	}
+
+	virtual void Update(Character* character, float delt) {}
 
 
 	//helpers to locate the character and attack
@@ -70,6 +72,13 @@ public:
 		weapon = new Shooter(textureManager);
 
 		setSize({ 50.f, 50.f });
+	}
+
+	ShooterEnemy(TextureManager* textureManager, float x, float y, float sizex, float sizey, float sizexbullet, float sizeybullet, bool _canMove, float _movingRange, float _viewRange) :
+		Enemy(textureManager, x, y, _canMove, _movingRange, _viewRange) {
+		weapon = new Shooter(textureManager, sizexbullet, sizeybullet);
+
+		setSize({ sizex, sizey });
 	}
 
 	~ShooterEnemy() override {
@@ -108,7 +117,7 @@ public:
 	void AttackCharacter(Character* character, float delt) {
 		auto dir = LocateCharacterDir(character);
 
-		timer += delt;
+		timer += 10*delt;
 
 		if (dir == Direction::Left) TurnLeft();
 		if (dir == Direction::Right) TurnRight();
@@ -125,8 +134,8 @@ public:
 
 	//updates
 
-	void Update(Character* character, float delt) {
-		this->Entity::UpdateMovements(delt);
+	void Update(Character* character, float delt) override {
+		this->Entity::UpdateEntity(delt);
 		UpdateEnemyBehaviour(character, delt);
 		UpdateEnemyProjectiles(delt);
 	}

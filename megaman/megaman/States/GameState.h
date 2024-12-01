@@ -12,8 +12,8 @@ private:
 	Camera* camera;
 	PauseMenu* pauseMenu;
 public:
-	GameState(MainWindow* window, TextureManager* textureManager, std::stack<State*>* states):
-		State(window, textureManager, states)
+	GameState(MainWindow* window, TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue):
+		State(window, textureManager, statequeue)
 	, pauseMenu(nullptr){
 		std::cout << "Creating GameState\n";
 		m_world = new World(textureManager);
@@ -34,11 +34,11 @@ public:
 		if (camera) delete camera;
 	}
 
-	//dont call inside class
-	void EndState() override {
-		std::cout << "Ending game state!\n";
-		this->quit = true;
-	}
+	////dont call inside class
+	//void EndState() override {
+	//	std::cout << "Ending game state!\n";
+	//	this->quit = true;
+	//}
 
 	void UpdateButtons() override {
 		
@@ -115,7 +115,10 @@ public:
 
 				//update view
 
-				camera->Update();
+				camera->UpdateFollowCharacter(m_character);
+			}
+			else {
+	
 			}
 
 			//-----------------WORLD AND ENEMIES--------------------
@@ -128,7 +131,7 @@ public:
 			pauseMenu->Update(mousePos, Vector2f(getCenterViewX(), getCenterViewY())); //appearance
 
 			if (pauseMenu->ReturnQuit()) { //if returns quit, we go all the way to main menu
-				this->EndState();
+				if(statequeue->empty() || statequeue->front() != QUIT) this->statequeue->push(QUIT);
 			}
 
 			if (pauseMenu->ReturnResume()) {// hide the pauseMenu
@@ -157,7 +160,7 @@ public:
 private:
 	void CreateCameraMap1() {
 		camera = new Camera(0, 0, 350, 200, MAP1CONST::UPBOUND, MAP1CONST::LOWBOUND, MAP1CONST::UPLIMIT,
-			MAP1CONST::DOWNLIMIT, this->stateview, m_character);
+			MAP1CONST::DOWNLIMIT, this->stateview);
 	}
 };
 

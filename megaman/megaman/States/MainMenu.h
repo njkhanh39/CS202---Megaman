@@ -1,7 +1,7 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-#include "GameState.h"
+#include "GameoverState.h"
 
 
 class MainMenu : public State {
@@ -9,8 +9,8 @@ private:
 	RectangleShape* background;
 	Button* new_game_btn, *quit_game_btn;
 public:
-	MainMenu(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states):
-		background(nullptr) , State(window,textureManager, states) {
+	MainMenu(MainWindow* window,TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue):
+		background(nullptr) , State(window,textureManager, statequeue) {
 		background = new RectangleShape({ 1280.f,720.f });
 		background->setFillColor(Color::Black);
 
@@ -27,17 +27,15 @@ public:
 	}
 
 	virtual ~MainMenu() {
-		delete background;
+		if(background) delete background;
 
 		//buttons
-		delete new_game_btn;
+		if(new_game_btn) delete new_game_btn;
 	}
 
-	void EndState() override {
+	/*void EndState() override {
 		std::cout << "Ending main menu state!\n";
-
-		delete background;
-	}
+	}*/
 
 	void UpdateButtons() override {
 		this->new_game_btn->Update(mousePos); // appearance
@@ -46,7 +44,11 @@ public:
 			std::cout << "New game button pressed :>\n";
 			//push game state
 			this->new_game_btn->SetIdle();
-			this->states->push(new GameState(this->window,textureManager, this->states));
+			
+			//QUEUE GAME STATE
+
+		//	this->statequeue->push(STATECOMMAND::QUIT); 
+			if(statequeue->empty() || statequeue->front() != PUSH_GAMESTATE) this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE);
 		}
 	}
 

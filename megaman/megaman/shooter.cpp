@@ -17,7 +17,7 @@ Shooter::Shooter(TextureManager* textureManager) : textureManager(textureManager
 
 Shooter::Shooter(TextureManager* textureManager, float bulletsizeX, float bulletsizeY) : textureManager(textureManager) {
 	activeBullets = 1;
-	sampleBullet = new Projectile(textureManager, bulletsizeX, bulletsizeY, 0.f, 500.f, 0.f);
+	sampleBullet = new Projectile(textureManager, bulletsizeX, bulletsizeY, 0.f, 120.f, 0.f);
 
 
 	for (int i = 0; i < 1; ++i) {
@@ -87,7 +87,7 @@ void Shooter::UpdateMovingProjectiles(float delt, Vector2f pos) {
 	int n = bullets.size();
 	for (int i = n - 1; i >= activeBullets; --i) {
 		bullets[i]->ProjectileFly(delt, pos); //this moves the projectile
-		bullets[i]->Entity::UpdateMovements(delt); //this plays animation of bullets
+		bullets[i]->Entity::UpdateEntity(delt); //this plays animation of bullets
 	}
 }
 
@@ -95,7 +95,6 @@ void Shooter::HandleProjectileCollision(Obstacle* obs, Entity* en) {
 	int n = bullets.size();
 	for (int i = n - 1; i >= activeBullets; --i) {
 		if (bullets[i]->IsHit(obs) || bullets[i]->IsHit(en) || bullets[i]->IsStopped()) {
-
 			if (bullets[i]->IsHit(en) && en) {
 				en->TakeDamage(this->damage);
 			}
@@ -115,7 +114,6 @@ void Shooter::HandleProjectileCollision(Obstacle* obs) {
 	int n = bullets.size();
 	for (int i = n - 1; i >= activeBullets; --i) {
 		if (bullets[i]->IsHit(obs) || bullets[i]->IsStopped()) {
-
 			//pop that bullet out
 			std::swap(bullets[i], bullets[n - 1]);
 

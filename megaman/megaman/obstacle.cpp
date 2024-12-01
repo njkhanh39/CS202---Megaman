@@ -30,6 +30,12 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, b
 	sprite->setPosition(position);
 }
 
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage) :
+	Obstacle(textureManager, pos, siz, invisible) {
+	this->damage = damage;
+}
+
+
 Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file) : position(pos), textureManager(textureManager) {
 	textureManager->BorrowTexture(file, texture);
 
@@ -49,6 +55,11 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::stri
 	//set pic
 	if(texture) sprite->setTexture(*texture);
 
+}
+
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage) :
+	Obstacle(textureManager, pos, file) {
+	this->damage = damage;
 }
 
 Obstacle::~Obstacle() {

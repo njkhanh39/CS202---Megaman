@@ -2,6 +2,8 @@
 
 Game::Game() : m_window("Chapter 2", Vector2u(1280, 720)){
 
+
+	this->initStateQueue();
 	//----ALL OF OUR TEXTURES ARE INITIALIZED HERE
 
 	this->initTextureManager();
@@ -26,6 +28,8 @@ Game::~Game() {
 		delete states.top();
 		states.pop();
 	}
+
+	delete statequeue;
 
 	//game
 	std::cout << "Game Terminated!\n";
@@ -93,16 +97,18 @@ void Game::Update() { //game updating
 		}*/
 
 		//when running update function, at some time, getQuit() may be set to true
-		if (this->states.top()->getQuit()) {
-			//end state and deallocate
-			this->states.top()->EndState();
+		//if (this->states.top()->getQuit()) {
+		//	//end state and deallocate
+		//	this->states.top()->EndState();
 
-			//deallocate
+		//	//deallocate
 
-			if(this->states.top()) delete this->states.top();
+		//	if(this->states.top()) delete this->states.top();
 
-			this->states.pop();
-		}
+		//	this->states.pop();
+		//}
+
+		this->ExecuteStateQueue();
 
 	}
 	//application ends, since no states :0

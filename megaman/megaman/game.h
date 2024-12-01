@@ -36,16 +36,43 @@ private:
 	
 	//------STATES-------//
 	std::stack<State*> states;
+	std::queue<STATECOMMAND>* statequeue;
+
+	void initStateQueue() {
+		statequeue = new std::queue<STATECOMMAND>;
+	}
 
 	void initTextureManager() {
 		textureManager = new TextureManager();
 	}
 
 	void initGameState() {
-		this->states.push(new GameState(&this->m_window,textureManager, &states));
+		this->states.push(new GameState(&this->m_window,textureManager, statequeue));
 	}
 
 	void initMainMenuState() {
-		this->states.push(new MainMenu(&this->m_window, textureManager, &states));
+		this->states.push(new MainMenu(&this->m_window, textureManager, statequeue));
+	}
+
+	void ExecuteStateQueue() {
+		while (!this->statequeue->empty()) {
+			STATECOMMAND cmd = statequeue->front();
+			this->statequeue->pop();
+
+			if (cmd == QUIT) {
+				delete states.top();
+				states.pop();
+			}
+
+			if (cmd == PUSH_GAMEOVER) {
+				this->states.push(new GameoverState(&m_window, textureManager, statequeue));
+			}
+			if (cmd == PUSH_GAMESTATE) {
+				this->states.push(new GameState(&m_window, textureManager, statequeue));
+			}
+			if (cmd == PUSH_MAINMENU) {
+				this->states.push(new MainMenu(&m_window, textureManager, statequeue));
+			}
+		}
 	}
 };

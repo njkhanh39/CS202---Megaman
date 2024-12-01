@@ -295,22 +295,33 @@ bool Entity::isHeadBlocked(Obstacle* obs) {
 
 
 //Update performing actions & animations when moving all here
-void Entity::UpdateMovements(float delt) {
+void Entity::UpdateEntity(float delt) {
 
+	//Death
 	if (this->IsDead()) return;
+
+	//invisibility 
+
+	if (this->invisible) { //true = is being hurt
+		this->invisibleTimer += 100 * delt;
+
+		if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
+			this->invisible = false;
+			this->invisibleTimer = 0;
+		}
+	}
+
 
 	//---Movement----
 
 	if (isJumping || fall) {
-		//(make character fall)
-		if ((!left || !right) && fall) {
-			velocityY += slowGravity * delt;
-			isGrabbing = true;
-		}
-		else {
-			velocityY += gravity * delt;
-			isGrabbing = false;
-		}
+		//Entity fall
+
+
+
+		velocityY += gravity * delt;
+		isGrabbing = false;
+
 
 		//when reaches a limit, fall & isJumping will be turned to false
 		//by our canKeepFalling function
@@ -325,7 +336,12 @@ void Entity::UpdateMovements(float delt) {
 
 	//-----ANIMATION UPDATE---------
 
-	if (isJumping) {
+	//from first if to last if, it follows the animation priority
+
+	if (invisible) { //play the hurt animation
+		movingAnimation->Play("HurtAnimation", delt/2); //make animation slower by dividing
+	}
+	else if (isJumping) {
 		if (isShooting) {
 			if (direction == Direction::Right && texture_shoot_jump_right) sprite.setTexture(*texture_shoot_jump_right, true);
 			if (direction == Direction::Left && texture_shoot_jump_left) sprite.setTexture(*texture_shoot_jump_left, true);
@@ -350,6 +366,8 @@ void Entity::UpdateMovements(float delt) {
 		//jesus, this one fucking helps!
 		movingAnimation->Reset();
 
+		//-----PURE SPRITE SET, NOT ANIMATION-----//
+
 		if (isShooting) {
 			if (direction == Direction::Left && texture_shoot_left) sprite.setTexture(*texture_shoot_left);
 			else if (texture_shoot_right) sprite.setTexture(*texture_shoot_right);
@@ -371,8 +389,14 @@ bool Entity::IsDead() {
 }
 
 void Entity::TakeDamage(int damage) {
+	if (damage <= 0) return;
 	health = std::max(0, health - damage);
 	std::cout << "Entity takes " << damage << " damage!\n";
+
+	if (health == 0) std::cout << "Entity health is now zero!\n";
+
+	//we set it off later
+	this->invisible = true;
 }
 
 //getters

@@ -17,6 +17,12 @@ private:
 	const float scaleFactor = 0.25f;
 	const float dilation = 5.f; //differ in position between sprite and hitbox
 	const Vector2f framesize = { 20.f, 35.f };
+
+	//-----------------------//
+
+	const int IMMORTAL = 2e9;
+	int temphealth = -1;
+	
 public:
 	//constructor and destructor
 
@@ -57,6 +63,7 @@ public:
 	//literally everything
 	void Update(float delt);
 
+	void UpdateEntity(float delt) override;
 	//helper
 
 	void setPosition(Vector2f vec) override;

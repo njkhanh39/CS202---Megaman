@@ -3,10 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <map>
 #include <SFML/Graphics.hpp>
 #include "window.h"
 #include "Auxiliaries/Button.h"
+
+enum STATECOMMAND {
+	QUIT, PUSH_MAINMENU, PUSH_GAMEOVER, PUSH_GAMESTATE
+};
 
 class State {
 protected:
@@ -18,8 +23,9 @@ protected:
 	sf::Vector2f mousePos;
 
 	//it needs to know this, so that states can be pushed from a state
-	std::stack<State*>* states;
+	//std::stack<State*>* states;
 
+	std::queue<STATECOMMAND>* statequeue;
 
 	//--Texture manager
 	TextureManager* textureManager;
@@ -27,10 +33,10 @@ protected:
 	//View
 	View* stateview;
 public:
-	State(MainWindow* window,TextureManager* textureManager, std::stack<State*>* states): 
-		textureManager(textureManager), paused(false), quit(false), mousePos({0,0}) {
+	State(MainWindow* window,TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue): 
+		textureManager(textureManager), paused(false), quit(false), mousePos({0,0}), statequeue(statequeue) {
 		this->window = window;
-		this->states = states;
+		//this->states = states;
 
 		//initialy, the view = window view. It may change during gamestate!
 		stateview = new View();
@@ -66,9 +72,6 @@ public:
 		return this->stateview;
 	}
 
-	const bool& getQuit() const {
-		return this->quit;
-	}
 	
 	void Pause() {
 		this->paused = true;
@@ -78,8 +81,8 @@ public:
 		this->paused = false;
 	}
 
-	//dont call inside class
-	virtual void EndState() = 0;
+	////dont call inside class
+	//virtual void EndState() = 0;
 
 	//----FUNCTIONS CALLED IN GAME HANDLING----// (char shooting, moving, physics)
 

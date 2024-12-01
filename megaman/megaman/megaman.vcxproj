@@ -166,6 +166,7 @@
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />
+    <ClInclude Include="States\GameoverState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\MainMenu.h" />
     <ClInclude Include="States\PauseMenu.h" />

@@ -125,12 +125,24 @@ private:
 			if (!platform[i]) continue;
 
 
-			if (!en->canMoveRight(platform[i])) yesRight = false;
-			if (!en->canMoveLeft(platform[i])) yesLeft = false;
-			if (!en->canKeepFalling(platform[i])) yesFall = false;
+			if (!en->canMoveRight(platform[i])) {
+				yesRight = false;
+				en->TakeDamage(platform[i]->getDamage());
+			}
+			if (!en->canMoveLeft(platform[i])) {
+				yesLeft = false;
+				en->TakeDamage(platform[i]->getDamage());
+			}
+			if (!en->canKeepFalling(platform[i])) {
+				yesFall = false;
+				en->TakeDamage(platform[i]->getDamage());
+			}
 
 			//slightly different, hehe
-			if (en->isHeadBlocked(platform[i])) headBlock = true;
+			if (en->isHeadBlocked(platform[i])) {
+				headBlock = true;
+				en->TakeDamage(platform[i]->getDamage());
+			}
 		}
 
 		en->right = yesRight; //can move right
@@ -165,10 +177,19 @@ private:
 		++numEnemy;
 	}
 
-	void CreatePlatform(float x, float y, float xSize, float ySize, bool invisible) {
+	void CreateShooterEnemy(float x, float y, float sizex, float sizey, float sizebulletx, float sizebullety, bool canMove, float movingRange
+		, float viewRange) {
+		if (numEnemy >= MAXENEMIES) return;
+		enemy[numEnemy] = new ShooterEnemy(textureManager, x, y,sizex, sizey, sizebulletx, sizebullety, canMove, movingRange, viewRange);
+		++numEnemy;
+
+		//std::cout << "Enemy health: " << enemy[numEnemy - 1]->getHealth() << '\n';
+	}
+
+	void CreatePlatform(float x, float y, float xSize, float ySize, int damage, bool invisible) {
 		if (numObs >= MAXPLATFORMS) return;
 
-		platform[numObs] = new Obstacle(textureManager, Vector2f(x,y), Vector2f(xSize, ySize), invisible);
+		platform[numObs] = new Obstacle(textureManager, Vector2f(x,y), Vector2f(xSize, ySize), invisible, damage);
 		++numObs;
 	}
 
@@ -176,6 +197,13 @@ private:
 		if (numObs >= MAXPLATFORMS) return;
 
 		platform[numObs] = new Obstacle(textureManager, Vector2f(x, y), file);
+		++numObs;
+	}
+
+	void CreatePlatform(float x, float y, int damage, const std::string& file) {
+		if (numObs >= MAXPLATFORMS) return;
+
+		platform[numObs] = new Obstacle(textureManager, Vector2f(x, y), file, damage);
 		++numObs;
 	}
 
@@ -226,8 +254,8 @@ private:
 				coords.push_back(std::stoi(field));
 			}
 
-			if ((int)coords.size() == 4) {
-				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], false);
+			if ((int)coords.size() == 5) {
+				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], true);
 			}
 		}
 
@@ -270,8 +298,8 @@ private:
 				coords.push_back(std::stoi(field));
 			}
 
-			if ((int)coords.size() == 3) {
-				this->CreatePlatform(coords[0], coords[1], dir + std::to_string(coords[2]) + ".png");
+			if ((int)coords.size() == 4) {
+				this->CreatePlatform(coords[0], coords[1],coords[3], dir + std::to_string(coords[2]) + ".png");
 			}
 		}
 

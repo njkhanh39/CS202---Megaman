@@ -8,7 +8,6 @@ enum MAP1CONST {
 class Camera {//follows the character
 private:
 	sf::View* view; //borrowed
-	Character* character; //borrowed
 
 	const int upperbound; //when character x lvl <= 20.f, camera moves up
 	const int lowerbound; //when character y lvl >= 220.f, camera moves down
@@ -16,8 +15,8 @@ private:
 	const int uplimit; //view.top must >= uplimit
 	const int downlimit; //view.top + height must <= downlimit 
 public:
-	Camera(int left, int top, int width, int height,int u, int l, int ul, int dl, sf::View* stateview, Character* character) :
-		view(stateview), character(character),
+	Camera(int left,  int top, int width, int height,int u, int l, int ul, int dl, sf::View* stateview) :
+		view(stateview),
 		upperbound(u), lowerbound(l), uplimit(ul), downlimit(dl){
 
 		view->setSize(Vector2f(width, height));
@@ -27,7 +26,7 @@ public:
 	~Camera(){}
 
 
-	void Update() {
+	void UpdateFollowCharacter(Character* character) {
 		if (character->IsDead()) return;
 
 		int top = view->getCenter().y - view->getSize().y / 2;

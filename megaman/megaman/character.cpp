@@ -18,6 +18,8 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	//Health
 
 	this->health = 30;
+	this->invisibleMaxTimer = 100.f;
+	this->velocityX = 120;
 
 	//--------Load and add animations--------------
 
@@ -27,8 +29,8 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	//------SCALING ORIGINAL IMAGE---------
 
 	//scale image, but dont forget the hitbox!
-	this->sprite.setScale(scaleFactor, scaleFactor);
-	this->blaster->ScaleProjectileAnimation(scaleFactor, scaleFactor);
+	this->sprite.setScale(scaleFactor, scaleFactor); //already set frame size ~ scaled animation
+	this->blaster->ScaleProjectileAnimation(scaleFactor, scaleFactor); //note that projectile's frame size needs = scaled animation
 }
 
 Character::~Character() {
@@ -52,6 +54,8 @@ void Character::Render(RenderWindow* l_window) {
 //actions
 
 void Character::HandleEventInput(Event& evt, Time& elapsed) {
+	if (this->invisible) return; //when invisible, cannot do anything
+
 	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
 		Shoot();
 	}
@@ -67,7 +71,7 @@ void Character::HandleEventInput(Event& evt, Time& elapsed) {
 void Character::HandleMovements(Time& elapsed) {
 	float f_elapsed = elapsed.asSeconds();
 
-
+	if (this->invisible) return; //when invisible, cannot do anything
 	//moving
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		if (right) {
@@ -161,10 +165,116 @@ bool Character::canKeepFalling(Obstacle* obs) {
 void Character::Update(float delt) {
 
 	//movements
-	this->Entity::UpdateMovements(delt);
+	this->Character::UpdateEntity(delt);
 	//update char's projectiles
 	this->UpdateCharacterProjectiles(delt);
 
+}
+
+//---------IMPORTANT OVERRIDE--------
+void Character::UpdateEntity(float delt)  {
+	//Death
+	if (this->IsDead()) return;
+
+	//invisibility 
+
+	if (this->invisible) { //true = is being hurt
+
+		//---Immortal---//
+		if (this->temphealth == -1) {
+			this->temphealth = this->health;
+			this->health = IMMORTAL;
+		}
+
+
+		this->invisibleTimer += 50 * delt;
+
+		if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
+			this->invisible = false;
+			this->invisibleTimer = 0;
+
+			//----BACK TO NORMAL---//
+
+			this->health = this->temphealth;
+			this->temphealth = -1;
+		}
+	}
+
+
+	//---Movement----
+
+	if (isJumping || fall) {
+		//(make character fall)
+
+
+		if ((!left || !right) && fall) {
+			velocityY += slowGravity * delt;
+			isGrabbing = true;
+		}
+		else {
+			velocityY += gravity * delt;
+			isGrabbing = false;
+		}
+
+		//when reaches a limit, fall & isJumping will be turned to false
+		//by our canKeepFalling function
+
+
+		//---------INVISIBLE---------//
+		if (this->invisible) velocityY = 0;
+
+		//move our 2 attributes
+
+		sprite.move(0, velocityY * delt);
+		frame.setPosition({ frame.getPosition().x, frame.getPosition().y + velocityY * delt });
+	}
+	else velocityY = 0.0f; //not falling & not jumping = 0 velocityY ?? :D
+
+	//-----ANIMATION UPDATE---------
+
+	//from first if to last if, it follows the animation priority
+
+	if (invisible) { //play the hurt animation
+		movingAnimation->Play("HurtAnimation", delt / 2); //make animation slower by dividing
+	}
+	else if (isJumping) {
+		if (isShooting) {
+			if (direction == Direction::Right && texture_shoot_jump_right) sprite.setTexture(*texture_shoot_jump_right, true);
+			if (direction == Direction::Left && texture_shoot_jump_left) sprite.setTexture(*texture_shoot_jump_left, true);
+		}
+		else {
+			if (direction == Direction::Right && texture_jump_right) sprite.setTexture(*texture_jump_right, true);
+			if (direction == Direction::Left && texture_jump_left) sprite.setTexture(*texture_jump_left, true);
+		}
+	}
+	else if (isRight) {
+		if (isShooting) movingAnimation->Play("MovingShootRight", delt);
+		else movingAnimation->Play("MovingRight", delt);
+	}
+	else if (isLeft) {
+		if (isShooting) movingAnimation->Play("MovingShootLeft", delt);
+		else movingAnimation->Play("MovingLeft", delt);
+	}
+	else {
+		//Character not jumping, not running
+
+
+		//jesus, this one fucking helps!
+		movingAnimation->Reset();
+
+		//-----PURE SPRITE SET, NOT ANIMATION-----//
+
+		if (isShooting) {
+			if (direction == Direction::Left && texture_shoot_left) sprite.setTexture(*texture_shoot_left);
+			else if (texture_shoot_right) sprite.setTexture(*texture_shoot_right);
+		}
+		else if (direction == Direction::Right && texture_idle_right) {
+			sprite.setTexture(*texture_idle_right, true);
+		}
+		else if (texture_idle_left) {
+			sprite.setTexture(*texture_idle_left, true);
+		}
+	}
 }
 
 //--------------------PRIVATES-----------------------
@@ -182,7 +292,7 @@ void Character::LoadAndAddAnimations() {
 	this->textureManager->BorrowTexture("Animation\\X\\X_ShootJumpRight.png", texture_shoot_jump_right);
 	//animations
 
-
+	movingAnimation->AddAnimation("HurtAnimation", "Animation\\X\\X_Hurt.png", 100.f, 0, 0, 1, 0, 130, 152);
 	movingAnimation->AddAnimation("MovingRight", "Animation\\X\\X_MovementRight.png", 100.f, 0, 0, 6, 0, 137, 142);
 	movingAnimation->AddAnimation("MovingLeft", "Animation\\X\\X_MovementLeft.png", 100.f, 0, 0, 6, 0, 137, 142);
 	movingAnimation->AddAnimation("MovingShootRight", "Animation\\X\\X_MovementShootRight.png", 100.f, 0, 0, 5, 0, 137, 142);

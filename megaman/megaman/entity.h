@@ -34,9 +34,13 @@ protected:
 	//---------Physic variables----------------------
 
 	float gravity = 980.0f, slowGravity = 30.0f, jumpStrength = 300.0f;
-	float velocityY = 0.0f, velocityX = 120;
+	float velocityY = 0.0f, velocityX = 50;
 
 	int health = 50;
+
+	bool invisible = false;  // after taking a hit, entity may become invisible for a short period
+	float invisibleTimer = 0.f;
+	float invisibleMaxTimer = 0.f; //for character, this = 100.f
 public:
 	//direction
 	Direction direction;
@@ -68,7 +72,8 @@ public:
 	////NOTE2: UPDATE COPY CONSTRUCTOR WHENEVER YOU ADD NEW ATTRIBUTES TO CLASS
 	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
 	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
-	velocityY(other.velocityY), textureManager(other.textureManager), health(other.health){
+	velocityY(other.velocityY), textureManager(other.textureManager), health(other.health), invisible(other.invisible),
+	invisibleTimer(other.invisibleTimer), invisibleMaxTimer(other.invisibleMaxTimer){
 
 		direction = other.direction;
 		left = other.left;
@@ -133,6 +138,7 @@ public:
 
 	//maybe different for each
 	virtual void Die() {
+		std::cout << "Entity dies!\n";
 		this->~Entity();
 	}
 
@@ -149,7 +155,7 @@ public:
 	//-------------------------------------------------
 
 	//updates
-	void UpdateMovements(float delt);
+	virtual void UpdateEntity(float delt); //u can customize this
 
 	
 
@@ -160,6 +166,10 @@ public:
 
 
 	//getters
+	int getHealth() {
+		return this->health;
+	}
+
 	Vector2f getPosition();
 
 	Vector2f getCenterPosition();

@@ -20,15 +20,24 @@ private:
 	Sprite* sprite;
 
 	bool invisible = false;
+	int damage = 0;
 public:
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz);
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible);
 
+	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage);
+
+	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage);
+
 	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file);
 	~Obstacle();
 
+
+	int getDamage() {
+		return damage;
+	}
 
 	//getters
 

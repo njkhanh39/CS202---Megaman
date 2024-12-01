@@ -7,8 +7,8 @@ World::World(TextureManager* textureManager): textureManager(textureManager) {
 
 	//CreatePlatform(400.f,300.f, 50.f, 200.f, "wall.jpg");
 	
-	//CreateShooterEnemy(800.f, 200.f, false, 0.f, 700.f);
-	//CreateShooterEnemy(900.f, 200.f, false, 0.f, 800.f);
+	CreateShooterEnemy(300.f, 10.f, 30.f, 60.f, 5.f, 5.f, false, 0.f, 200.f);
+
 }
 
 World::~World() {
