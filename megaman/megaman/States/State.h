@@ -26,6 +26,7 @@ protected:
 	//std::stack<State*>* states;
 
 	std::queue<STATECOMMAND>* statequeue;
+	bool lockQueueCommand = false; //since we update twice, commands can be queued twice, which is bad
 
 	//--Texture manager
 	TextureManager* textureManager;

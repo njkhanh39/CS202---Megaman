@@ -48,7 +48,10 @@ public:
 			//QUEUE GAME STATE
 
 		//	this->statequeue->push(STATECOMMAND::QUIT); 
-			if(statequeue->empty() || statequeue->front() != PUSH_GAMESTATE) this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE);
+			if (lockQueueCommand == false) {
+				lockQueueCommand = true;
+				this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE);
+			}
 		}
 	}
 

@@ -131,7 +131,11 @@ public:
 			pauseMenu->Update(mousePos, Vector2f(getCenterViewX(), getCenterViewY())); //appearance
 
 			if (pauseMenu->ReturnQuit()) { //if returns quit, we go all the way to main menu
-				if(statequeue->empty() || statequeue->front() != QUIT) this->statequeue->push(QUIT);
+
+				if (this->lockQueueCommand == false) {
+					lockQueueCommand = true;
+					this->statequeue->push(QUIT);
+				}
 			}
 
 			if (pauseMenu->ReturnResume()) {// hide the pauseMenu
