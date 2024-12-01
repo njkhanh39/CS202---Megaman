@@ -29,6 +29,7 @@ public:
 	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file);
 	~Obstacle();
 
+
 	//getters
 
 	Vector2f getPosition();

@@ -3,10 +3,7 @@ World::World(TextureManager* textureManager): textureManager(textureManager) {
 	background = new RectangleShape({ 1280.f,720.f });
 	background->setFillColor(Color::White);
 
-
-	gameMap = new Map(textureManager, "Animation\\highway.png");
-
-	CreatePlatform(-500.f,125.f, 2280.f,10.f);
+	this->CreateWorld("Animation\\Map1\\", "highway.png",  "obs_1.txt", "obs_2.txt");
 
 	//CreatePlatform(400.f,300.f, 50.f, 200.f, "wall.jpg");
 	
@@ -33,11 +30,11 @@ void World::Render(RenderWindow* l_window) {
 
 	gameMap->Render(l_window);
 
-	for (int i = 0; i < 30; ++i) {
+	for (int i = 0; i < numObs; ++i) {
 		if(platform[i]) platform[i]->Render(l_window);
 	}
 
-	for (int i = 0; i < 30; ++i) {
+	for (int i = 0; i < numEnemy; ++i) {
 		if (enemy[i] && !enemy[i]->IsDead()) enemy[i]->Render(l_window);
 	}
 }

@@ -17,7 +17,7 @@ public:
 	, pauseMenu(nullptr){
 		std::cout << "Creating GameState\n";
 		m_world = new World(textureManager);
-		m_character = new Character(textureManager, 10, 50);
+		m_character = new Character(textureManager, 50, 50);
 		
 
 		CreateCameraMap1();

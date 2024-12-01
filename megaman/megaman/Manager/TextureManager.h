@@ -23,7 +23,7 @@ public:
 		}
 	}
 
-	void InnitCharacter() {
+	void InnitCharacter() { //we actuall dont even need all these
 		this->AddTexture("Animation\\X\\X_IdleLeft.png");
 		this->AddTexture("Animation\\X\\X_IdleRight.png");
 		this->AddTexture("Animation\\X\\X_JumpLeft.png");
@@ -35,8 +35,8 @@ public:
 		this->AddTexture("Animation\\X\\X_ShootJumpRight.png");
 	}
 
-	void InnitMap() {
-		this->AddTexture("Animation\\highway.png");
+	void InnitMap() { //dont even need
+		//this->AddTexture("Animation\\highway.png");
 	}
 
 	void AddTexture(const std::string& name) {

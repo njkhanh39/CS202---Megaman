@@ -33,7 +33,7 @@ protected:
 
 	//---------Physic variables----------------------
 
-	float gravity = 980.0f, slowGravity = 10.0f, jumpStrength = 300.0f;
+	float gravity = 980.0f, slowGravity = 30.0f, jumpStrength = 300.0f;
 	float velocityY = 0.0f, velocityX = 120;
 
 	int health = 50;
