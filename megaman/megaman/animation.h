@@ -171,4 +171,10 @@ public:
 			a.second->sprite = ptr;
 		}
 	}
+
+	bool DoesExist(const std::string& key) {
+		if (animations[key] != nullptr) {
+			return true;
+		}
+	}
 };

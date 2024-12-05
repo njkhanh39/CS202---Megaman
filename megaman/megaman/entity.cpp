@@ -14,7 +14,7 @@ Entity::Entity(TextureManager* textureManager, float x, float y) {
 
 	CreateAnimationComponent();
 
-	
+	sprite.setPosition(frame.getPosition() - dilation);
 }
 
 Entity::Entity(TextureManager* textureManager) {
@@ -29,7 +29,7 @@ Entity::Entity(TextureManager* textureManager) {
 	//animation
 
 	CreateAnimationComponent();
-
+	sprite.setPosition(frame.getPosition() - dilation);
 }
 
 Entity::Entity(TextureManager* textureManager, float x, float y, float width, float height) {
@@ -45,6 +45,7 @@ Entity::Entity(TextureManager* textureManager, float x, float y, float width, fl
 	//animation
 
 	CreateAnimationComponent();
+	sprite.setPosition(frame.getPosition() - dilation);
 }
 
 Entity::~Entity() {
@@ -88,7 +89,7 @@ void Entity::CreateAnimationComponent() {
 	//dont forget to create, or its nullptr!
 
 	movingAnimation = new AnimationComponent(textureManager, &sprite);
-
+	idleAnimation = new AnimationComponent(textureManager, &sprite);
 }
 
 
@@ -132,7 +133,17 @@ void Entity::Jump(float delt) {
 	}
 }
 
-void Entity::Shoot() {
+void Entity::PushedUpward(float delt) {
+	isJumping = true;
+	velocityY = -delt;
+
+	//move sprite
+	sprite.move(0, velocityY);
+	//move frame
+	frame.move(0, velocityY);
+}
+
+void Entity::Shoot(float delt) {
 	if (!isShooting) {
 		isShooting = true;
 	}
@@ -206,6 +217,53 @@ bool Entity::canMoveRight(Obstacle* obs) {
 
 }
 
+bool Entity::canMoveRight(Entity* en) {
+	//if (obs->getLeftMostX() <= getRightMostX()) {
+	//	//check for overlapping. Practically, we have
+	//	//to check for every existing obstacle
+
+	//	float u = getUpMostY(), v = getDownMostY();
+	//	float l = obs->getUpMostY(), r = obs->getDownMostY();
+
+	//	if (v-1.f <= l || u >= r) return true;
+
+	//	
+
+	//	return false;
+	//	
+	//}
+	//return true;
+
+	float lm = getLeftMostX(), rm = getRightMostX();
+	float um = en->getLeftMostX(), vm = en->getRightMostX();
+
+	//not horizontally intersected
+	if (rm < um || lm > vm) return true;
+
+	float lmy = getUpMostY(), rmy = getDownMostY();
+	float umy = en->getUpMostY(), vmy = en->getDownMostY();
+
+	//if horizontally intersected, check if vertically intersected
+
+	//absolutely no
+	if (rmy < umy || lmy > vmy) {
+		return true;
+	}
+
+	//minor intersection, caused by "jamming" by jumping or falling
+	if (rmy - 1.f < umy || lmy + 1.f > vmy) {
+		return true;
+	}
+
+	//minor horizontal intersection
+	if (lm + 1.f > vm) {
+		return true;
+	}
+
+	return false;
+
+}
+
 bool Entity::canMoveLeft(Obstacle* obs) {
 	//if (obs->getRightMostX() >= getLeftMostX()) {
 	//	//check for overlapping. Practically, we have
@@ -249,6 +307,49 @@ bool Entity::canMoveLeft(Obstacle* obs) {
 	return false;
 }
 
+bool Entity::canMoveLeft(Entity* en) {
+	//if (obs->getRightMostX() >= getLeftMostX()) {
+	//	//check for overlapping. Practically, we have
+	//	//to check for every existing obstacle
+
+	//	float u = getUpMostY(), v = getDownMostY();
+	//	float l = obs->getUpMostY(), r = getDownMostY();
+
+	//	if (v-1.f <= l || u >= r) return true;
+
+	//	return false;
+	//}
+	//return true;
+
+	float lm = getLeftMostX(), rm = getRightMostX();
+	float um = en->getLeftMostX(), vm = en->getRightMostX();
+
+	//not horizontally intersected
+	if (rm < um || lm > vm) return true;
+
+	float lmy = getUpMostY(), rmy = getDownMostY();
+	float umy = en->getUpMostY(), vmy = en->getDownMostY();
+
+	//if horizontally intersected, check if vertically intersected
+
+	//absolutely no
+	if (rmy < umy || lmy > vmy) {
+		return true;
+	}
+
+	//minor vertical intersection, caused by "jamming" by jumping or falling
+	if (rmy - 1.f < umy || lmy + 1.f > vmy) {
+		return true;
+	}
+
+	//minor horizontal intersection
+	if (rm - 1.f < um) {
+		return true;
+	}
+
+	return false;
+}
+
 bool Entity::canKeepFalling(Obstacle* obs) {
 	float lmy = getUpMostY(), rmy = getDownMostY();
 	float umy = obs->getUpMostY(), vmy = obs->getDownMostY();
@@ -262,7 +363,30 @@ bool Entity::canKeepFalling(Obstacle* obs) {
 			//make the position even
 
 			frame.setPosition({ getLeftMostX(), umy - rmy + lmy });
-			sprite.setPosition(frame.getPosition());
+			sprite.setPosition(frame.getPosition() - dilation);
+
+			return false;
+		}
+
+		return true;
+	}
+	return true;
+}
+
+bool Entity::canKeepFalling(Entity* en) {
+	float lmy = getUpMostY(), rmy = getDownMostY();
+	float umy = en->getUpMostY(), vmy = en->getDownMostY();
+
+	if (rmy >= umy && (rmy - umy < 1.f || rmy - umy < 3.f)) {
+		float l = getLeftMostX(), r = getRightMostX();
+		float u = en->getLeftMostX(), v = en->getRightMostX();
+
+		if (!(r < u || l > v)) {
+
+			//make the position even
+
+			frame.setPosition({ getLeftMostX(), umy - rmy + lmy });
+			sprite.setPosition(frame.getPosition() - dilation);
 
 			return false;
 		}
@@ -280,6 +404,25 @@ bool Entity::isHeadBlocked(Obstacle* obs) {
 
 		float lmy = getUpMostY();
 		float umy = obs->getDownMostY();
+
+
+
+		if (lmy == umy || (umy > lmy && umy - lmy < 1.f)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool Entity::isHeadBlocked(Entity* en) {
+	float lmx = getLeftMostX(), rmx = getRightMostX();
+	float umx = en->getLeftMostX(), vmx = en->getRightMostX();
+
+	if (!(rmx < umx || lmx > vmx)) {
+
+		float lmy = getUpMostY();
+		float umy = en->getDownMostY();
 
 
 
@@ -362,21 +505,31 @@ void Entity::UpdateEntity(float delt) {
 	else {
 		//Character not jumping, not running
 
-
-		//jesus, this one fucking helps!
-		movingAnimation->Reset();
+		//this one helpssss, animations can colide (play many at the same time)
+		//movingAnimation->Reset();
 
 		//-----PURE SPRITE SET, NOT ANIMATION-----//
 
 		if (isShooting) {
-			if (direction == Direction::Left && texture_shoot_left) sprite.setTexture(*texture_shoot_left);
-			else if (texture_shoot_right) sprite.setTexture(*texture_shoot_right);
+			if (direction == Direction::Left) {
+				if (movingAnimation->DoesExist("ShootLeft")) movingAnimation->Play("ShootLeft", delt);
+				else if(texture_shoot_left) sprite.setTexture(*texture_shoot_left);
+			}
+
+			if (direction == Direction::Right) {
+				if (movingAnimation->DoesExist("ShootRight")) movingAnimation->Play("ShootRight", delt);
+				else if (texture_shoot_right) sprite.setTexture(*texture_shoot_right);
+			}
 		}
 		else if (direction == Direction::Right && texture_idle_right) {
 			sprite.setTexture(*texture_idle_right, true);
 		}
 		else if (texture_idle_left) {
 			sprite.setTexture(*texture_idle_left, true);
+		}
+		else {
+			//plays idle
+			this->idleAnimation->Play("Idle", delt);
 		}
 	}
 }
@@ -391,9 +544,11 @@ bool Entity::IsDead() {
 void Entity::TakeDamage(int damage) {
 	if (damage <= 0) return;
 	health = std::max(0, health - damage);
-	std::cout << "Entity takes " << damage << " damage!\n";
 
-	if (health == 0) std::cout << "Entity health is now zero!\n";
+	if (health == 0) {
+		std::cout << "Entity health is now zero!\n";
+		return;
+	}
 
 	//we set it off later
 	this->invisible = true;
@@ -481,5 +636,5 @@ void Entity::setGravity(float _g) {
 
 void Entity::setPosition(Vector2f pos) {
 	frame.setPosition(pos);
-	sprite.setPosition(pos);
+	sprite.setPosition(pos - dilation);
 }

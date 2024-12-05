@@ -2,7 +2,7 @@
 
 #include "obstacle.h"
 #include "character.h"
-#include "enemy.h"
+#include "attackenemies.h"
 #include "map.h"
 #include <fstream>
 #include <sstream>
@@ -23,7 +23,9 @@ public:
 
 	Map* gameMap;
 
-	ShooterEnemy* enemy[30] = {nullptr};
+	Enemy* enemy[30] = {nullptr};
+
+
 	Obstacle* platform[30] = {nullptr};
 
 	int numEnemy = 0, numObs = 0;
@@ -52,6 +54,12 @@ public:
 				HandleOneEntityCollision(enemy[i]);
 			}
 		}
+
+		//--------------CHAR VS ENEMY COLLISION------------//
+
+		//they can pass through each other, but char loses health
+
+		HandleCharacterVsEnemyCollisions(character);
 	}
 	
 
@@ -66,6 +74,37 @@ public:
 private:
 
 	//helpers
+
+	void HandleCharacterVsEnemyCollisions(Character* character) {
+		if (character->IsDead()) return;
+
+		for (int i = 0; i < numEnemy; ++i) {
+			if (!enemy[i] || enemy[i]->IsDead()) continue;
+
+			if (!character->canMoveLeft(enemy[i])) 
+			{ //still let it move through, but take damage
+				if (!character->isInvisible()) {
+					character->TakeDamage(enemy[i]->GetCollisionDamage());
+					character->MoveRight(0.075f);
+				}
+			}
+			else if (!character->canMoveRight(enemy[i])) {
+				if (!character->isInvisible()) {
+					character->TakeDamage(enemy[i]->GetCollisionDamage());
+					character->MoveLeft(0.075f);
+				}
+			}
+			else if (character->isHeadBlocked(enemy[i])) {
+				if(!character->isInvisible()) character->TakeDamage(enemy[i]->GetCollisionDamage());
+			}
+			else if (!character->Entity::canKeepFalling(enemy[i])) {	
+				if (!character->isInvisible()) {
+					character->TakeDamage(enemy[i]->GetCollisionDamage());
+					character->PushedUpward(5.0f);
+				}
+			}
+		}
+	}
 
 	void HandleAllProjectileCollisions(Character* character) {
 
@@ -92,6 +131,8 @@ private:
 		//-----------Enemy----------------
 
 		//for loops through all obstacles **WE CAN OPTIMIZE THIS OFC**
+
+		//Enemy shooting platform
 		for (int i = 0; i < numEnemy; ++i) {
 			if (!enemy[i]) continue;
 
@@ -102,7 +143,7 @@ private:
 			}
 		}
 
-		//consider character only, we dont want enemies to hit one another
+		//Enemy shooting character
 		if (!character->IsDead()) {
 			for (int i = 0; i < numEnemy; ++i) {
 				if (enemy[i]) enemy[i]->HandleProjectileCollision(character);
@@ -168,19 +209,33 @@ private:
 		}
 	}
 
-	//create new enemies
+	//-----TEST--------//
 
-	void CreateShooterEnemy(float x, float y, bool canMove, float movingRange
-	, float viewRange) {
+	void CreateShooterEnemy1(float x, float y) {
 		if (numEnemy >= MAXENEMIES) return;
-		enemy[numEnemy] = new ShooterEnemy(textureManager, x, y, canMove, movingRange, viewRange);
+		enemy[numEnemy] = new ShooterEnemy1(textureManager, x, y);
 		++numEnemy;
 	}
 
-	void CreateShooterEnemy(float x, float y, float sizex, float sizey, float sizebulletx, float sizebullety, bool canMove, float movingRange
+	void CreateAttackEnemy1(float x, float y, Direction dir) {
+		if (numEnemy >= MAXENEMIES) return;
+		enemy[numEnemy] = new AttackEnemy1(textureManager, x, y, dir);
+		++numEnemy;
+	}
+
+	//create new enemies
+
+	void CreateShooterEnemy(float x, float y,
+	 float viewRange) {
+		if (numEnemy >= MAXENEMIES) return;
+		//enemy[numEnemy] = new ShooterEnemy(textureManager, x, y, viewRange);
+		++numEnemy;
+	}
+
+	void CreateShooterEnemy(float x, float y, float sizex, float sizey, float sizebulletx, float sizebullety
 		, float viewRange) {
 		if (numEnemy >= MAXENEMIES) return;
-		enemy[numEnemy] = new ShooterEnemy(textureManager, x, y,sizex, sizey, sizebulletx, sizebullety, canMove, movingRange, viewRange);
+		//enemy[numEnemy] = new ShooterEnemy(textureManager, x, y,sizex, sizey, sizebulletx, sizebullety, viewRange);
 		++numEnemy;
 
 		//std::cout << "Enemy health: " << enemy[numEnemy - 1]->getHealth() << '\n';

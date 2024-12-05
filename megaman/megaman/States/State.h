@@ -115,6 +115,10 @@ public:
 		auto win = window->GetRenderWindow();
 		this->mousePos = win->mapPixelToCoords(sf::Mouse::getPosition(*win));
 	}
+
+	void ResetQueueLock() {
+		this->lockQueueCommand = false;
+	}
 };
 
 #endif

@@ -113,5 +113,11 @@
     <ClInclude Include="States\GameoverState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="shooterenemies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="attackenemies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

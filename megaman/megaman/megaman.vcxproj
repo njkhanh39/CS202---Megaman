@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="attackenemies.h" />
     <ClInclude Include="Auxiliaries\Button.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />
+    <ClInclude Include="shooterenemies.h" />
     <ClInclude Include="States\GameoverState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\MainMenu.h" />

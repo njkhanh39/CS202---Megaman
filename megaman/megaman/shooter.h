@@ -36,7 +36,7 @@ public:
 
 	//shoot
 
-	void Shoot(Direction dir);
+	virtual void Shoot(Direction dir);
 
 
 	virtual void UpdateMovingProjectiles(float delt, Vector2f pos);
@@ -86,10 +86,11 @@ public:
 	class SemiChargeBuster : public Shooter {
 	public:
 		SemiChargeBuster(TextureManager* textureManager);
+
 		~SemiChargeBuster();
 	};
 	Clock clk; //for charging
-	float maxTime = 2.f;
+	float maxTime = 4.f;
 	float deltCharge = 0.f;
 
 	FullChargeBuster* fullcharge;

@@ -7,7 +7,10 @@ World::World(TextureManager* textureManager): textureManager(textureManager) {
 
 	//CreatePlatform(400.f,300.f, 50.f, 200.f, "wall.jpg");
 	
-	CreateShooterEnemy(300.f, 10.f, 30.f, 60.f, 5.f, 5.f, false, 0.f, 200.f);
+
+	CreateShooterEnemy1(300.f, 10.f);
+
+	CreateAttackEnemy1(600.f, 10.f, Direction::Left);
 
 }
 
@@ -23,6 +26,8 @@ World::~World() {
 	for (int i = 0; i < 30; ++i) {
 		if (enemy[i]) delete enemy[i];
 	}
+
+
 }
 
 void World::Render(RenderWindow* l_window) {

@@ -29,11 +29,12 @@ protected:
 	//---------Animation----------
 	
 	AnimationComponent* movingAnimation;
+	AnimationComponent* idleAnimation;
 
 
 	//---------Physic variables----------------------
 
-	float gravity = 980.0f, slowGravity = 30.0f, jumpStrength = 300.0f;
+	float gravity = 680.0f, slowGravity = 30.0f, jumpStrength = 250.0f;
 	float velocityY = 0.0f, velocityX = 50;
 
 	int health = 50;
@@ -41,6 +42,10 @@ protected:
 	bool invisible = false;  // after taking a hit, entity may become invisible for a short period
 	float invisibleTimer = 0.f;
 	float invisibleMaxTimer = 0.f; //for character, this = 100.f
+
+
+	//the distance between sprite and frame
+	Vector2f dilation = { 0.f,0.f };
 public:
 	//direction
 	Direction direction;
@@ -56,6 +61,8 @@ public:
 	bool isShooting = false;
 	bool isJumping = false;
 	bool isGrabbing = false;
+
+	
 
 	//---X only----
 	bool isChargeShooting = false;
@@ -73,7 +80,7 @@ public:
 	Entity(const Entity& other): frame(other.frame), sprite(other.sprite), gravity(other.gravity), 
 	slowGravity(other.slowGravity), jumpStrength(other.jumpStrength), velocityX(other.velocityX),
 	velocityY(other.velocityY), textureManager(other.textureManager), health(other.health), invisible(other.invisible),
-	invisibleTimer(other.invisibleTimer), invisibleMaxTimer(other.invisibleMaxTimer){
+	invisibleTimer(other.invisibleTimer), invisibleMaxTimer(other.invisibleMaxTimer), dilation(other.dilation){
 
 		direction = other.direction;
 		left = other.left;
@@ -100,10 +107,12 @@ public:
 
 		//Invoke "shallow copy on sprite, deep copy on others"
 		movingAnimation = new AnimationComponent(*other.movingAnimation);
+		idleAnimation = new AnimationComponent(*other.idleAnimation);
 
 		//Aftert that, we change animation sprite*
 
 		movingAnimation->SetAllAnimationsSprite(&sprite);
+		idleAnimation->SetAllAnimationsSprite(&sprite);
 		//==> Deep copy now works perfectly
 	}
 
@@ -128,7 +137,9 @@ public:
 
 	void Jump(float delt);
 
-	virtual void Shoot();
+	void PushedUpward(float delt);
+
+	virtual void Shoot(float delt);
 
 	void TurnLeft();
 
@@ -148,16 +159,26 @@ public:
 
 	bool canMoveLeft(Obstacle* obs);
 
-	virtual bool canKeepFalling(Obstacle* obs);
+	bool canKeepFalling(Obstacle* obs);
 
 	bool isHeadBlocked(Obstacle* obs);
+
+	bool canMoveRight(Entity* en);
+
+	bool canMoveLeft(Entity* en);
+
+	bool canKeepFalling(Entity* en);
+
+	bool isHeadBlocked(Entity* en);
 
 	//-------------------------------------------------
 
 	//updates
 	virtual void UpdateEntity(float delt); //u can customize this
 
-	
+	bool isInvisible() {
+		return this->invisible;
+	}
 
 	//helper update
 	bool IsDead();
@@ -206,7 +227,7 @@ public:
 
 	void setGravity(float _g);
 
-	virtual void setPosition(Vector2f pos);
+	void setPosition(Vector2f pos);
 
 
 

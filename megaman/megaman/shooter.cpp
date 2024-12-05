@@ -246,11 +246,11 @@ void XBuster::FullChargeBuster::HandleProjectileCollision(Entity * en) {
 
 //------SEMI CHARGE
 
-XBuster::SemiChargeBuster::SemiChargeBuster(TextureManager* textureManager) : Shooter(textureManager) {
-	if (this->sampleBullet) {
-		delete this->sampleBullet;
-		this->sampleBullet = new Projectile(textureManager, 0, 500.f, 0);
-	}
+XBuster::SemiChargeBuster::SemiChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 34.f, 19.55, 0.f, 135.f, 0.f) {
+	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_SemiChargeLeft.png", "Animation\\X\\XBuster_SemiChargeRight.png",
+		70.f, 0, 0, 4, 0, 40, 23);
+
+	this->damage = 25;
 }
 
 XBuster::SemiChargeBuster::~SemiChargeBuster() {
@@ -259,10 +259,12 @@ XBuster::SemiChargeBuster::~SemiChargeBuster() {
 
 //------XBUSTER
 
-XBuster::XBuster(TextureManager* textureManager) : Shooter(textureManager, 5.f, 5.f, 0.f, 125.f, 0.f) {
-
+XBuster::XBuster(TextureManager* textureManager) : Shooter(textureManager, 8.f, 6.f, 0.f, 125.f, 0.f) {
 	fullcharge = new FullChargeBuster(textureManager);
 	semicharge = new SemiChargeBuster(textureManager);
+
+	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_SingleShot.png", "Animation\\X\\XBuster_SingleShot.png",
+		100.f, 0, 0, 0, 0, 8.f, 6.f);
 }
 
 XBuster::~XBuster() {
@@ -283,7 +285,12 @@ void XBuster::ChargeShoot(Direction dir) {
 		return; //delay
 	}
 
-	if (deltCharge > 0.7f) {
+	if (deltCharge > 0.7 && deltCharge <= 2.0f) {
+		std::cout << deltCharge << '\n';
+		semicharge->Shoot(dir);
+	}
+
+	if (deltCharge > 2.0f) {
 		std::cout << deltCharge << '\n';
 		fullcharge->Shoot(dir);
 	}
@@ -293,25 +300,25 @@ void XBuster::ChargeShoot(Direction dir) {
 void XBuster::UpdateMovingProjectiles(float delt, Vector2f pos)  {
 	this->Shooter::UpdateMovingProjectiles(delt, pos);
 	fullcharge->Shooter::UpdateMovingProjectiles(delt, pos);
-	//semicharge->Shooter::UpdateMovingProjectiles(delt, pos);
+	semicharge->Shooter::UpdateMovingProjectiles(delt, pos);
 }
 
 void XBuster::HandleProjectileCollision(Obstacle* obs, Entity* en)  {
 	this->Shooter::HandleProjectileCollision(obs, en);
 	fullcharge->HandleProjectileCollision(obs, en);
-	//semicharge->Shooter::HandleProjectileCollision(obs, en);
+	semicharge->Shooter::HandleProjectileCollision(obs, en);
 }
 
 void XBuster::HandleProjectileCollision(Obstacle* obs)  {
 	this->Shooter::HandleProjectileCollision(obs);
 	fullcharge->Shooter::HandleProjectileCollision(obs);
-	//semicharge->Shooter::HandleProjectileCollision(obs);
+	semicharge->Shooter::HandleProjectileCollision(obs);
 }
 
 void XBuster::HandleProjectileCollision(Entity* en)  {
 	this->Shooter::HandleProjectileCollision(en);
 	fullcharge->HandleProjectileCollision(en);
-	//semicharge->Shooter::HandleProjectileCollision(en);
+	semicharge->Shooter::HandleProjectileCollision(en);
 }
 
 void XBuster::RenderProjectiles(RenderWindow* l_window)  {
@@ -320,13 +327,14 @@ void XBuster::RenderProjectiles(RenderWindow* l_window)  {
 		bullets[i]->Render(l_window);
 	}
 	fullcharge->RenderProjectiles(l_window);
+	semicharge->RenderProjectiles(l_window);
 }
 
 void XBuster::ScaleProjectileAnimation(float f1, float f2) {
-	if (this->sampleBullet) {
+	/*if (this->sampleBullet) {
 		this->sampleBullet->Entity::setSpriteScale(f1, f2);
 		if (!bullets.empty()) bullets.back()->Entity::setSpriteScale(f1, f2);
-	}
-	this->fullcharge->Shooter::ScaleProjectileAnimation(f1, f2);
-	this->semicharge->Shooter::ScaleProjectileAnimation(f1, f2);
+	}*/
+	this->fullcharge->Shooter::ScaleProjectileAnimation(f1, f1);
+	this->semicharge->Shooter::ScaleProjectileAnimation(f2, f2);
 }

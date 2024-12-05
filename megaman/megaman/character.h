@@ -15,7 +15,6 @@ private:
 	XBuster* blaster;
 
 	const float scaleFactor = 0.25f;
-	const float dilation = 5.f; //differ in position between sprite and hitbox
 	const Vector2f framesize = { 20.f, 35.f };
 
 	//-----------------------//
@@ -42,7 +41,7 @@ public:
 	void HandleMovements(Time& elapsed);
 
 	//Shooting
-	void Shoot() override;
+	void Shoot(float delt) override;
 
 	void ChargeShoot();
 	//-----collision checks-----
@@ -55,7 +54,6 @@ public:
 
 
 	//virtual
-	bool canKeepFalling(Obstacle* obs) override;
 
 
 	//-------UPDATING-------
@@ -66,8 +64,6 @@ public:
 	void UpdateEntity(float delt) override;
 	//helper
 
-	void setPosition(Vector2f vec) override;
-
 	//animations
 	void LoadAndAddAnimations();
 
@@ -77,8 +73,5 @@ private:
 	//update
 	void UpdateCharacterProjectiles(float delt);
 
-
-	//helper
-	void fixSpriteToFrame();
 
 };

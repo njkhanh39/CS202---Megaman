@@ -7,7 +7,6 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	setSize(framesize);
 
 	//move sprite accordingly to frame
-	fixSpriteToFrame();
 
 
 	//Weapon
@@ -17,9 +16,15 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 
 	//Health
 
-	this->health = 30;
+	this->health = 300;
 	this->invisibleMaxTimer = 100.f;
 	this->velocityX = 120;
+
+
+	//dilation
+
+	this->dilation = { 5.f, 0.f };
+	setPosition({ x,y });
 
 	//--------Load and add animations--------------
 
@@ -30,7 +35,7 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 
 	//scale image, but dont forget the hitbox!
 	this->sprite.setScale(scaleFactor, scaleFactor); //already set frame size ~ scaled animation
-	this->blaster->ScaleProjectileAnimation(scaleFactor, scaleFactor); //note that projectile's frame size needs = scaled animation
+	this->blaster->ScaleProjectileAnimation(scaleFactor, 0.85); //note that projectile's frame size needs = scaled animation
 }
 
 Character::~Character() {
@@ -43,7 +48,7 @@ Character::~Character() {
 //virtual drawing
 
 void Character::Render(RenderWindow* l_window) {
-	l_window->draw(frame);
+	//l_window->draw(frame);
 	l_window->draw(sprite);
 	blaster->RenderProjectiles(l_window);
 }
@@ -57,7 +62,7 @@ void Character::HandleEventInput(Event& evt, Time& elapsed) {
 	if (this->invisible) return; //when invisible, cannot do anything
 
 	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
-		Shoot();
+		Shoot(elapsed.asSeconds());
 	}
 	else if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::E) {
 		std::cout << "Release!\n";
@@ -106,7 +111,7 @@ void Character::HandleMovements(Time& elapsed) {
 	// (right,left,jump) flags are modified by World::HandleCollision() in game loop
 }
 
-void Character::Shoot() {
+void Character::Shoot(float delt) {
 	if (!isShooting) {
 		isChargeShooting = false;
 		blaster->Shoot(direction);
@@ -137,30 +142,6 @@ void Character::HandleProjectileCollision(Entity* en) {
 	blaster->HandleProjectileCollision(en);
 }
 
-
-
-bool Character::canKeepFalling(Obstacle* obs) {
-	float lmy = getUpMostY(), rmy = getDownMostY();
-	float umy = obs->getUpMostY(), vmy = obs->getDownMostY();
-
-	if (rmy >= umy && (rmy - umy < 1.f || rmy-umy < 3.f)) {
-		float l = getLeftMostX(), r = getRightMostX();
-		float u = obs->getLeftMostX(), v = obs->getRightMostX();
-
-		if (!(r < u || l > v)) {
-
-			//make the position even
-			
-			frame.setPosition({ getLeftMostX(), umy - rmy + lmy });
-			fixSpriteToFrame();
-			
-			return false;
-		}
-
-		return true;
-	}
-	return true;
-}
 
 void Character::Update(float delt) {
 
@@ -258,8 +239,7 @@ void Character::UpdateEntity(float delt)  {
 	else {
 		//Character not jumping, not running
 
-
-		//jesus, this one fucking helps!
+		//this one helpssss, animations can colide (play many at the same time)
 		movingAnimation->Reset();
 
 		//-----PURE SPRITE SET, NOT ANIMATION-----//
@@ -273,6 +253,10 @@ void Character::UpdateEntity(float delt)  {
 		}
 		else if (texture_idle_left) {
 			sprite.setTexture(*texture_idle_left, true);
+		}
+		else {
+			//plays idle
+			this->idleAnimation->Play("Idle", delt);
 		}
 	}
 }
@@ -297,6 +281,8 @@ void Character::LoadAndAddAnimations() {
 	movingAnimation->AddAnimation("MovingLeft", "Animation\\X\\X_MovementLeft.png", 100.f, 0, 0, 6, 0, 137, 142);
 	movingAnimation->AddAnimation("MovingShootRight", "Animation\\X\\X_MovementShootRight.png", 100.f, 0, 0, 5, 0, 137, 142);
 	movingAnimation->AddAnimation("MovingShootLeft", "Animation\\X\\X_MovementShootLeft.png", 100.f, 0, 0, 5, 0, 137, 142);
+
+	//idle...
 }
 
 
@@ -308,22 +294,8 @@ void Character::UpdateCharacterProjectiles(float delt) {
 	Vector2f size = getFrameSize();
 
 	//update char's projectiles by updating his gun's projectiles
-	blaster->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y + size.y / 2 });
+	blaster->UpdateMovingProjectiles( delt, getCenterPosition());
 }
 
 
 //------Helpers----
-
-void Character::setPosition(Vector2f vec){
-	frame.setPosition(vec);
-	auto x = vec.x;
-	auto y = vec.y;
-	sprite.setPosition({ x - dilation,y });
-}
-
-void Character::fixSpriteToFrame() {
-	auto vec = getUpLeftPosition();
-	auto x = vec.x;
-	auto y = vec.y;
-	sprite.setPosition({ x - dilation,y });
-}

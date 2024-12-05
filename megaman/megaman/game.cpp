@@ -82,9 +82,7 @@ void Game::Handling() {
 void Game::Update() { //game updating
 
 	//-----------------STATES-----------------------
-
 	if (!this->states.empty()) {
-
 		//------------UPDATE STATE
 		this->states.top()->Update(m_elapsed.asSeconds());
 
@@ -92,24 +90,10 @@ void Game::Update() { //game updating
 
 		this->m_window.SetView(*this->states.top()->getView());
 
-		/*if (dynamic_cast<GameState*>(states.top())) {
-			this->m_window.Zoom(0.5f);
-		}*/
+		//------------EXECUTE STATE PUSHING POPPING--------//
 
-		//when running update function, at some time, getQuit() may be set to true
-		//if (this->states.top()->getQuit()) {
-		//	//end state and deallocate
-		//	this->states.top()->EndState();
-
-		//	//deallocate
-
-		//	if(this->states.top()) delete this->states.top();
-
-		//	this->states.pop();
-		//}
-
+		this->states.top()->ResetQueueLock();
 		this->ExecuteStateQueue();
-
 	}
 	//application ends, since no states :0
 	else {

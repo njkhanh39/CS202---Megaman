@@ -26,6 +26,11 @@ public:
 		
 	}
 
+	void Render(RenderWindow* l_window) override {
+		l_window->draw(frame);
+		l_window->draw(sprite);
+	}
+
 	~Projectile() override;
 
 

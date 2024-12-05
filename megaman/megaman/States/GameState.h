@@ -118,7 +118,10 @@ public:
 				camera->UpdateFollowCharacter(m_character);
 			}
 			else {
-	
+				if (!this->lockQueueCommand) {
+					this->statequeue->push(QUIT);
+					this->statequeue->push(PUSH_GAMEOVER);
+				}
 			}
 
 			//-----------------WORLD AND ENEMIES--------------------

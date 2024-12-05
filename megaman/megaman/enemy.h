@@ -1,45 +1,66 @@
-#pragma once
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include "entity.h"
 #include "shooter.h"
 #include "character.h"
 
 using namespace sf;
-
+//interface
 class Enemy: public Entity {
 protected:
 	float viewRange;
-	float movingRange;
 
 	bool active = false;
 
+	//damage when char touches
+
+	int collisiondamage = 5;
+
 	// time stuff
 
-	float enemyTimer = 60.f;
+	float enemyTimer = 20.f;
 	float timer = 0.f;
 public:
-	bool canMove;
 
-	Enemy(TextureManager* textureManager, float x, float y, bool _canMove, float _movingRange, float _viewRange): 
-		Entity(textureManager, x,y) {
-		canMove = _canMove;
-		movingRange = _movingRange;
-		viewRange = _viewRange;
-	}
+	Enemy(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange): 
+		Entity(textureManager, x,y, sizex, sizey), viewRange(_viewRange) {
 
-	Enemy(TextureManager* textureManager, bool _canMove, float _movingRange, float _viewRange)
-		: Entity(textureManager) {
-		canMove = _canMove;
-		movingRange = _movingRange;
-		viewRange = _viewRange;
 	}
 
 	~Enemy() override {
 		std::cout << "Destructor of Enemy\n";
 	}
 
-	virtual void Update(Character* character, float delt) {}
+	virtual void Update(Character* character, float delt) = 0;
+
+	virtual void Render(RenderWindow* l_window) = 0;
 
 
+
+	//-----------SHOOTER ENEMY-----------//
+
+	virtual void HandleProjectileCollision(Obstacle* obs, Entity* en) = 0;
+
+	virtual void HandleProjectileCollision(Entity* en) = 0;
+
+	virtual void HandleProjectileCollision(Obstacle* obs) = 0;
+
+
+	//just a helper
+	int GetCollisionDamage() {
+		return collisiondamage;
+	}
+protected:
+	virtual void AttackCharacter(Character* character, float delt) = 0;
+
+	virtual void UpdateEnemyBehaviour(Character* character, float delt) = 0;
+
+	virtual void InnitAnimation() = 0;
+
+
+
+	
 	//helpers to locate the character and attack
 
 	bool CharacterInRange(Character* character) {
@@ -61,24 +82,19 @@ public:
 		if (vec.x < us.x) return Direction::Left;
 		else return Direction::Right;
 	}
+
+	
 };
 
 class ShooterEnemy : public Enemy {
-private:
+protected:
 	Shooter* weapon;
 public:
-	ShooterEnemy(TextureManager* textureManager, float x, float y, bool _canMove, float _movingRange, float _viewRange):
-		Enemy(textureManager, x,y,_canMove, _movingRange, _viewRange) {
-		weapon = new Shooter(textureManager);
 
-		setSize({ 50.f, 50.f });
-	}
+	ShooterEnemy(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange) :
+		Enemy(textureManager, x, y,sizex,sizey, _viewRange), weapon(nullptr) {
 
-	ShooterEnemy(TextureManager* textureManager, float x, float y, float sizex, float sizey, float sizexbullet, float sizeybullet, bool _canMove, float _movingRange, float _viewRange) :
-		Enemy(textureManager, x, y, _canMove, _movingRange, _viewRange) {
-		weapon = new Shooter(textureManager, sizexbullet, sizeybullet);
-
-		setSize({ sizex, sizey });
+		
 	}
 
 	~ShooterEnemy() override {
@@ -86,76 +102,88 @@ public:
 		delete weapon;
 	}
 
-	//Rendering
-	void Render(RenderWindow* l_window) {
-		l_window->draw(frame);
-		l_window->draw(sprite);
-		weapon->RenderProjectiles(l_window);
-	}
 
+
+	////Rendering
+	//void Render(RenderWindow* l_window) override {
+	//	
+	//}
+	/*l_window->draw(frame);
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);*/
 
 	//handling collision
 
-	void HandleProjectileCollision(Obstacle* obs, Entity* en) {
+	void HandleProjectileCollision(Obstacle* obs, Entity* en) override {
 		weapon->HandleProjectileCollision(obs, en);
 	}
 
-	void HandleProjectileCollision(Entity* en) {
+	void HandleProjectileCollision(Entity* en) override {
 		weapon->HandleProjectileCollision(en);
 	}
 
-	void HandleProjectileCollision(Obstacle* obs) {
+	void HandleProjectileCollision(Obstacle* obs) override {
 		weapon->HandleProjectileCollision(obs);
 	}
 
-	//Attacking character
+	
 
-	void Shoot() override {
-		this->weapon->Shoot(direction);
+	////updates
+
+	//void Update(Character* character, float delt) override {
+	//	this->Entity::UpdateEntity(delt);
+	//	UpdateEnemyBehaviour(character, delt);
+	//	UpdateEnemyProjectiles(delt);
+	//}
+	
+
+protected:
+	virtual void InnitShooterType() = 0;
+
+	
+	virtual void UpdateEnemyProjectiles(float delt) = 0;
+};
+
+class MovingEnemy : public Enemy { //interface
+private:
+	Vector2f startPoint;
+	float distance;
+public:
+
+	MovingEnemy(TextureManager* textureManager, float x, float y, float sizex, float sizey,
+		float _viewRange, Direction direction, Vector2f startPoint, float distance)
+		:Enemy(textureManager, x, y, sizex, sizey, _viewRange), startPoint(startPoint), distance(distance)
+	{
+
 	}
 
-	void AttackCharacter(Character* character, float delt) {
-		auto dir = LocateCharacterDir(character);
 
-		timer += 10*delt;
+	void Render(RenderWindow* l_window) {
+		l_window->draw(frame);
+		l_window->draw(sprite);
+	}
 
-		if (dir == Direction::Left) TurnLeft();
-		if (dir == Direction::Right) TurnRight();
+protected:
+	//virtual for polymorphism
 
-		//std::cout << timer << '\n';
-
-		if (timer >= enemyTimer) {
-			timer = 0;
-			//attack
-
-			weapon->Shoot(dir);
+	//this new method which is common for most, we may improvise for harder enemies
+	virtual void UpdateEnemyBehaviour(Character* character, float delt) {
+		auto v = this->getPosition();
+		if (direction == Direction::Left) {
+			if (v.x >= startPoint.x - distance) {
+				this->MoveLeft(delt);
+			}
+			else direction = Direction::Right;
+		}
+		if (direction == Direction::Right) {
+			if (v.x <= startPoint.x) {
+				this->MoveRight(delt);
+			}
+			else direction = Direction::Left;
 		}
 	}
-
-	//updates
-
-	void Update(Character* character, float delt) override {
-		this->Entity::UpdateEntity(delt);
-		UpdateEnemyBehaviour(character, delt);
-		UpdateEnemyProjectiles(delt);
-	}
-
-
-private:
-
-	void UpdateEnemyProjectiles(float delt) {
-		Vector2f pos = getPosition();
-		Vector2f size = getFrameSize();
-
-		weapon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y});
-	}
-
-	void UpdateEnemyBehaviour(Character* character, float delt) {
-		if (character->IsDead()) return;
-		if (!CharacterInRange(character)) return; //idle
-
-		AttackCharacter(character, delt);
-	}
 };
+
+#endif
 
 
