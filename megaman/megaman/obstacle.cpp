@@ -57,7 +57,7 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::stri
 
 }
 
-Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage) :
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage):
 	Obstacle(textureManager, pos, file) {
 	this->damage = damage;
 }

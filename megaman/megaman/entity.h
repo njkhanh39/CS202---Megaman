@@ -215,6 +215,14 @@ public:
 
 	//setters
 
+	void setIdleLeftTexture(const std::string& file) {
+		textureManager->BorrowTexture(file, texture_idle_left);
+	}
+
+	void setIdleRightTexture(const std::string& file) {
+		textureManager->BorrowTexture(file, texture_idle_right);
+	}
+
 	void setSpriteScale(float s1, float s2);
 
 	void setSpritePosition(Vector2f pos);

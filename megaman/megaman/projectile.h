@@ -27,7 +27,7 @@ public:
 	}
 
 	void Render(RenderWindow* l_window) override {
-		l_window->draw(frame);
+		//l_window->draw(frame);
 		l_window->draw(sprite);
 	}
 
@@ -48,6 +48,10 @@ public:
 	bool IsHit(Entity* en);
 
 	bool IsStopped();
+
+	float getCurrentTime() {
+		return clk.getElapsedTime().asSeconds();
+	}
 
 	//---------ANIMATION----------------
 

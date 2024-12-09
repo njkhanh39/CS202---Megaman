@@ -159,6 +159,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemyspawner.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="enumdirection.h" />
     <ClInclude Include="game.h" />

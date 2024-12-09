@@ -17,7 +17,7 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	//Health
 
 	this->health = 300;
-	this->invisibleMaxTimer = 100.f;
+	this->invisibleMaxTimer = 100.f; //the bigger, the longer character remains invisible
 	this->velocityX = 120;
 
 
@@ -170,15 +170,16 @@ void Character::UpdateEntity(float delt)  {
 
 		this->invisibleTimer += 50 * delt;
 
-		if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
+		if (invisibleTimer >= invisibleMaxTimer) { // we are done with invisibility!
 			this->invisible = false;
-			this->invisibleTimer = 0;
-
 			//----BACK TO NORMAL---//
 
+			this->invisibleTimer = 0;
 			this->health = this->temphealth;
 			this->temphealth = -1;
 		}
+
+	
 	}
 
 
@@ -294,7 +295,7 @@ void Character::UpdateCharacterProjectiles(float delt) {
 	Vector2f size = getFrameSize();
 
 	//update char's projectiles by updating his gun's projectiles
-	blaster->UpdateMovingProjectiles( delt, getCenterPosition());
+	blaster->UpdateMovingProjectiles( delt, getCenterPosition() + Vector2f(0.f,-10.f));
 }
 
 

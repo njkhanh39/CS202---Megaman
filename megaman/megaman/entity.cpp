@@ -101,7 +101,7 @@ void Entity::Render(RenderWindow* l_window) {
 //movements
 
 void Entity::MoveLeft(float delt) {
-
+	isRight = false;
 	isLeft = true;
 	direction = Direction::Left;
 
@@ -113,7 +113,7 @@ void Entity::MoveLeft(float delt) {
 }
 
 void Entity::MoveRight(float delt) {
-
+	isLeft = false;
 	isRight = true;
 	direction = Direction::Right;
 

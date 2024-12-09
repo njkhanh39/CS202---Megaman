@@ -4,6 +4,8 @@
 #include "character.h"
 #include "attackenemies.h"
 #include "map.h"
+#include "enemyspawner.h"
+
 #include <fstream>
 #include <sstream>
 #include <string.h>
@@ -12,8 +14,8 @@
 
 class World {
 public:
-	const int MAXPLATFORMS = 30;
-	const int MAXENEMIES = 30;
+	const int MAXPLATFORMS = 80;
+	const int MAXENEMIES = 80;
 
 
 	TextureManager* textureManager;
@@ -22,13 +24,10 @@ public:
 	//-----Game stuffs------//
 
 	Map* gameMap;
+	EnemySpawner* enemySpawner;
 
-	Enemy* enemy[30] = {nullptr};
-
-
-	Obstacle* platform[30] = {nullptr};
-
-	int numEnemy = 0, numObs = 0;
+	std::vector<Enemy*> enemy;
+	std::vector<Obstacle*> platform;
 
 	World(TextureManager* textureManager);
 
@@ -49,7 +48,7 @@ public:
 
 		HandleOneEntityCollision(character);
 
-		for (int i = 0; i < numEnemy; ++i) {
+		for (int i = 0; i < (int)enemy.size(); ++i) {
 			if (enemy[i]) {
 				HandleOneEntityCollision(enemy[i]);
 			}
@@ -63,12 +62,13 @@ public:
 	}
 	
 
-	void UpdateAllEnemies(Character* character, float delt) {
-		for (int i = 0; i < numEnemy; ++i) {
+	void UpdateWorld(Character* character, float delt) {
+		for (int i = 0; i < (int)enemy.size(); ++i) {
 			if (enemy[i] && !enemy[i]->IsDead()) {
 				enemy[i]->Update(character, delt);
 			}
 		}
+		this->enemySpawner->UpdateSpawn(character);
 	}
 
 private:
@@ -78,29 +78,32 @@ private:
 	void HandleCharacterVsEnemyCollisions(Character* character) {
 		if (character->IsDead()) return;
 
-		for (int i = 0; i < numEnemy; ++i) {
+		for (int i = 0; i < (int)enemy.size(); ++i) {
 			if (!enemy[i] || enemy[i]->IsDead()) continue;
 
 			if (!character->canMoveLeft(enemy[i])) 
 			{ //still let it move through, but take damage
 				if (!character->isInvisible()) {
 					character->TakeDamage(enemy[i]->GetCollisionDamage());
-					character->MoveRight(0.075f);
+					character->MoveRight(0.1f);
 				}
 			}
 			else if (!character->canMoveRight(enemy[i])) {
 				if (!character->isInvisible()) {
 					character->TakeDamage(enemy[i]->GetCollisionDamage());
-					character->MoveLeft(0.075f);
+					character->MoveLeft(0.1f);
 				}
 			}
 			else if (character->isHeadBlocked(enemy[i])) {
-				if(!character->isInvisible()) character->TakeDamage(enemy[i]->GetCollisionDamage());
+				if (!character->isInvisible()) {
+					character->TakeDamage(enemy[i]->GetCollisionDamage());
+					character->MoveLeft(0.1f);
+				}
 			}
 			else if (!character->Entity::canKeepFalling(enemy[i])) {	
 				if (!character->isInvisible()) {
 					character->TakeDamage(enemy[i]->GetCollisionDamage());
-					character->PushedUpward(5.0f);
+					character->MoveLeft(0.1f);
 				}
 			}
 		}
@@ -114,7 +117,7 @@ private:
 
 		if (!character->IsDead()) {
 
-			for (int i = 0; i < numObs; ++i) {
+			for (int i = 0; i < (int)platform.size(); ++i) {
 				if (platform[i]) {
 					character->HandleProjectileCollision(platform[i]);
 				}
@@ -122,7 +125,7 @@ private:
 
 			//for loops through all entities but itself
 
-			for (int i = 0; i < numEnemy; ++i) {
+			for (int i = 0; i < (int)enemy.size(); ++i) {
 				if (enemy[i] && !enemy[i]->IsDead()) {
 					character->HandleProjectileCollision(enemy[i]);
 				}
@@ -133,10 +136,10 @@ private:
 		//for loops through all obstacles **WE CAN OPTIMIZE THIS OFC**
 
 		//Enemy shooting platform
-		for (int i = 0; i < numEnemy; ++i) {
+		for (int i = 0; i < (int)enemy.size(); ++i) {
 			if (!enemy[i]) continue;
 
-			for (int j = 0; j < numObs; ++j) {
+			for (int j = 0; j < (int)platform.size(); ++j) {
 				if (!platform[j]) continue;
 
 				enemy[i]->HandleProjectileCollision(platform[j]);
@@ -145,8 +148,8 @@ private:
 
 		//Enemy shooting character
 		if (!character->IsDead()) {
-			for (int i = 0; i < numEnemy; ++i) {
-				if (enemy[i]) enemy[i]->HandleProjectileCollision(character);
+			for (int i = 0; i < (int)enemy.size(); ++i) {
+				if (enemy[i] && !enemy[i]->IsDead()) enemy[i]->HandleProjectileCollision(character);
 			}
 		}
 	}
@@ -161,7 +164,7 @@ private:
 
 		bool headBlock = false;
 
-		for (int i = 0; i < numObs; ++i) {
+		for (int i = 0; i < (int)platform.size(); ++i) {
 			//dont forget this
 			if (!platform[i]) continue;
 
@@ -211,55 +214,20 @@ private:
 
 	//-----TEST--------//
 
-	void CreateShooterEnemy1(float x, float y) {
-		if (numEnemy >= MAXENEMIES) return;
-		enemy[numEnemy] = new ShooterEnemy1(textureManager, x, y);
-		++numEnemy;
-	}
-
-	void CreateAttackEnemy1(float x, float y, Direction dir) {
-		if (numEnemy >= MAXENEMIES) return;
-		enemy[numEnemy] = new AttackEnemy1(textureManager, x, y, dir);
-		++numEnemy;
-	}
-
-	//create new enemies
-
-	void CreateShooterEnemy(float x, float y,
-	 float viewRange) {
-		if (numEnemy >= MAXENEMIES) return;
-		//enemy[numEnemy] = new ShooterEnemy(textureManager, x, y, viewRange);
-		++numEnemy;
-	}
-
-	void CreateShooterEnemy(float x, float y, float sizex, float sizey, float sizebulletx, float sizebullety
-		, float viewRange) {
-		if (numEnemy >= MAXENEMIES) return;
-		//enemy[numEnemy] = new ShooterEnemy(textureManager, x, y,sizex, sizey, sizebulletx, sizebullety, viewRange);
-		++numEnemy;
-
-		//std::cout << "Enemy health: " << enemy[numEnemy - 1]->getHealth() << '\n';
-	}
 
 	void CreatePlatform(float x, float y, float xSize, float ySize, int damage, bool invisible) {
-		if (numObs >= MAXPLATFORMS) return;
-
-		platform[numObs] = new Obstacle(textureManager, Vector2f(x,y), Vector2f(xSize, ySize), invisible, damage);
-		++numObs;
+		platform.push_back(nullptr);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), Vector2f(xSize, ySize), invisible, damage);
 	}
 
 	void CreatePlatform(float x, float y, const std::string& file) {
-		if (numObs >= MAXPLATFORMS) return;
-
-		platform[numObs] = new Obstacle(textureManager, Vector2f(x, y), file);
-		++numObs;
+		platform.push_back(nullptr);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file);
 	}
 
 	void CreatePlatform(float x, float y, int damage, const std::string& file) {
-		if (numObs >= MAXPLATFORMS) return;
-
-		platform[numObs] = new Obstacle(textureManager, Vector2f(x, y), file, damage);
-		++numObs;
+		platform.push_back(nullptr);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file, damage);
 	}
 
 	void CreateWorld(const std::string& dir, const std::string& mapfile, const std::string& obs1file, const std::string& obs2file) {
@@ -291,11 +259,6 @@ private:
 		int n = -1;
 
 		fin >> n;
-		if (n+this->numObs > MAXPLATFORMS) {
-			std::cout << "Too many platforms!\n";
-			fin.close();
-			return;
-		}
 
 		std::string line;
 		std::getline(fin, line);
@@ -310,7 +273,7 @@ private:
 			}
 
 			if ((int)coords.size() == 5) {
-				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], true);
+				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], false);
 			}
 		}
 
@@ -335,11 +298,6 @@ private:
 		int n = -1;
 
 		fin >> n;
-		if (n + this->numObs> MAXPLATFORMS) {
-			std::cout << "Too many platforms!\n";
-			fin.close();
-			return;
-		}
 
 		std::string line;
 		std::getline(fin, line);

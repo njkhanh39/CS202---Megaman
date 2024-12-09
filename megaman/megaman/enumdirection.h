@@ -1,4 +1,4 @@
 #pragma once
 enum class Direction {
-	Left, Right
+	Left=1, Right=2
 };

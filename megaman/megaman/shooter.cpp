@@ -143,20 +143,38 @@ void Shooter::HandleProjectileCollision(Entity* en) {
 	}
 }
 
+void Shooter::LoadLeftTexture(const std::string& file) {
+	if (this->sampleBullet) {
+		sampleBullet->setIdleLeftTexture(file);
+	}
+	for (auto& b : bullets) {
+		b->setIdleLeftTexture(file);
+	}
+}
+
+void Shooter::LoadRightTexture(const std::string& file) {
+	if (this->sampleBullet) {
+		sampleBullet->setIdleRightTexture(file);
+	}
+	for (auto& b : bullets) {
+		b->setIdleRightTexture(file);
+	}
+}
+
 void Shooter::LoadAnimationForBullet(const std::string& l_file, const std::string& r_file
 	, float animationTimer, int start_frame_x, int start_frame_y,
 	int frames_x, int frames_y, int _width, int _height) {
 
 
-	sampleBullet->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
+	if( sampleBullet ) sampleBullet->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
 		frames_x, frames_y, _width, _height);
 
 	//edit the frame
 
 	//sampleBullet->setSize({ float(_width),float(_height) });
 
-	if (!bullets.empty()) {
-		bullets.back()->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
+	for(auto& b: bullets){
+		b->AddAnimations(l_file, r_file, animationTimer, start_frame_x, start_frame_y,
 			frames_x, frames_y, _width, _height);
 		//bullets.back()->setSize({ float(_width),float(_height) });
 	}
@@ -166,7 +184,7 @@ void Shooter::ScaleProjectileAnimation(float f1, float f2) {
 	if (this->sampleBullet) {
 		sampleBullet->Entity::setSpriteScale(f1, f2);
 	}
-	if (!bullets.empty()) {
+	for (auto& b : bullets) {
 		bullets.back()->Entity::setSpriteScale(f1, f2);
 	}
 }
@@ -262,7 +280,7 @@ XBuster::SemiChargeBuster::~SemiChargeBuster() {
 XBuster::XBuster(TextureManager* textureManager) : Shooter(textureManager, 8.f, 6.f, 0.f, 125.f, 0.f) {
 	fullcharge = new FullChargeBuster(textureManager);
 	semicharge = new SemiChargeBuster(textureManager);
-
+	
 	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_SingleShot.png", "Animation\\X\\XBuster_SingleShot.png",
 		100.f, 0, 0, 0, 0, 8.f, 6.f);
 }

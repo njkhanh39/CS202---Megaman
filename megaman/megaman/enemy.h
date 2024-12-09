@@ -173,13 +173,13 @@ protected:
 			if (v.x >= startPoint.x - distance) {
 				this->MoveLeft(delt);
 			}
-			else direction = Direction::Right;
+			else FaceDirection(Direction::Right);
 		}
 		if (direction == Direction::Right) {
 			if (v.x <= startPoint.x) {
 				this->MoveRight(delt);
 			}
-			else direction = Direction::Left;
+			else FaceDirection(Direction::Left);
 		}
 	}
 };

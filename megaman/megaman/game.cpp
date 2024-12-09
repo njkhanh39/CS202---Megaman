@@ -47,17 +47,6 @@ void Game::Handling() {
 		
 		//Only handle state top
 		if(!states.empty()) this->states.top()->HandlingEvent(evt, m_elapsed);
-
-		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
-			this->textureManager->ShowAllUses();
-
-			auto tmp = this->states.top()->getView();
-			std::cout << "Rect:" << tmp->getSize().x << ", "
-				<< tmp->getSize().y << '\n';
-
-			std::cout << "Rect pos: " << tmp->getCenter().x - tmp->getSize().x / 2 << ","
-				<< tmp->getCenter().y - tmp->getSize().y / 2 << '\n';
-		}
 	}	
 
 	//Only handle state top

@@ -6,7 +6,20 @@
 class AttackEnemy1 : public MovingEnemy { //that spiky wheel
 public:
 	AttackEnemy1(TextureManager* textureManager, float x, float y, Direction direction):
-	MovingEnemy(textureManager, x, y, 28.5, 28.5, 200, direction, Vector2f(x,y), 500) {
+	MovingEnemy(textureManager, x, y, 28.5, 28.5, 200, direction, Vector2f(x,y), 300) {
+
+		this->velocityX = 70;
+		this->collisiondamage = 30;
+
+		InnitAnimation();
+
+
+		//this dude needs to be scaled
+		this->sprite.setScale(0.75, 0.75);
+	}
+
+	AttackEnemy1(TextureManager* textureManager, float x, float y) :
+		MovingEnemy(textureManager, x, y, 28.5, 28.5, 200, Direction::Left, Vector2f(x, y), 300) {
 
 		this->velocityX = 70;
 		this->collisiondamage = 30;
@@ -20,7 +33,7 @@ public:
 
 	 void Update(Character* character, float delt) override{
 		 this->Entity::UpdateEntity(delt);
-		this->UpdateEnemyBehaviour(character, delt);
+		 this->UpdateEnemyBehaviour(character, delt);
 		 this->AttackCharacter(character, delt);
 	 }
 
@@ -31,7 +44,7 @@ public:
 
 
 
-	//We dont touch this unless the enemy has a gun :)
+	//We dont touch this cause the enemy has no gun :)
 
 	void HandleProjectileCollision(Obstacle* obs, Entity* en) override {}
 
@@ -58,6 +71,14 @@ private:
 		movingAnimation->AddAnimation("MovingRight", "Animation\\Map1\\AttackEnemy1\\spikewheel_move.png",
 			100.f, 0, 0, 2, 0, 38, 38);
 	}
+};
+
+
+
+class AttackEnemy2 : public MovingEnemy {
+private:
+public:
+
 };
 
 #endif 

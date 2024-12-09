@@ -12,9 +12,6 @@ protected:
 	std::vector<Projectile*> bullets;
 	bool yesAnimation = false;
 
-	//---if cntDelay < delay, does not allow shoot!
-	float delay = 0.5f;
-	float cntDelay = 0.f;
 	//-------------
 
 	int damage = 5;
@@ -52,6 +49,10 @@ public:
 	virtual void HandleProjectileCollision(Entity* en);
 
 	//allow bullets animation
+
+	void LoadLeftTexture(const std::string& file);
+
+	void LoadRightTexture(const std::string& file);
 
 	void LoadAnimationForBullet(const std::string& l_file, const std::string& r_file
 		, float animationTimer, int start_frame_x, int start_frame_y,

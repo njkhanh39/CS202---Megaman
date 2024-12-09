@@ -61,6 +61,11 @@ public:
 			this->paused = !this->paused;
 		}
 
+		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
+			auto v = this->m_character->getCenterPosition();
+			std::cout << v.x << "," << v.y << '\n';
+		}
+
 		//-----------PAUSEMENU-----------
 
 		if (this->paused) {
@@ -126,7 +131,7 @@ public:
 
 			//-----------------WORLD AND ENEMIES--------------------
 
-			 m_world->UpdateAllEnemies(m_character, dt);
+			 m_world->UpdateWorld(m_character, dt);
 
 		}
 		else { //update the pause menu

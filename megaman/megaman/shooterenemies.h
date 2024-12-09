@@ -10,7 +10,7 @@ public:
 
 		//damage
 
-		this->damage = 1;
+		this->damage = 30;
 
 		//animation
 
@@ -21,7 +21,7 @@ public:
 };
 
 class ShooterEnemy1: public ShooterEnemy { //that big robot with electric shock
-private:
+private: //no scaling
 	float timer = 0.f; //prepare shooting
 
 	float timerPrepare = 1400.f;
@@ -37,6 +37,7 @@ public: //view range = 150.f
 		InnitShooterType();
 		InnitAnimation();
 		
+
 		this->dilation = { 0.f, 20.f };
 
 		//this takes the dilation into consideration
@@ -57,7 +58,8 @@ public: //view range = 150.f
 	}
 private:
 	void InnitDelaySpeed() {
-		this->timerPrepare = 10.f;
+		this->timerPrepare = 1400.f;
+		this->timerFinish = 2800.f;
 	}
 
 	void InnitShooterType() override {
@@ -78,7 +80,7 @@ private:
 		weapon->UpdateMovingProjectiles(delt, { pos.x + size.x/2, pos.y + (size.y)/2});
 	}
 
-	void AttackCharacter(Character* character, float delt) override {// it shoots two missiles at once
+	void AttackCharacter(Character* character, float delt) override {
 		if (!CharacterInRange(character)) {
 			movingAnimation->Reset();
 			isShooting = false;
@@ -130,8 +132,195 @@ private:
 	}
 };
 
-class ShooterEnemy2 : public ShooterEnemy {// bee that drop bombs
 
+class Shooter2 : public Shooter { //missile drops from sky then fly
+public:
+	Shooter2(TextureManager* textureManager) : //mabee scaled 0.5
+		Shooter(textureManager, 12.f, 6.f, 20.f, 0.f, 0.f) { //has gravity, innit Xvelo = 0
+
+		//damage
+
+		this->damage = 30;
+
+		//animation
+
+		this->LoadRightTexture("Animation\\Map1\\ShooterEnemy2\\missile_right.png");
+		this->LoadLeftTexture("Animation\\Map1\\ShooterEnemy2\\missile_left.png");
+
+		this->LoadAnimationForBullet("Animation\\Map1\\ShooterEnemy2\\missile_move_left.png", "Animation\\Map1\\ShooterEnemy2\\missile_move_right.png"
+			, 70.f, 0, 0, 2, 0, 24, 12); //needs scaling
+
+		this->ScaleProjectileAnimation(0.5, 0.5);
+
+	}
+
+	void UpdateMovingProjectiles(float delt, Vector2f pos) override {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			bullets[i]->ProjectileFly(delt, pos); //this moves the projectile
+			bullets[i]->Entity::UpdateEntity(delt); //this plays animation of bullets
+
+			//calls this afterwards
+			if (bullets[i]->getCurrentTime() >= 0.6) {
+				//let it fly horizontally
+				bullets[i]->setVelocityX(100.f);
+				bullets[i]->setGravity(0.f);
+				bullets[i]->setVelocityY(0.f);
+			}
+		}
+	}
 };
+
+class ShooterEnemy2 : public ShooterEnemy { //this wasp behaves both like shooter and moving. Scaled 0.75. IT FLIES
+private:   
+	Vector2f startPoint;
+	float distance;
+	float timer = 0.f; 
+	float timerFinish = 1200.f;
+public:
+
+	ShooterEnemy2(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 20.f, 20.f, 100.f), startPoint(Vector2f(x,y)), distance(100.f) {
+		InnitDelaySpeed();
+
+		//overrides
+		InnitShooterType();
+		InnitAnimation();
+
+		this->FaceDirection(dir);
+		this->gravity = 0.f; //this mf doesnt fall
+		this->direction = dir;
+
+		//scale 0.75
+
+		this->dilation = { 5,5 };
+		this->setPosition({ x,y });
+
+		this->setSpriteScale(0.75, 0.75);
+	}
+
+	ShooterEnemy2(TextureManager* textureManager, float x, float y):
+		ShooterEnemy(textureManager, x, y, 20.f, 20.f, 100.f), startPoint(Vector2f(x, y)), distance(100.f) {
+		InnitDelaySpeed();
+
+		//overrides
+		InnitShooterType();
+		InnitAnimation();
+
+		this->FaceDirection(Direction::Left);
+		this->gravity = 0.f; //this mf doesnt fall
+		this->direction = Direction::Left;
+
+		//scale 0.75
+
+		this->dilation = { 5,5 };
+		this->setPosition({ x,y });
+
+		this->setSpriteScale(0.75, 0.75);
+	}
+
+	void Update(Character* character, float delt) override {
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+	}
+
+	void Render(RenderWindow* l_window) {
+		//l_window->draw(frame);
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+	}
+
+private:
+
+	void InnitDelaySpeed() {
+		this->timerFinish = 900.f;
+	}
+
+
+	void InnitShooterType() override {
+		this->weapon = new Shooter2(this->textureManager);
+	}
+
+	//From entity
+	void Shoot(float delt) override {
+		isShooting = true;
+		this->weapon->Shoot(this->direction);
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		weapon->UpdateMovingProjectiles(delt, { pos.x + size.x / 2, pos.y + (size.y) / 2 });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!this->CharacterInRange(character)) {
+			isShooting = false;
+			timer = 0;
+			movingAnimation->Reset();
+		}
+
+		if(direction != LocateCharacterDir(character)) this->FaceDirection(LocateCharacterDir(character));
+
+		//let it play animation
+		this->isShooting = true;
+
+		timer += 600 * delt;
+
+		if (timer >= timerFinish) {
+
+			this->Shoot(delt);
+
+			timer = 0;
+			isShooting = false;
+		}
+	}
+
+	void UpdateEnemyBehaviour(Character* character, float delt) override { //similar to moving
+		auto v = this->getPosition();
+
+		if (this->CharacterInRange(character)) {
+			AttackCharacter(character, delt);
+		}
+		else {
+			isShooting = false;
+			if (direction == Direction::Left) {
+				if (v.x >= startPoint.x - distance) {
+					this->MoveLeft(delt);
+				}
+				else {
+					FaceDirection(Direction::Right);
+				}
+			}
+			if (direction == Direction::Right) {
+				if (v.x <= startPoint.x) {
+					this->MoveRight(delt);
+				}
+				else {
+					FaceDirection(Direction::Left);
+				}
+			}
+		}
+	}
+
+	void InnitAnimation() override {
+		this->textureManager->BorrowTexture("Animation\\Map1\\ShooterEnemy2\\wasp_idle_left.png",
+			this->texture_idle_left);
+		this->textureManager->BorrowTexture("Animation\\Map1\\ShooterEnemy2\\wasp_idle_right.png",
+			this->texture_idle_right);
+
+		this->movingAnimation->AddAnimation("MovingShootLeft", "Animation\\Map1\\ShooterEnemy2\\wasp_attack_left.png"
+			, 133.f, 0, 0, 8, 0, 40, 40);
+		this->movingAnimation->AddAnimation("MovingShootRight", "Animation\\Map1\\ShooterEnemy2\\wasp_attack_right.png"
+			, 133.f, 0, 0, 8, 0, 40, 40);
+		this->movingAnimation->AddAnimation("MovingLeft", "Animation\\Map1\\ShooterEnemy2\\wasp_left.png"
+			, 100.f, 0, 0, 2, 0, 40, 40);
+		this->movingAnimation->AddAnimation("MovingRight", "Animation\\Map1\\ShooterEnemy2\\wasp_right.png"
+			, 100.f, 0, 0, 2, 0, 40, 40);
+	}
+};
+
 
 #endif 
