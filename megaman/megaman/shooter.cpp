@@ -222,9 +222,21 @@ void XBuster::FullChargeBuster::HandleProjectileCollision(Obstacle* obs, Entity*
 	int n = bullets.size();
 	for (int i = n - 1; i >= activeBullets; --i) {
 
-		//pierces through entities
+		//pierces through entities if enough to kill
 		if (bullets[i]->IsHit(en) && en) {
 			en->TakeDamage(this->damage);
+
+			if(!en->IsDead()){ //Didnt die
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+
+				return;
+			}
 		}
 
 		if (bullets[i]->IsHit(obs) || bullets[i]->IsStopped()) {
@@ -244,9 +256,22 @@ void XBuster::FullChargeBuster::HandleProjectileCollision(Entity * en) {
 	int n = bullets.size();
 	for (int i = n - 1; i >= activeBullets; --i) {
 
-		//pierces through entities
+		//pierces through entities if enough to kill
 		if (bullets[i]->IsHit(en) && en) {
 			en->TakeDamage(this->damage);
+
+			if (!en->IsDead()) { //Didnt die
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+
+
+				return;
+			}
 		}
 
 		if (bullets[i]->IsStopped()) {

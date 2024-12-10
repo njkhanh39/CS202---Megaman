@@ -17,10 +17,6 @@ protected:
 
 	int collisiondamage = 5;
 
-	// time stuff
-
-	float enemyTimer = 20.f;
-	float timer = 0.f;
 public:
 
 	Enemy(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange): 

@@ -187,7 +187,7 @@ public:
 
 
 	//getters
-	int getHealth() {
+	virtual int getHealth() {
 		return this->health;
 	}
 

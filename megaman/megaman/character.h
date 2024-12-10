@@ -55,6 +55,10 @@ public:
 
 	//virtual
 
+	int getHealth() override {
+		if (temphealth == -1) return this->health;
+		else return temphealth;
+	}
 
 	//-------UPDATING-------
 

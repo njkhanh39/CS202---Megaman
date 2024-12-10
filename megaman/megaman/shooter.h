@@ -62,7 +62,7 @@ public:
 	//scale animation
 
 	virtual void ScaleProjectileAnimation(float f1, float f2);
-private:
+protected:
 	//load
 
 	virtual void Load(Direction dir);

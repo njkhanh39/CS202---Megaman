@@ -10,6 +10,7 @@ public:
 
 		this->velocityX = 70;
 		this->collisiondamage = 30;
+		this->health = 50;
 
 		InnitAnimation();
 
@@ -23,6 +24,7 @@ public:
 
 		this->velocityX = 70;
 		this->collisiondamage = 30;
+		this->health = 50;
 
 		InnitAnimation();
 

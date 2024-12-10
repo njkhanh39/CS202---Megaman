@@ -156,6 +156,8 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="attackenemies.h" />
     <ClInclude Include="Auxiliaries\Button.h" />
+    <ClInclude Include="boss.h" />
+    <ClInclude Include="boss_1.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemy.h" />
@@ -163,6 +165,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="enumdirection.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="healthbar.h" />
     <ClInclude Include="Manager\TextureManager.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="obstacle.h" />

@@ -37,6 +37,7 @@ public: //view range = 150.f
 		InnitShooterType();
 		InnitAnimation();
 		
+		this->health = 200; 
 
 		this->dilation = { 0.f, 20.f };
 

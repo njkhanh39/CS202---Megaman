@@ -34,6 +34,7 @@ public:
 
 		//check for view rect dragging downwards
 
+		
 		if (character->getCenterPosition().y + height / 2 > downlimit) {
 			view->setCenter(Vector2f(character->getCenterPosition().x, downlimit - height / 2));
 		}
@@ -63,21 +64,20 @@ public:
 			view->setCenter(character->getCenterPosition().x, uplimit + height / 2);
 		}
 
-		//top = view->getCenter().y - view->getSize().y / 2;
+	}
 
-		////check for view rect dragging upwards
+	Vector2f GetViewCenter() {
+		return view->getCenter();
+	}
 
-		//if (character->getDownMostY() >= upperbound) {//normal, only update x-coor
-		//	view->setCenter(Vector2f( character->getCenterPosition().x, height / 2 ));
-		//}
-		//else if (top >= uplimit) {
-		//	//center with char
+	Vector2f GetViewSize() {
+		return view->getSize();
+	}
 
-		//	view->setCenter(character->getCenterPosition());
-		//}
-		//else {// the view rect cannot get any higher
-		//	
-		//	view->setCenter(character->getCenterPosition().x, uplimit + height / 2);
-		//}
+	Vector2f GetTopLeftCoordinates() {
+		int left = view->getCenter().x - view->getSize().x / 2;
+		int top = view->getCenter().y - view->getSize().y / 2;
+
+		return (Vector2f(left, top));
 	}
 };

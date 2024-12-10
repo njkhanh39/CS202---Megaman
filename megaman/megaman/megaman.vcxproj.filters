@@ -122,5 +122,14 @@
     <ClInclude Include="enemyspawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="healthbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boss_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="boss.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

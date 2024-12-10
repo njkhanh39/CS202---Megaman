@@ -1,6 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 #include "camera.h"
+#include "healthbar.h"
 #include "PauseMenu.h"
 #include "world.h"
 
@@ -8,19 +9,24 @@ class GameState : public State {
 private:
 	World* m_world;
 	Character* m_character;
+	HealthBar* charHealthBar;
 
 	Camera* camera;
 	PauseMenu* pauseMenu;
 public:
 	GameState(MainWindow* window, TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue):
 		State(window, textureManager, statequeue)
-	, pauseMenu(nullptr){
+	, pauseMenu(nullptr), charHealthBar(nullptr){
+
 		std::cout << "Creating GameState\n";
+
 		m_world = new World(textureManager);
+
 		m_character = new Character(textureManager, 50, 50);
 		
-
 		CreateCameraMap1();
+
+		CreateCharacterHealthBar();
 
 		//this comes after camera. Every time we open, it needs to readjust
 
@@ -32,6 +38,7 @@ public:
 		if (m_character) delete m_character;
 		if (pauseMenu) delete pauseMenu;
 		if (camera) delete camera;
+		if (charHealthBar) delete charHealthBar;
 	}
 
 	////dont call inside class
@@ -62,7 +69,7 @@ public:
 		}
 
 		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
-			auto v = this->m_character->getCenterPosition();
+			auto v = camera->GetTopLeftCoordinates();
 			std::cout << v.x << "," << v.y << '\n';
 		}
 
@@ -81,6 +88,7 @@ public:
 		if (!this->paused) {
 			if(!m_character->IsDead()) m_character->HandleEventInput(evt, dt);
 		}
+
 	}
 
 	void HandleInput(Time& dt) override {
@@ -112,8 +120,12 @@ public:
 			this->UpdateButtons();
 
 
+			//-----------------CHARACTER--------------------
+
+			this->charHealthBar->Update(m_character, camera->GetViewCenter(), camera->GetViewSize());
+
 			if (!m_character->IsDead()) {
-				//-----------------CHARACTER--------------------
+				
 
 				m_character->Update(dt);
 
@@ -124,6 +136,7 @@ public:
 			}
 			else {
 				if (!this->lockQueueCommand) {
+					lockQueueCommand = true;
 					this->statequeue->push(QUIT);
 					this->statequeue->push(PUSH_GAMEOVER);
 				}
@@ -160,12 +173,19 @@ public:
 			//draw this first, always
 			m_world->Render(target);
 			if(m_character && !m_character->IsDead()) m_character->Render(target);
+
+			//draw the healthbar
+			this->charHealthBar->Render(target);
+
 			//draw pause menu
 			pauseMenu->Render(target);
 		}
 		else {
 			m_world->Render(target);
 			if(m_character && !m_character->IsDead()) m_character->Render(target);
+
+			//draw the healthbar
+			this->charHealthBar->Render(target);
 		}
 	}
 
@@ -173,6 +193,11 @@ private:
 	void CreateCameraMap1() {
 		camera = new Camera(0, 0, 350, 200, MAP1CONST::UPBOUND, MAP1CONST::LOWBOUND, MAP1CONST::UPLIMIT,
 			MAP1CONST::DOWNLIMIT, this->stateview);
+	}
+
+	void CreateCharacterHealthBar() {
+		charHealthBar = new HealthBar(textureManager, "Animation\\X\\X_Healthbar.png",
+			m_character->getHealth(), 30, 2.f, 2.f);
 	}
 };
 
