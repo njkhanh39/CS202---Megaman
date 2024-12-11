@@ -19,6 +19,7 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	this->health = 300;
 	this->invisibleMaxTimer = 100.f; //the bigger, the longer character remains invisible
 	this->velocityX = 120;
+	this->gravity = 500;
 
 
 	//dilation
@@ -61,10 +62,10 @@ void Character::Render(RenderWindow* l_window) {
 void Character::HandleEventInput(Event& evt, Time& elapsed) {
 	if (this->invisible) return; //when invisible, cannot do anything
 
-	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
+	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::Enter) {
 		Shoot(elapsed.asSeconds());
 	}
-	else if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::E) {
+	else if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::Enter) {
 		std::cout << "Release!\n";
 
 		ChargeShoot();
@@ -189,13 +190,11 @@ void Character::UpdateEntity(float delt)  {
 		//(make character fall)
 
 
-		if ((!left || !right) && fall) {
+		if (isGrabbing) {
 			velocityY += slowGravity * delt;
-			isGrabbing = true;
 		}
 		else {
 			velocityY += gravity * delt;
-			isGrabbing = false;
 		}
 
 		//when reaches a limit, fall & isJumping will be turned to false

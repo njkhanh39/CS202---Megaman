@@ -20,6 +20,7 @@ private:
 	Sprite* sprite;
 
 	bool invisible = false;
+	bool canClimb = true;
 	int damage = 0;
 public:
 
@@ -27,9 +28,9 @@ public:
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible);
 
-	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage);
+	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage, bool canClimb);
 
-	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage);
+	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage, bool canClimb);
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file);
 	~Obstacle();
@@ -37,6 +38,10 @@ public:
 
 	int getDamage() {
 		return damage;
+	}
+
+	bool CanBeClimbed() {
+		return this->canClimb;
 	}
 
 	//getters

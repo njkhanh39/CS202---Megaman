@@ -2,7 +2,7 @@
 #include "attackenemies.h"
 
 enum BOSSCOMMANDS {
-	ATTACK1 = 1, ATTACK2 = 2, ATTACK3 = 3, ATTACK4 = 4
+	IDLE = 0,ATTACK1 = 1, ATTACK2 = 2, ATTACK3 = 3, ATTACK4 = 4, JUMP = 5
 };
 
 class Boss : public Enemy {
@@ -11,11 +11,13 @@ protected:
 
 	//---Map-related--//
 
+
+	//boss's region
 	Vector2f bounded = { 0.f, 0.f };
 
 	//---Timer---//
 
-	const float delay;//there should be delays between commands
+	float delay;//there should be delays between commands
 	float timer = 0;
 
 	std::map<BOSSCOMMANDS, float> actionDuration; //the time of each action
@@ -26,15 +28,13 @@ protected:
 
 	//command flags
 
-	bool flags[4] = { false };
+	bool flags[6] = { false };
 public:
-	Boss(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange
-		, std::vector<BOSSCOMMANDS>& coms, float delay): 
-		Enemy(textureManager,x,y,sizex,sizey, _viewRange), delay(delay){
+	Boss(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange, Vector2f bounded
+		, float delay): 
+		Enemy(textureManager,x,y,sizex,sizey, _viewRange), delay(delay), bounded(bounded){
 
-		for (auto& c : coms) {
-			this->commands.push_back(c);
-		}
+
 
 	}
 
@@ -50,40 +50,17 @@ public:
 
 	//void HandleProjectileCollision(Obstacle* obs) override {}
 protected:
-
-	//virtual void AttackCharacter(Character* character, float delt) {
-	//	timer += 600 * delt;
-
-	//	if (timer >= delay) {
-
-	//		BOSSCOMMANDS curcmd = commands[cur];
-
-	//		actionTimer += 600 * delt;
-
-	//		if (actionTimer >= actionDuration[curcmd]) {
-
-	//			//Action
-
-
-
-	//			//reset
-	//			timer = 0;
-	//			actionTimer = 0;
-	//		}
-	//	}
-	//}
-
-	//virtual void UpdateEnemyBehaviour(Character* character, float delt) {}
-
-	//virtual void InnitAnimation() {}
-
-	////------------------
+	
 
 	void TurnOnFlag(short int i) {
-		if (!(0 <= i && i <= 3)) return;
+		if (!(0 <= i && i <= 5)) return;
 
 		for (auto& x : flags) x = false;
 		this->flags[i] = true;
+	}
+
+	void FinishAttack(BOSSCOMMANDS cmd) {
+		this->actionTimer = actionDuration[cmd];
 	}
 
 	virtual void ExecuteCommand(Character* character, float delt, BOSSCOMMANDS com) = 0;
@@ -98,5 +75,16 @@ protected:
 
 	virtual void ExecuteAttack3(Character* character, float delt) = 0;
 
-	virtual void ExecuteAttack4(Character* character, float delt) = 0;
+	virtual void ExecuteAttack4(Character* character, float delt) = 0;	
+	
+
+	virtual void InnitBossAttributes(float x, float y) = 0;
+
+	virtual void InnitBossCommands() = 0;
+
+	virtual void InnitBossWeapon() = 0;
+	
+	virtual void InnitActionDuration() = 0;
+
+	//void innit animation
 };

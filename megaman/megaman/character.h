@@ -60,6 +60,10 @@ public:
 		else return temphealth;
 	}
 
+	bool IsInBossRegion(Vector2f bossRegion) {
+		if (getLeftMostX() >= bossRegion.x) return true;
+		return false;
+	}
 	//-------UPDATING-------
 
 	//literally everything

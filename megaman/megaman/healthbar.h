@@ -49,7 +49,7 @@ public:
 		target->draw(blackrect);
 	}
 
-	void Update(Character* character, Vector2f viewCenter, Vector2f viewSize) {
+	void Update(Entity* character, Vector2f viewCenter, Vector2f viewSize) {
 		this->UpdateHealth(character);
 		this->UpdatePosition(viewCenter, viewSize);
 	}
@@ -62,7 +62,7 @@ private:
 		blackrect.setPosition(screenPos + defaultstartpoint);
 	}
 
-	void UpdateHealth(Character* character) {
+	void UpdateHealth(Entity* character) {
 		if (character->isInvisible()) { //only update when needed for best performance
 			int curhealth = character->getHealth(); //multiple of 10
 

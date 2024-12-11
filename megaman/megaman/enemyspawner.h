@@ -1,10 +1,11 @@
 #pragma once
 #include "attackenemies.h"
+#include "boss_1.h"
 #include <fstream>
 #include <sstream>
 
 enum EnemyType {
-	SHOOTER=1,MOVING=2
+	SHOOTER=1,MOVING=2, BOSS = 3
 };
 
 struct EnemyInfo {
@@ -101,6 +102,12 @@ public:
 			if (info[current].no == 1) {
 				enemy->push_back(nullptr);
 				enemy->back() = new AttackEnemy1(textureManager, info[current].position.x, info[current].position.y);
+			}
+		}
+		else if (info[current].type == EnemyType::BOSS) {
+			if (info[current].no == 1) {
+				enemy->push_back(nullptr);
+				enemy->back() = new Vile(textureManager, info[current].position.x, info[current].position.y, Vector2f(6730, 7080), 50.f);
 			}
 		}
 	}

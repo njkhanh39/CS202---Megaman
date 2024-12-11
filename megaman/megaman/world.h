@@ -29,6 +29,15 @@ public:
 	std::vector<Enemy*> enemy;
 	std::vector<Obstacle*> platform;
 
+	const int boss_region_left = 6730;
+	const int boss_region_right = 7080;
+
+	bool isBossFight = false;
+	bool lockBossRegion = false;
+
+	//---------------------//
+
+
 	World(TextureManager* textureManager);
 
 	~World();
@@ -69,6 +78,26 @@ public:
 			}
 		}
 		this->enemySpawner->UpdateSpawn(character);
+
+		//---BOSS----//
+
+		if (this->isBossFight && lockBossRegion==false) {
+			LockBossZone();
+		}
+	}
+
+	Vector2f GetBossRegion() {
+		return Vector2f(boss_region_left, boss_region_right);
+	}
+
+	Boss* GetBossPointer() {
+		if (enemy.empty()) return nullptr;
+
+		if (dynamic_cast<Boss*>(enemy.back())) {
+			return dynamic_cast<Boss*>(enemy.back());
+		}
+
+		return nullptr;
 	}
 
 private:
@@ -85,13 +114,13 @@ private:
 			{ //still let it move through, but take damage
 				if (!character->isInvisible()) {
 					character->TakeDamage(enemy[i]->GetCollisionDamage());
-					character->MoveRight(0.1f);
+					if(character->right) character->MoveRight(0.1f);
 				}
 			}
 			else if (!character->canMoveRight(enemy[i])) {
 				if (!character->isInvisible()) {
 					character->TakeDamage(enemy[i]->GetCollisionDamage());
-					character->MoveLeft(0.1f);
+					if (character->left) character->MoveLeft(0.1f);
 				}
 			}
 			else if (character->isHeadBlocked(enemy[i])) {
@@ -160,6 +189,8 @@ private:
 
 		//check obstacle left-touch = character-right touch
 
+		int leftidx = -1, rightidx = -1;
+
 		bool yesLeft = true, yesRight = true, yesFall = true;
 
 		bool headBlock = false;
@@ -171,10 +202,12 @@ private:
 
 			if (!en->canMoveRight(platform[i])) {
 				yesRight = false;
+				rightidx = i;
 				en->TakeDamage(platform[i]->getDamage());
 			}
 			if (!en->canMoveLeft(platform[i])) {
 				yesLeft = false;
+				leftidx = i;
 				en->TakeDamage(platform[i]->getDamage());
 			}
 			if (!en->canKeepFalling(platform[i])) {
@@ -191,8 +224,11 @@ private:
 
 		en->right = yesRight; //can move right
 		en->left = yesLeft; //can move left
+		
 		if (yesFall) {
 			en->fall = true; //can fall
+
+			en->isGrabbing = false;
 		}
 		else {
 			en->fall = false;
@@ -206,7 +242,12 @@ private:
 
 		//wall grab - jump - only for char
 		if (dynamic_cast<Character*>(en)) {
-			if ((!en->left || !en->right) && en->fall) {
+			if (leftidx != -1 && en->fall && platform[leftidx]->CanBeClimbed()) {
+				en->isGrabbing = true;
+				en->isJumping = false;
+			}
+			else if (rightidx != -1 && en->fall && platform[rightidx]->CanBeClimbed()) {
+				en->isGrabbing = true;
 				en->isJumping = false;
 			}
 		}
@@ -215,9 +256,9 @@ private:
 	//-----TEST--------//
 
 
-	void CreatePlatform(float x, float y, float xSize, float ySize, int damage, bool invisible) {
+	void CreatePlatform(float x, float y, float xSize, float ySize, int damage, bool invisible, bool canClimb) {
 		platform.push_back(nullptr);
-		platform.back() = new Obstacle(textureManager, Vector2f(x, y), Vector2f(xSize, ySize), invisible, damage);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), Vector2f(xSize, ySize), invisible, damage, canClimb);
 	}
 
 	void CreatePlatform(float x, float y, const std::string& file) {
@@ -225,9 +266,9 @@ private:
 		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file);
 	}
 
-	void CreatePlatform(float x, float y, int damage, const std::string& file) {
+	void CreatePlatform(float x, float y, int damage, const std::string& file, bool canClimb) {
 		platform.push_back(nullptr);
-		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file, damage);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file, damage, canClimb);
 	}
 
 	void CreateWorld(const std::string& dir, const std::string& mapfile, const std::string& obs1file, const std::string& obs2file) {
@@ -240,10 +281,16 @@ private:
 		this->LoadSpecialObstacles(dir, obs2file);
 	}
 
-private:
+	void LockBossZone() {
+		CreatePlatform(boss_region_left, 0, 1, 400, 0, 1, 0);
+		CreatePlatform(boss_region_right, 0, 1, 400, 0, 1, 0);
+		lockBossRegion = true;
+	}
+
+	
 
 	//helpers
-
+	
 	void LoadInvisibleObstacles(const std::string& file) {
 		std::ifstream fin;
 
@@ -272,8 +319,8 @@ private:
 				coords.push_back(std::stoi(field));
 			}
 
-			if ((int)coords.size() == 5) {
-				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], false);
+			if ((int)coords.size() == 6) {
+				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], true, coords[5]);
 			}
 		}
 
@@ -311,8 +358,8 @@ private:
 				coords.push_back(std::stoi(field));
 			}
 
-			if ((int)coords.size() == 4) {
-				this->CreatePlatform(coords[0], coords[1],coords[3], dir + std::to_string(coords[2]) + ".png");
+			if ((int)coords.size() == 5) {
+				this->CreatePlatform(coords[0], coords[1],coords[3], dir + std::to_string(coords[2]) + ".png", coords[4]);
 			}
 		}
 
@@ -320,4 +367,5 @@ private:
 		//--------
 		fin.close();
 	}
+
 };

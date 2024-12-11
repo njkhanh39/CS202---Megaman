@@ -71,42 +71,33 @@ private:
 
 	//----------------------
 
-	const float dashVelocity = 300.f;
-	const float normalVelocityX = 120.f;
+	const float dashVelocity = 240.f;
+	const float normalVelocityX = 180.f;
 
-	//---Weapon
+
+	//--------ATTACK3'S------------
+
+	float attack3_timer = 0;
+
+	//----------------------
+
+
+	//---Weapon--//
 	ElectricCannon* cannon;
 public:
-	Vile(TextureManager* textureManager, float x, float y, std::vector<BOSSCOMMANDS>& coms, float delay):
-		Boss(textureManager, x, y, 20,40, 300, coms, delay) //no scaling
+	Vile(TextureManager* textureManager, float x, float y, Vector2f bounded, float delay):
+		Boss(textureManager, x, y, 20,40, 300,bounded, delay) //no scaling
 	{
-		//vile's hitbox should be smaller than sprite (54,45)
+				
+		InnitBossAttributes(x, y);
 
+		InnitActionDuration();
+
+		InnitBossCommands();
+
+		InnitBossWeapon();
 		
-		//-----------//
-
-
-		this->health = 1000;
-		this->velocityX = 120.f;
-		//----------//
-
-		//Innit the duration for each attack
-
-
-		actionDuration[ATTACK1] = 100.f; //for example
-
-
-		//
-
-
-		this->dilation = normal_dilation;
-		this->Entity::setPosition({ x,y });
-
-		cannon = new ElectricCannon(textureManager);
-
-		//vile can use the cannon faster
-
-		cannon->SetClockDelay(0.5f);
+		InnitAnimation();
 	}
 
 	~Vile() {
@@ -114,10 +105,12 @@ public:
 	}
 
 	void Update(Character* character, float delt) override {
-		this->AttackCharacter(character, delt); //bro has no life, all he does is attack X
+		this->UpdateEntity(delt);
+		this->UpdateEnemyBehaviour(character, delt);
+		this->UpdateEnemyProjectiles(delt);
 	}
 
-	virtual void Render(RenderWindow* l_window) override {
+	void Render(RenderWindow* l_window) override {
 		//l_window->draw(this->frame);
 		l_window->draw(this->sprite);
 		cannon->RenderProjectiles(l_window);
@@ -195,15 +188,34 @@ protected:
 		std::string dr = "_left";
 		if (this->direction == Direction::Right) dr = "_right";
 
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 6; ++i) {
 			if (flags[i]) {
-				movingAnimation->Play("Command" + std::to_string(i + 1) + dr, delt);
+				movingAnimation->Play("Command" + std::to_string(i) + dr, delt);
 				break;
 			}
 		}
 	}
 
-	virtual void AttackCharacter(Character* character, float delt) {
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		if (flags[0]) {
+			if (direction != LocateCharacterDir(character)) {
+				this->FaceDirection(LocateCharacterDir(character));
+			}
+		}
+
+		AttackCharacter(character, delt);
+	}
+
+
+	void UpdateEnemyProjectiles(float delt) {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		if(direction == Direction::Right) cannon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y });
+		else cannon->UpdateMovingProjectiles(delt, { pos.x, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
 		timer += 600 * delt;
 
 		if (timer >= delay) {
@@ -221,44 +233,58 @@ protected:
 
 			if (actionTimer >= actionDuration[curcmd]) {
 				//reset
-
-				timer = 0;
-				actionTimer = 0;
+				std::cout << "reset!\n";
 				this->ResetAfterAttack();
 				++cur;
-				if (cur > (int)commands.size()) cur = 0;
+				if (cur >= (int)commands.size()) cur = 0;
 			}
 		}
 	}
 
-	//virtual void UpdateEnemyBehaviour(Character* character, float delt) {}
+	
 
 	void ExecuteCommand(Character* character, float delt, BOSSCOMMANDS com) override {
 		if (com == BOSSCOMMANDS::ATTACK1) {
 			this->ExecuteAttack1(character, delt);
 		}
+		if (com == BOSSCOMMANDS::ATTACK2) {
+			this->ExecuteAttack2(character, delt);
+		}
+		if (com == BOSSCOMMANDS::ATTACK3) {
+			this->ExecuteAttack3(character, delt);
+		}
 	}
 
 	void ResetAfterAttack() override {
+		timer = 0;
+		actionTimer = 0;
 		//after executing attack1
 		this->velocityX = this->normalVelocityX;
+
+		//idle after attack
+
+		TurnOnFlag(0);
 	}
 
 	void ExecuteAttack1(Character* character, float delt) override {//Dash attack
-		auto dir = LocateCharacterDir(character);
 
-		if (dir != direction) this->FaceDirection(dir);
+		if (!flags[1]) {
+			FaceDirection(LocateCharacterDir(character));
+		}
+		
+		this->TurnOnFlag(1);
+		this->velocityX = this->dashVelocity;
 
-		this->TurnOnFlag(0);
-
-		this->velocityX = dashVelocity;
-
-		if (dir == Direction::Left && this->getLeftMostX() - 5.f > bounded.x) { //meet wall = stawp
+		if (direction == Direction::Left && this->getLeftMostX() - 5.f > bounded.x) {
 			this->Entity::MoveLeft(delt);
 		}
-		else if (dir == Direction::Right && this->getRightMostX() + 5.f < bounded.y) {
+		else if (direction == Direction::Right && this->getRightMostX() + 5.f < bounded.y) {
 			this->Entity::MoveRight(delt);
 		}
+		else {
+			FinishAttack(ATTACK1);
+		}
+
 	}
 
 	void ExecuteAttack2(Character* character, float delt) override {//Static fire
@@ -266,14 +292,100 @@ protected:
 
 		if (dir != direction) this->FaceDirection(dir);
 
-		this->TurnOnFlag(1);
+		this->TurnOnFlag(2);
 
 		this->Shoot(delt);
 	}
+
+	void ExecuteAttack3(Character* character, float delt) override {
+		attack3_timer += 600 * delt;
+
+		// 0  -->  1/3 = dash;  1/3 -->  2/3 = jump; 2/3 -> 1/1 duration = dash
+	
+		if (attack3_timer <= actionDuration[ATTACK3]/3) {
+			//dashing
+
+			this->TurnOnFlag(1); //dashing animation
+
+			if (direction == Direction::Left) {
+				MoveLeft(delt);
+			}
+			else MoveRight(delt);
+		}
+		else if(attack3_timer <= 2*actionDuration[ATTACK3]/3) {
+			//Jumping
+
+			this->TurnOnFlag(5); //jumping animation
+
+			this->Jump(delt);
+		}
+		else if (attack3_timer <= actionDuration[ATTACK3]) {
+			//Dashing
+
+			this->TurnOnFlag(1); //dashing animation
+
+			if (direction == Direction::Left) {
+				MoveLeft(delt);
+			}
+			else MoveRight(delt);
+		}
+		else {
+			//reset
+			attack3_timer = 0;
+		}
+	}
+
+	void ExecuteAttack4(Character* character, float delt) override {}
+
+	void InnitBossAttributes(float x, float y) override {
+		//-----------//
+
+		this->delay = 2000.f;
+		this->health = 1000;
+		this->velocityX = 80.f;
+		this->collisiondamage = 30.f;
+		//----------//
+		//vile's hitbox should be smaller than sprite (54,45)
+		this->dilation = normal_dilation;
+		this->Entity::setPosition({ x,y });
+		
+	}
+
+	void InnitBossCommands() override {
+		TurnOnFlag(0);
+		commands.push_back(BOSSCOMMANDS::ATTACK1);
+		commands.push_back(BOSSCOMMANDS::ATTACK2);
+	}
+
+	void InnitBossWeapon() override{
+		cannon = new ElectricCannon(textureManager);
+
+		//vile can use the cannon faster
+
+		cannon->SetClockDelay(0.6f);
+	}
+
+	void InnitActionDuration() override  {
+		//command0 = idle doesnt need duration
+
+		actionDuration[ATTACK1] = 4000.f;
+		actionDuration[ATTACK2] = 4000.f;
+		actionDuration[ATTACK3] = 5100.f;
+	}
 	
 
-	virtual void InnitAnimation() {
-		movingAnimation->AddAnimation("Command1_left", "Animation\\Map1\\Vile\\DashLeft.png", 70.f, 0, 0, 3, 0, 54, 45);
-	
+	void InnitAnimation() override {
+		//idle
+		movingAnimation->AddAnimation("Command0_left", "Animation\\Map1\\Vile\\Idle_Left.png", 100.f, 0, 0, 0,0, 54, 45);
+		movingAnimation->AddAnimation("Command0_right", "Animation\\Map1\\Vile\\Idle_Right.png", 100.f, 0, 0, 0, 0, 54, 45);
+
+		//attack1 - dash
+		movingAnimation->AddAnimation("Command1_left", "Animation\\Map1\\Vile\\DashLeft.png", 100.f, 0, 0, 3, 0, 54, 45);
+		movingAnimation->AddAnimation("Command1_right", "Animation\\Map1\\Vile\\DashRight.png", 100.f, 0, 0, 3, 0, 54, 45);
+
+
+		//attack2 - shoot
+		movingAnimation->AddAnimation("Command2_left", "Animation\\Map1\\Vile\\ShootLeft.png", 100.f, 0, 0, 2, 0, 54, 45);
+		movingAnimation->AddAnimation("Command2_right", "Animation\\Map1\\Vile\\ShootRight.png", 100.f, 0, 0, 2, 0, 54, 45);
 	}
 };

@@ -30,9 +30,10 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, b
 	sprite->setPosition(position);
 }
 
-Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage) :
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage, bool canClimb) :
 	Obstacle(textureManager, pos, siz, invisible) {
 	this->damage = damage;
+	this->canClimb = canClimb;
 }
 
 
@@ -57,9 +58,10 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::stri
 
 }
 
-Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage):
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage, bool canClimb):
 	Obstacle(textureManager, pos, file) {
 	this->damage = damage;
+	this->canClimb = canClimb;
 }
 
 Obstacle::~Obstacle() {
