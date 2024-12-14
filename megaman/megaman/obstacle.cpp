@@ -36,6 +36,13 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, b
 	this->canClimb = canClimb;
 }
 
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage, bool canClimb, bool canPierce) :
+	Obstacle(textureManager, pos, siz, invisible) {
+	this->damage = damage;
+	this->canClimb = canClimb;
+	this->canPierce = canPierce;
+}
+
 
 Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file) : position(pos), textureManager(textureManager) {
 	textureManager->BorrowTexture(file, texture);
@@ -62,6 +69,13 @@ Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::stri
 	Obstacle(textureManager, pos, file) {
 	this->damage = damage;
 	this->canClimb = canClimb;
+}
+
+Obstacle::Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage, bool canClimb, bool canPierce):
+	Obstacle(textureManager, pos, file) {
+	this->damage = damage;
+	this->canClimb = canClimb;
+	this->canPierce = canPierce;
 }
 
 Obstacle::~Obstacle() {

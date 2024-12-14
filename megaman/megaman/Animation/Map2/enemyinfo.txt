@@ -1,0 +1,4 @@
+3, types and no, left limit, x coordinates, y coordinates, right limit (for auto spawn), moving dir (for shooter3)
+1,3,0,440,308,700,1
+1,3,0,705,308,960,1
+1,3,1010,1419,279,1720,0

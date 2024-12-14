@@ -32,6 +32,8 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 
 bool Projectile::IsHit(Obstacle* obs) {
 
+	if (obs->CanBePierced()) return false;
+
 	float l1 = obs->getLeftMostX(), l2 = getLeftMostX();
 	float r1 = obs->getRightMostX(), r2 = getRightMostX();
 	float u1 = obs->getUpMostY(), u2 = getUpMostY();

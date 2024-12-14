@@ -63,7 +63,7 @@ private:
 	}
 
 	void UpdateHealth(Entity* character) {
-		if (character->isInvisible()) { //only update when needed for best performance
+		if (character->isInvisible() || character->IsDead()) { //only update when needed for best performance
 			int curhealth = character->getHealth(); //multiple of 10
 
 			//update curbars

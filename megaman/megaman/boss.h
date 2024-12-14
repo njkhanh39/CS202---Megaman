@@ -2,7 +2,7 @@
 #include "attackenemies.h"
 
 enum BOSSCOMMANDS {
-	IDLE = 0,ATTACK1 = 1, ATTACK2 = 2, ATTACK3 = 3, ATTACK4 = 4, JUMP = 5
+	IDLE = 0,ATTACK1 = 1, ATTACK2 = 2, ATTACK3 = 3, ATTACK4 = 4, JUMP = 5, DIE = 6
 };
 
 class Boss : public Enemy {
@@ -15,8 +15,14 @@ protected:
 	//boss's region
 	Vector2f bounded = { 0.f, 0.f };
 
-	//---Timer---//
 
+
+	//die
+	float deathAnimationMaxTimer = 400.f;
+	float death_timer = 0.f;
+	bool finishDeathAnimation = false;
+
+	//attack / executions
 	float delay;//there should be delays between commands
 	float timer = 0;
 
@@ -28,7 +34,7 @@ protected:
 
 	//command flags
 
-	bool flags[6] = { false };
+	bool flags[7] = { false };
 public:
 	Boss(TextureManager* textureManager, float x, float y, float sizex, float sizey, float _viewRange, Vector2f bounded
 		, float delay): 
@@ -53,7 +59,7 @@ protected:
 	
 
 	void TurnOnFlag(short int i) {
-		if (!(0 <= i && i <= 5)) return;
+		if (!(0 <= i && i <= 6)) return;
 
 		for (auto& x : flags) x = false;
 		this->flags[i] = true;
@@ -61,6 +67,21 @@ protected:
 
 	void FinishAttack(BOSSCOMMANDS cmd) {
 		this->actionTimer = actionDuration[cmd];
+	}
+
+	void UpdateDeath(float delt) { //play this only once
+		if (this->finishDeathAnimation) return;
+
+		death_timer += 600 * delt;
+
+		if (death_timer <= deathAnimationMaxTimer) {
+			if(direction == Direction::Left) movingAnimation->Play("Command6_left", delt);
+			else movingAnimation->Play("Command6_right", delt);
+		}
+		else {
+			death_timer = 0;
+			this->finishDeathAnimation = true;
+		}
 	}
 
 	virtual void ExecuteCommand(Character* character, float delt, BOSSCOMMANDS com) = 0;

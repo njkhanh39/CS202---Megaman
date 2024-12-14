@@ -20,19 +20,18 @@ public:
 
 		std::cout << "Creating GameState\n";
 
-		m_world = new World(textureManager);
+		CreateCameraMap2();
 
-		m_character = new Character(textureManager, 6550, 50);
-		
-		CreateCameraMap1();
+		CreateWorld2();
 
-		CreateCharacterHealthBar();
+		CreateCharacterAndHealthBar();
 
 		CreateBossHealthBar();
 
-		//this comes after camera. Every time we open, it needs to readjust
 
-		pauseMenu = new PauseMenu(window, this->getCenterViewX(), this->getCenterViewY());
+		//this comes after camera. Every time we open, it needs to readjust
+		
+		CreatePauseMenu();
 	}
 	~GameState(){
 		std::cout << "GameState destructor!\n";
@@ -41,6 +40,7 @@ public:
 		if (pauseMenu) delete pauseMenu;
 		if (camera) delete camera;
 		if (charHealthBar) delete charHealthBar;
+		if (bossHealthBar) delete bossHealthBar;
 	}
 
 	////dont call inside class
@@ -121,11 +121,11 @@ public:
 			this->UpdateButtons();
 
 
-			//-----------------CHARACTER--------------------
+		//------CAMERA
 
 			this->charHealthBar->Update(m_character, camera->GetViewCenter(), camera->GetViewSize());
 			if (m_boss) this->bossHealthBar->Update(m_boss, camera->GetViewCenter(), camera->GetViewSize());
-
+	//-----------------CHARACTER--------------------
 			if (!m_character->IsDead()) {
 				
 
@@ -203,12 +203,40 @@ public:
 	}
 
 private:
+
+	//-----------------WORLD 1-----------------//
 	void CreateCameraMap1() {
+		//these are restricted regions in a map that the camera cannot access
+		std::vector<FloatRect> tmp = { FloatRect(0, 200, 2358, 200), FloatRect(3100, 200, 4000, 200) };
+
 		camera = new Camera(0, 0, 350, 200, MAP1CONST::LEFTLIMIT, MAP1CONST::RIGHTLIMIT, MAP1CONST::UPLIMIT,
-			MAP1CONST::DOWNLIMIT, MAP1CONST::BOSS_REGION_LEFT, MAP1CONST::BOSS_REGION_RIGHT, this->stateview);
+			MAP1CONST::DOWNLIMIT, MAP1CONST::BOSS_REGION_LEFT, MAP1CONST::BOSS_REGION_RIGHT, this->stateview, tmp);
 	}
 
-	void CreateCharacterHealthBar() {
+	void CreateWorld1() {
+		m_world = new World(textureManager, MAP1CONST::BOSS_REGION_LEFT, MAP1CONST::BOSS_REGION_RIGHT, "Animation\\Map1\\"
+			, "highway.png");
+	}
+	//-----------------------------------------//
+
+	//-----------------WORLD 2-----------------//
+	void CreateCameraMap2() {
+		//these are restricted regions in a map that the camera cannot access
+		std::vector<FloatRect> tmp = {FloatRect(0,512,1884,10), FloatRect(0,0,2941,270)};
+
+		camera = new Camera(0, 0, 350, 200, MAP2CONST::LEFTLIMIT2, MAP2CONST::RIGHTLIMIT2, MAP2CONST::UPLIMIT2,
+			MAP2CONST::DOWNLIMIT2, MAP2CONST::BOSS_REGION_LEFT2, MAP2CONST::BOSS_REGION_RIGHT2, this->stateview, tmp);
+	}
+
+	void CreateWorld2() {
+		m_world = new World(textureManager, MAP2CONST::BOSS_REGION_LEFT2, MAP2CONST::BOSS_REGION_RIGHT2, "Animation\\Map2\\"
+			, "factory.png");
+	}
+	//-----------------------------------------//
+
+	void CreateCharacterAndHealthBar() {
+		m_character = new Character(textureManager, 50, 350);
+
 		charHealthBar = new HealthBar(textureManager, "Animation\\X\\X_Healthbar.png",
 			m_character->getHealth(), 30, 2.f, 2.f);
 	}
@@ -216,6 +244,10 @@ private:
 	void CreateBossHealthBar() {
 		bossHealthBar = new HealthBar(textureManager, "Animation\\Map1\\Vile\\Vile_HealthBar.png",
 			1000, 40, 332.f, 2.f);
+	}
+
+	void CreatePauseMenu() {
+		pauseMenu = new PauseMenu(window, this->getCenterViewX(), this->getCenterViewY());
 	}
 };
 

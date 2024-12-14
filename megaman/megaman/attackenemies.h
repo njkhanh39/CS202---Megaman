@@ -34,12 +34,14 @@ public:
 	}
 
 	 void Update(Character* character, float delt) override{
+		 if (this->IsDead()) return;
 		 this->Entity::UpdateEntity(delt);
 		 this->UpdateEnemyBehaviour(character, delt);
 		 this->AttackCharacter(character, delt);
 	 }
 
 	 void Render(RenderWindow* l_window) override {
+		 if (this->IsDead()) return;
 		// l_window->draw(frame);
 		 l_window->draw(sprite);
 	 }

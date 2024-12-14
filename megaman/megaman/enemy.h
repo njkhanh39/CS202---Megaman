@@ -155,8 +155,10 @@ public:
 
 
 	void Render(RenderWindow* l_window) {
-		l_window->draw(frame);
-		l_window->draw(sprite);
+		if (!this->IsDead()) {
+			l_window->draw(frame);
+			l_window->draw(sprite);
+		}
 	}
 
 protected:

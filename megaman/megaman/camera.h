@@ -5,6 +5,10 @@ enum MAP1CONST {
 	LEFTLIMIT = 0, RIGHTLIMIT = 7080, UPLIMIT = 0, DOWNLIMIT = 400, BOSS_REGION_LEFT = 6730, BOSS_REGION_RIGHT = 7080
 };
 
+enum MAP2CONST {
+	LEFTLIMIT2 = 0, RIGHTLIMIT2 = 8174, UPLIMIT2 = 0, DOWNLIMIT2 = 767, BOSS_REGION_LEFT2 = 7756, BOSS_REGION_RIGHT2 = 8159
+};
+
 class Camera {//follows the character
 private:
 	sf::View* view; //borrowed
@@ -30,11 +34,20 @@ public:
 
 		view->setSize(sf::Vector2f(width, height));
 		view->setCenter(sf::Vector2f( left + width / 2, top + height / 2 ));
+	}
+
+	Camera(int left, int top, int width, int height, int left_limit, int right_limit, int up_limit, int down_limit,
+		int boss_left, int boss_right, sf::View* stateview, std::vector<FloatRect>& tmp) :
+		view(stateview), leftlimit(left_limit), rightlimit(right_limit), uplimit(up_limit), downlimit(down_limit), boss_region_left(boss_left),
+		boss_region_right(boss_right) {
+
+		view->setSize(sf::Vector2f(width, height));
+		view->setCenter(sf::Vector2f(left + width / 2, top + height / 2));
 
 
-		//----MAP1----//
-		restricted.push_back(FloatRect(0, 200, 2358, 200));
-		restricted.push_back(FloatRect(3100, 200, 4000, 200));
+
+
+		for (auto& x : tmp) restricted.push_back(x);
 	}
 
 	~Camera(){}

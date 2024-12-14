@@ -21,6 +21,8 @@ private:
 
 	bool invisible = false;
 	bool canClimb = true;
+	bool canPierce = false;
+
 	int damage = 0;
 public:
 
@@ -30,7 +32,11 @@ public:
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage, bool canClimb);
 
+	Obstacle(TextureManager* textureManager, Vector2f pos, Vector2f siz, bool invisible, int damage, bool canClimb, bool canPierce);
+
 	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage, bool canClimb);
+
+	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file, int damage, bool canClimb, bool canPierce);
 
 	Obstacle(TextureManager* textureManager, Vector2f pos, const std::string& file);
 	~Obstacle();
@@ -42,6 +48,10 @@ public:
 
 	bool CanBeClimbed() {
 		return this->canClimb;
+	}
+
+	bool CanBePierced() {
+		return this->canPierce;
 	}
 
 	//getters

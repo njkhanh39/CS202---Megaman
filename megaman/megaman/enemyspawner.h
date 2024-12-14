@@ -13,10 +13,19 @@ struct EnemyInfo {
 	int no; //type = Shooter,no = 1 -> shooterenemy1
 	int left;
 	sf::Vector2f position;
+	int right;
+	Direction dir;
 
 	EnemyInfo(int _type, int _no,int left, Vector2f _position):
 	type(_type), no(_no), position(_position), left(left){
+		right = -1;
+		dir = Direction::Left;
+	}
 
+	EnemyInfo(int _type, int _no, int left, Vector2f _position, int right, bool yes) :
+		type(_type), no(_no), position(_position), left(left), right(right) {
+		if (yes) dir = Direction::Right;
+		else dir = Direction::Left;
 	}
 };
 
@@ -26,8 +35,12 @@ private:
 
 	std::vector<Enemy*>* enemy; //borrow
 	std::vector<EnemyInfo> info;
+	std::vector<EnemyInfo> auto_spawn_info;
 
 	int current = 0;
+
+	float timer = 0.f;
+	float spawn_rate = 4000.f;
 public:
 	EnemySpawner(TextureManager* textureManager, std::vector<Enemy*>* enemy, const std::string& file):
 	textureManager(textureManager), enemy(enemy) {
@@ -70,44 +83,74 @@ public:
 			if ((int)coords.size() == 5) {
 				this->info.push_back(EnemyInfo(coords[0], coords[1], coords[2], Vector2f(coords[3], coords[4])));
 			}
+			else if ((int)coords.size() == 7) {
+				this->auto_spawn_info.push_back(EnemyInfo(coords[0], coords[1], coords[2], Vector2f(coords[3], coords[4]), coords[5], coords[6]));
+			}
 		}
 
 		fin.close();
 	}
 
-	void UpdateSpawn(Character* character) {
-		if (current == (int)info.size()) return;
-
+	void UpdateSpawn(Character* character, float delt) {
 		float x = character->getCenterPosition().x;
+
+		timer += 600 * delt;
+
+		if (timer >= spawn_rate) {
+
+			for (int i = 0; i < (int)auto_spawn_info.size(); ++i) {
+				if (auto_spawn_info[i].left <= x && x <= auto_spawn_info[i].right) {
+					Spawn("RepetitiveSpawn", i);
+				}
+			}
+
+			timer = 0;
+		}
+
+		if (current == (int)info.size()) return;
 
 		if (info[current].left <= x) {
 			std::cout << "Spawn enemy!\n";
-			Spawn();
+			Spawn("NormalSpawn", current);
 			++current;
 		}
 	}
 
-	void Spawn() {
-		if (info[current].type == EnemyType::SHOOTER) {
-			if (info[current].no == 1) {
+	void Spawn(const std::string& type, int index) {
+
+		EnemyInfo* ptr = nullptr;
+
+		if (type == "RepetitiveSpawn") ptr = &auto_spawn_info[index];
+		if (type == "NormalSpawn") ptr = &info[index];
+
+		if (!ptr) {
+			return;
+		}
+
+		if (ptr->type == EnemyType::SHOOTER) {
+			if (ptr->no == 1) { //big blue robot
 				enemy->push_back(nullptr);
-				enemy->back() = new ShooterEnemy1(textureManager, info[current].position.x, info[current].position.y);
+				enemy->back() = new ShooterEnemy1(textureManager, ptr->position.x, ptr->position.y);
 			}
-			else if (info[current].no == 2) {
+			else if (ptr->no == 2) { // wasp with missile launcher
 				enemy->push_back(nullptr);
-				enemy->back() = new ShooterEnemy2(textureManager, info[current].position.x, info[current].position.y);
+				enemy->back() = new ShooterEnemy2(textureManager, ptr->position.x, ptr->position.y);
+			}
+			else if (ptr->no == 3) { // handicapped laser robot
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy3(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
 			}
 		}
-		else if (info[current].type == EnemyType::MOVING) {
-			if (info[current].no == 1) {
+		else if (ptr->type == EnemyType::MOVING) {
+			if (ptr->no == 1) {
 				enemy->push_back(nullptr);
-				enemy->back() = new AttackEnemy1(textureManager, info[current].position.x, info[current].position.y);
+				enemy->back() = new AttackEnemy1(textureManager, ptr->position.x, ptr->position.y);
 			}
 		}
-		else if (info[current].type == EnemyType::BOSS) {
-			if (info[current].no == 1) {
+		else if (ptr->type == EnemyType::BOSS) {
+			if (ptr->no == 1) {
 				enemy->push_back(nullptr);
-				enemy->back() = new Vile(textureManager, info[current].position.x, info[current].position.y, Vector2f(6730, 7080), 50.f);
+				enemy->back() = new Vile(textureManager, ptr->position.x, ptr->position.y, Vector2f(6730, 7080), 50.f);
 			}
 		}
 	}

@@ -72,7 +72,7 @@ private:
 	//----------------------
 
 	const float dashVelocity = 240.f;
-	const float normalVelocityX = 180.f;
+	const float normalVelocityX = 120.f;
 
 
 	//--------ATTACK3'S------------
@@ -105,15 +105,20 @@ public:
 	}
 
 	void Update(Character* character, float delt) override {
-		this->UpdateEntity(delt);
-		this->UpdateEnemyBehaviour(character, delt);
-		this->UpdateEnemyProjectiles(delt);
+		if (!this->IsDead()) {
+			this->UpdateEntity(delt);
+			this->UpdateEnemyBehaviour(character, delt);
+			this->UpdateEnemyProjectiles(delt);
+		}
+		else this->Boss::UpdateDeath(delt);
 	}
 
 	void Render(RenderWindow* l_window) override {
 		//l_window->draw(this->frame);
-		l_window->draw(this->sprite);
-		cannon->RenderProjectiles(l_window);
+		if (!this->IsDead() || finishDeathAnimation == false) {
+			l_window->draw(this->sprite);
+			if(!this->IsDead()) cannon->RenderProjectiles(l_window);
+		}
 	}
 
 	//-----------SHOOTING-----------//
@@ -188,7 +193,7 @@ protected:
 		std::string dr = "_left";
 		if (this->direction == Direction::Right) dr = "_right";
 
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 7; ++i) {
 			if (flags[i]) {
 				movingAnimation->Play("Command" + std::to_string(i) + dr, delt);
 				break;
@@ -261,9 +266,14 @@ protected:
 		//after executing attack1
 		this->velocityX = this->normalVelocityX;
 
+		//double check after attack3
+		attack3_timer = 0.f;
+
 		//idle after attack
 
 		TurnOnFlag(0);
+
+		
 	}
 
 	void ExecuteAttack1(Character* character, float delt) override {//Dash attack
@@ -300,38 +310,34 @@ protected:
 	void ExecuteAttack3(Character* character, float delt) override {
 		attack3_timer += 600 * delt;
 
-		// 0  -->  1/3 = dash;  1/3 -->  2/3 = jump; 2/3 -> 1/1 duration = dash
-	
-		if (attack3_timer <= actionDuration[ATTACK3]/3) {
-			//dashing
-
-			this->TurnOnFlag(1); //dashing animation
-
-			if (direction == Direction::Left) {
-				MoveLeft(delt);
-			}
-			else MoveRight(delt);
-		}
-		else if(attack3_timer <= 2*actionDuration[ATTACK3]/3) {
-			//Jumping
-
-			this->TurnOnFlag(5); //jumping animation
-
-			this->Jump(delt);
-		}
-		else if (attack3_timer <= actionDuration[ATTACK3]) {
-			//Dashing
-
-			this->TurnOnFlag(1); //dashing animation
-
-			if (direction == Direction::Left) {
-				MoveLeft(delt);
-			}
-			else MoveRight(delt);
+		if (attack3_timer > actionDuration[ATTACK3]) {
+			attack3_timer = 0;
 		}
 		else {
-			//reset
-			attack3_timer = 0;
+			//flags
+
+			if (attack3_timer <= 400.f || attack3_timer >= 1000.f) { 
+				this->TurnOnFlag(1); //dashing animation - 400.f
+			}
+			else {
+				this->TurnOnFlag(3); //jumping animation - 600.f
+
+				this->Jump(delt); //jump
+			}
+
+			// 400 + 600 + 400 = 1400
+
+			//keep moving the whole time, but also jump in the middle
+
+			if (direction == Direction::Left && this->getLeftMostX() - 5.f > bounded.x) {
+				MoveLeft(delt);
+			}
+			else if (direction == Direction::Right && this->getRightMostX() + 5.f < bounded.y) {
+				MoveRight(delt);
+			}
+			else {
+				FinishAttack(ATTACK3);
+			}
 		}
 	}
 
@@ -340,10 +346,13 @@ protected:
 	void InnitBossAttributes(float x, float y) override {
 		//-----------//
 
+		this->gravity = 500.f;
 		this->delay = 2000.f;
 		this->health = 1000;
-		this->velocityX = 80.f;
+		this->jumpStrength = 250.f;
+		this->velocityX = this->normalVelocityX;
 		this->collisiondamage = 30.f;
+		this->deathAnimationMaxTimer = 4800.f;
 		//----------//
 		//vile's hitbox should be smaller than sprite (54,45)
 		this->dilation = normal_dilation;
@@ -353,8 +362,16 @@ protected:
 
 	void InnitBossCommands() override {
 		TurnOnFlag(0);
+		for (int i = 0; i < 4; ++i) {
+			commands.push_back(BOSSCOMMANDS::ATTACK1);
+			commands.push_back(BOSSCOMMANDS::ATTACK2);
+			commands.push_back(BOSSCOMMANDS::ATTACK3);
+			commands.push_back(BOSSCOMMANDS::ATTACK2);
+		}
 		commands.push_back(BOSSCOMMANDS::ATTACK1);
-		commands.push_back(BOSSCOMMANDS::ATTACK2);
+		commands.push_back(BOSSCOMMANDS::ATTACK1);
+		commands.push_back(BOSSCOMMANDS::ATTACK3);
+		commands.push_back(BOSSCOMMANDS::ATTACK3);
 	}
 
 	void InnitBossWeapon() override{
@@ -370,7 +387,7 @@ protected:
 
 		actionDuration[ATTACK1] = 4000.f;
 		actionDuration[ATTACK2] = 4000.f;
-		actionDuration[ATTACK3] = 5100.f;
+		actionDuration[ATTACK3] = 1400.f;
 	}
 	
 
@@ -387,5 +404,13 @@ protected:
 		//attack2 - shoot
 		movingAnimation->AddAnimation("Command2_left", "Animation\\Map1\\Vile\\ShootLeft.png", 100.f, 0, 0, 2, 0, 54, 45);
 		movingAnimation->AddAnimation("Command2_right", "Animation\\Map1\\Vile\\ShootRight.png", 100.f, 0, 0, 2, 0, 54, 45);
+
+		//attack3 - jump
+		movingAnimation->AddAnimation("Command3_left", "Animation\\Map1\\Vile\\Jump_Left.png", 100.f, 0, 0, 2, 0, 54, 45);
+		movingAnimation->AddAnimation("Command3_right", "Animation\\Map1\\Vile\\Jump_Right.png", 100.f, 0, 0, 2, 0, 54, 45);
+
+		//cmd 6 - die
+		movingAnimation->AddAnimation("Command6_left", "Animation\\Map1\\Vile\\Die_Left.png", 150.f, 0, 0, 3, 0, 40, 54);
+		movingAnimation->AddAnimation("Command6_right", "Animation\\Map1\\Vile\\Die_Right.png", 150.f, 0, 0, 3, 0, 40, 54);
 	}
 };

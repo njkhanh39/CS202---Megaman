@@ -47,15 +47,19 @@ public: //view range = 150.f
 	}
 
 	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
 		this->Entity::UpdateEntity(delt);
 		UpdateEnemyBehaviour(character, delt);
 		UpdateEnemyProjectiles(delt);
+		
 	}
 
-	void Render(RenderWindow* l_window) {
+	void Render(RenderWindow* l_window) override {
 		//l_window->draw(frame);
+		if (this->IsDead()) return;
 		l_window->draw(sprite);
 		weapon->RenderProjectiles(l_window);
+		
 	}
 private:
 	void InnitDelaySpeed() {
@@ -121,7 +125,6 @@ private:
 	
 	}
 	void UpdateEnemyBehaviour(Character* character, float delt) override {
-		if (character->IsDead()) return;
 		AttackCharacter(character, delt);
 	}
 
@@ -221,12 +224,14 @@ public:
 	}
 
 	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
 		this->Entity::UpdateEntity(delt);
 		UpdateEnemyBehaviour(character, delt);
 		UpdateEnemyProjectiles(delt);
 	}
 
 	void Render(RenderWindow* l_window) {
+		if (this->IsDead()) return;
 		//l_window->draw(frame);
 		l_window->draw(sprite);
 		weapon->RenderProjectiles(l_window);
@@ -320,6 +325,104 @@ private:
 			, 100.f, 0, 0, 2, 0, 40, 40);
 		this->movingAnimation->AddAnimation("MovingRight", "Animation\\Map1\\ShooterEnemy2\\wasp_right.png"
 			, 100.f, 0, 0, 2, 0, 40, 40);
+	}
+};
+
+class Shooter3 : public Shooter { //handicapped robot's laser
+public:
+	Shooter3(TextureManager* textureManager) :
+		Shooter(textureManager, 19.f, 5.f, 0, 100.f, 0.f) {
+
+		//damage
+
+		this->damage = 20;
+
+		//animation
+
+		this->LoadAnimationForBullet("Animation\\Map2\\ShooterEnemy3\\laser_beam.png", "Animation\\Map2\\ShooterEnemy3\\laser_beam.png"
+			, 70.f, 0, 0, 0, 0, 19, 5); //doesnt need to scale
+	}
+};
+
+class ShooterEnemy3 : public ShooterEnemy {//handicapped robot
+private:
+	float timer = 0.f;
+	float timerFinish = 2600.f;
+	const Direction fixedMovingDir;
+public:
+	ShooterEnemy3(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 30, 31, 200), fixedMovingDir(dir) {
+
+
+		this->health = 60;
+		this->velocityX = 20;
+
+		InnitDelaySpeed();
+		InnitShooterType();
+		InnitAnimation();
+
+		//this->setSpriteScale(0.5, 0.5);
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+
+private:
+
+	void InnitDelaySpeed() {
+		this->timerFinish = 2000.f;
+	}
+
+	void InnitShooterType() override {
+		this->weapon = new Shooter3(this->textureManager);
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		weapon->UpdateMovingProjectiles(delt, { pos.x + size.x / 2, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!CharacterInRange(character)) return;
+		timer += 600 * delt;
+
+		if (timer >= timerFinish) {
+
+			//shoot
+			weapon->Shoot(Direction::Left);
+
+			timer = 0;
+		}
+	}
+
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		if (fixedMovingDir == Direction::Right) MoveRight(delt);
+		else MoveLeft(delt);
+
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+		this->movingAnimation->AddAnimation("MovingRight", "Animation\\Map2\\ShooterEnemy3\\Crawling.png"
+			, 300.f, 0, 0, 5, 0, 50, 31);
+
+		this->movingAnimation->AddAnimation("MovingLeft", "Animation\\Map2\\ShooterEnemy3\\Crawling.png"
+			, 300.f, 0, 0, 5, 0, 50, 31);
 	}
 };
 

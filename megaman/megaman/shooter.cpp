@@ -303,6 +303,7 @@ XBuster::SemiChargeBuster::~SemiChargeBuster() {
 //------XBUSTER
 
 XBuster::XBuster(TextureManager* textureManager) : Shooter(textureManager, 8.f, 6.f, 0.f, 125.f, 0.f) {
+	this->damage = 5;
 	fullcharge = new FullChargeBuster(textureManager);
 	semicharge = new SemiChargeBuster(textureManager);
 	

@@ -14,12 +14,8 @@
 
 class World {
 public:
-	const int MAXPLATFORMS = 80;
-	const int MAXENEMIES = 80;
-
-
 	TextureManager* textureManager;
-	RectangleShape* background;
+	//RectangleShape* background;
 
 	//-----Game stuffs------//
 
@@ -39,6 +35,8 @@ public:
 
 
 	World(TextureManager* textureManager);
+
+	World(TextureManager* textureManager, int boss_left, int boss_right, const std::string& dir, const std::string& mapname);
 
 	~World();
 
@@ -72,12 +70,22 @@ public:
 	
 
 	void UpdateWorld(Character* character, float delt) {
+		//update death enemy
+		for (auto it = enemy.begin(); it != enemy.end(); ++it) {
+			if ((*it)->IsDead() && !dynamic_cast<Boss*>(*it)) {
+				std::cout << "Deleting a dead enemy!\n";
+				delete *it;
+				enemy.erase(it);
+				break;
+			}
+		}
+
 		for (int i = 0; i < (int)enemy.size(); ++i) {
-			if (enemy[i] && !enemy[i]->IsDead()) {
+			if (enemy[i]) {
 				enemy[i]->Update(character, delt);
 			}
 		}
-		this->enemySpawner->UpdateSpawn(character);
+		this->enemySpawner->UpdateSpawn(character, delt);
 
 		//---BOSS----//
 
@@ -108,6 +116,7 @@ private:
 		if (character->IsDead()) return;
 
 		for (int i = 0; i < (int)enemy.size(); ++i) {
+			//dont remove
 			if (!enemy[i] || enemy[i]->IsDead()) continue;
 
 			if (!character->canMoveLeft(enemy[i])) 
@@ -169,7 +178,7 @@ private:
 			if (!enemy[i]) continue;
 
 			for (int j = 0; j < (int)platform.size(); ++j) {
-				if (!platform[j]) continue;
+				if (!platform[j] || enemy[i]->IsDead()) continue;
 
 				enemy[i]->HandleProjectileCollision(platform[j]);
 			}
@@ -261,6 +270,11 @@ private:
 		platform.back() = new Obstacle(textureManager, Vector2f(x, y), Vector2f(xSize, ySize), invisible, damage, canClimb);
 	}
 
+	void CreatePlatform(float x, float y, float xSize, float ySize, int damage, bool invisible, bool canClimb, bool canPierce) {
+		platform.push_back(nullptr);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), Vector2f(xSize, ySize), invisible, damage, canClimb, canPierce);
+	}
+
 	void CreatePlatform(float x, float y, const std::string& file) {
 		platform.push_back(nullptr);
 		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file);
@@ -269,6 +283,11 @@ private:
 	void CreatePlatform(float x, float y, int damage, const std::string& file, bool canClimb) {
 		platform.push_back(nullptr);
 		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file, damage, canClimb);
+	}
+
+	void CreatePlatform(float x, float y, int damage, const std::string& file, bool canClimb, bool canPierce) {
+		platform.push_back(nullptr);
+		platform.back() = new Obstacle(textureManager, Vector2f(x, y), file, damage, canClimb, canPierce);
 	}
 
 	void CreateWorld(const std::string& dir, const std::string& mapfile, const std::string& obs1file, const std::string& obs2file) {
@@ -322,6 +341,9 @@ private:
 			if ((int)coords.size() == 6) {
 				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], true, coords[5]);
 			}
+			else if ((int)coords.size() == 7) {
+				this->CreatePlatform(coords[0], coords[1], coords[2], coords[3], coords[4], true, coords[5], coords[6]);
+			}
 		}
 
 
@@ -360,6 +382,9 @@ private:
 
 			if ((int)coords.size() == 5) {
 				this->CreatePlatform(coords[0], coords[1],coords[3], dir + std::to_string(coords[2]) + ".png", coords[4]);
+			}
+			else if ((int)coords.size() == 6) {
+				this->CreatePlatform(coords[0], coords[1], coords[3], dir + std::to_string(coords[2]) + ".png", coords[4], coords[5]);
 			}
 		}
 
