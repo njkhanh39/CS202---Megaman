@@ -140,7 +140,7 @@ private:
 class Shooter2 : public Shooter { //missile drops from sky then fly
 public:
 	Shooter2(TextureManager* textureManager) : //mabee scaled 0.5
-		Shooter(textureManager, 12.f, 6.f, 20.f, 0.f, 0.f) { //has gravity, innit Xvelo = 0
+		Shooter(textureManager, 18.f, 9.f, 20.f, 0.f, 0.f) { //has gravity, innit Xvelo = 0
 
 		//damage
 
@@ -154,7 +154,7 @@ public:
 		this->LoadAnimationForBullet("Animation\\Map1\\ShooterEnemy2\\missile_move_left.png", "Animation\\Map1\\ShooterEnemy2\\missile_move_right.png"
 			, 70.f, 0, 0, 2, 0, 24, 12); //needs scaling
 
-		this->ScaleProjectileAnimation(0.5, 0.5);
+		this->ScaleProjectileAnimation(0.75, 0.75);
 
 	}
 
@@ -184,7 +184,7 @@ private:
 public:
 
 	ShooterEnemy2(TextureManager* textureManager, float x, float y, Direction dir) :
-		ShooterEnemy(textureManager, x, y, 20.f, 20.f, 100.f), startPoint(Vector2f(x,y)), distance(100.f) {
+		ShooterEnemy(textureManager, x, y, 20.f, 20.f, 125.f), startPoint(Vector2f(x,y)), distance(100.f) {
 		InnitDelaySpeed();
 
 		//overrides
@@ -423,6 +423,214 @@ private:
 
 		this->movingAnimation->AddAnimation("MovingLeft", "Animation\\Map2\\ShooterEnemy3\\Crawling.png"
 			, 300.f, 0, 0, 5, 0, 50, 31);
+	}
+};
+
+class Shooter4 : public Shooter { //pickaxe
+public:
+	Shooter4(TextureManager* textureManager):
+	Shooter(textureManager, 24, 24, 80, 90, -100){
+
+		this->damage = 20;
+
+		this->LoadAnimationForBullet("Animation\\Map2\\ShooterEnemy4\\pickaxe_left.png", "Animation\\Map2\\ShooterEnemy4\\pickaxe_right.png",
+			100.f, 0, 0, 2, 0, 24, 24);
+	}
+
+	
+};
+
+class ShooterEnemy4 : public ShooterEnemy { // miner robot
+private:
+	float timer = 0.f;
+	float timerFinish = 2100.f;
+public:
+	ShooterEnemy4(TextureManager* textureManager, float x, float y, Direction dir): 
+	ShooterEnemy(textureManager, x, y, 20, 34, 200){ //sprite is 50 x 39
+
+		InnitShooterType();
+		InnitAnimation();
+
+		this->health = 100;
+
+		this->dilation = { 15.f, 5.f };
+
+		//this takes the dilation into consideration
+		this->setPosition({ x,y });
+
+		this->FaceDirection(dir);
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+
+private:
+
+	void InnitShooterType() override {
+		this->weapon = new Shooter4(this->textureManager);
+	}
+
+	//From entity
+	void Shoot(float delt) override {
+		isShooting = true;
+		this->weapon->Shoot(this->direction);
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		weapon->UpdateMovingProjectiles(delt, { pos.x + size.x / 2, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!this->CharacterInRange(character)) {
+			isShooting = false;
+			timer = 0;
+			movingAnimation->Reset();
+		}
+
+		if (direction != LocateCharacterDir(character)) this->FaceDirection(LocateCharacterDir(character));
+
+		//let it play animation
+		this->isShooting = true;
+
+		timer += 600 * delt;
+
+		if (timer >= timerFinish) {
+
+			this->Shoot(delt);
+
+			timer = 0;
+			isShooting = false;
+		}
+	}
+
+	void UpdateEnemyBehaviour(Character* character, float delt) override { 
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+		this->textureManager->BorrowTexture("Animation\\Map2\\ShooterEnemy4\\idle_left.png",
+			this->texture_idle_left);
+		this->textureManager->BorrowTexture("Animation\\Map2\\ShooterEnemy4\\idle_right.png",
+			this->texture_idle_right);
+
+		this->movingAnimation->AddAnimation("ShootLeft", "Animation\\Map2\\ShooterEnemy4\\throw_left.png"
+			, 300.f, 0, 0, 6, 0, 50, 39);
+
+		this->movingAnimation->AddAnimation("ShootRight", "Animation\\Map2\\ShooterEnemy4\\throw_right.png"
+			, 300.f, 0, 0, 6, 0, 50, 39);
+	}
+};
+
+class Shooter5 : public SpecialShooter { //fireball shooter
+public:
+	Shooter5(TextureManager* textureManager) :
+		SpecialShooter(textureManager, 18, 17, 70, 130, 0) {
+
+		this->damage = 15;
+
+		this->LoadAnimationForBullet("Animation\\Map2\\ShooterEnemy5\\fireball.png",
+			"Animation\\Map2\\ShooterEnemy5\\fireball.png", 100, 0, 0, 3, 0, 18, 17);
+	}
+};
+
+class ShooterEnemy5 : public ShooterEnemy { // the flamethrower hanging on the pipe
+private:
+	float timer = 0;
+	float timerFinish = 2500.f;
+
+	std::vector<float> bullet_range;
+	int cur_range = 0;
+public:
+	ShooterEnemy5(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 31, 24, 200) {
+
+		InnitShooterType();
+		InnitAnimation();
+
+		this->gravity = 0.f;
+		this->health = 100;
+
+		FaceDirection(dir);
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+
+private:
+	void InnitShooterType() override {
+		this->weapon = new Shooter5(this->textureManager);
+		bullet_range = { 100,150,200 };
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		if (this->direction == Direction::Left) {
+			weapon->UpdateMovingProjectiles(delt, { pos.x, pos.y });
+		}
+		else weapon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!CharacterInRange(character)) {
+			timer = 0;
+			return;
+		}
+		timer += 600 * delt;
+
+		if (timer >= timerFinish) {
+
+			if (cur_range >= (int)bullet_range.size()) {
+				cur_range = 0;
+			}
+
+			this->weapon->SetVelocityX(bullet_range[cur_range]);
+			this->weapon->Shoot(this->direction);
+
+			timer = 0;
+			++cur_range;
+		}
+	}
+
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+		this->textureManager->BorrowTexture("Animation\\Map2\\ShooterEnemy5\\idle_left.png",
+			texture_idle_left);
+		this->textureManager->BorrowTexture("Animation\\Map2\\ShooterEnemy5\\idle_right.png",
+			texture_idle_right);
 	}
 };
 

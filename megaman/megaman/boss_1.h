@@ -3,6 +3,7 @@
 #include "shooter.h"
 
 class ElectricCannon : public Shooter {
+private:
 	sf::Clock clk; // for delay
 
 	float delay = 1.f;
@@ -38,21 +39,7 @@ public:
 
 		//------------------//
 
-		if (activeBullets == 0) {
-			//temporarily, we only give 10 bullets
-			return;
-		}
-
-
-		int n = bullets.size();
-
-		bullets[activeBullets - 1]->FaceDirection(dir);
-		--activeBullets;
-
-		//load
-		Load(dir);
-
-		std::cout << "Number of bullets in vector: " << (int)bullets.size() << '\n';
+		this->Shooter::Shoot(dir);
 	}
 
 	void SetClockDelay(float tmp) {
@@ -65,8 +52,8 @@ private:
 	const Vector2f normal_framesize = { 20.f, 40.f };
 	const Vector2f normal_dilation = { 17.f, 5.f };
 
-	const Vector2f dash_framesize = { 54.f,30.f }; //shorter, but wide
-	const Vector2f dash_dilation = { 0.f, 15.f };
+	//const Vector2f dash_framesize = { 54.f,30.f }; //shorter, but wide
+	//const Vector2f dash_dilation = { 0.f, 15.f };
 
 
 	//----------------------
@@ -85,8 +72,8 @@ private:
 	//---Weapon--//
 	ElectricCannon* cannon;
 public:
-	Vile(TextureManager* textureManager, float x, float y, Vector2f bounded, float delay):
-		Boss(textureManager, x, y, 20,40, 300,bounded, delay) //no scaling
+	Vile(TextureManager* textureManager, float x, float y, Vector2f bounded):
+		Boss(textureManager, x, y, 20,40, 300,bounded, 2000) //no scaling
 	{
 				
 		InnitBossAttributes(x, y);
@@ -106,7 +93,7 @@ public:
 
 	void Update(Character* character, float delt) override {
 		if (!this->IsDead()) {
-			this->UpdateEntity(delt);
+			this->Boss::UpdateEntity(delt);
 			this->UpdateEnemyBehaviour(character, delt);
 			this->UpdateEnemyProjectiles(delt);
 		}
@@ -141,64 +128,6 @@ protected:
 	void Shoot(float delt) override {
 		//dont care about boolean?....
 		this->cannon->Shoot(direction);
-	}
-
-	void UpdateEntity(float delt) override {
-
-		//Death
-		if (this->IsDead()) return;
-
-		//invisibility 
-
-		if (this->invisible) { //true = is being hurt
-			this->invisibleTimer += 100 * delt;
-
-			if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
-				this->invisible = false;
-				this->invisibleTimer = 0;
-			}
-		}
-
-
-		//---Movement----
-
-		if (isJumping || fall) {
-			//Entity fall
-
-
-
-			velocityY += gravity * delt;
-			isGrabbing = false;
-
-
-			//when reaches a limit, fall & isJumping will be turned to false
-			//by our canKeepFalling function
-
-
-			//move our 2 attributes
-
-			sprite.move(0, velocityY * delt);
-			frame.setPosition({ frame.getPosition().x, frame.getPosition().y + velocityY * delt });
-		}
-		else velocityY = 0.0f; //not falling & not jumping = 0 velocityY ?? :D
-
-		//-----ANIMATION UPDATE---------
-
-		//from first if to last if, it follows the animation priority
-
-		//if (invisible) { //play the hurt animation
-		//	movingAnimation->Play("HurtAnimation", delt / 2); //make animation slower by dividing
-		//}
-		
-		std::string dr = "_left";
-		if (this->direction == Direction::Right) dr = "_right";
-
-		for (int i = 0; i < 7; ++i) {
-			if (flags[i]) {
-				movingAnimation->Play("Command" + std::to_string(i) + dr, delt);
-				break;
-			}
-		}
 	}
 
 	void UpdateEnemyBehaviour(Character* character, float delt) override {
@@ -307,7 +236,7 @@ protected:
 		this->Shoot(delt);
 	}
 
-	void ExecuteAttack3(Character* character, float delt) override {
+	void ExecuteAttack3(Character* character, float delt) override {//Dash-Jump
 		attack3_timer += 600 * delt;
 
 		if (attack3_timer > actionDuration[ATTACK3]) {

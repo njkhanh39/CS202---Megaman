@@ -5,7 +5,7 @@
 #include "attackenemies.h"
 #include "map.h"
 #include "enemyspawner.h"
-
+#include "ItemManager.h"
 #include <fstream>
 #include <sstream>
 #include <string.h>
@@ -21,6 +21,8 @@ public:
 
 	Map* gameMap;
 	EnemySpawner* enemySpawner;
+	ItemManager* itemManager;
+	
 
 	std::vector<Enemy*> enemy;
 	std::vector<Obstacle*> platform;
@@ -34,7 +36,6 @@ public:
 	//---------------------//
 
 
-	World(TextureManager* textureManager);
 
 	World(TextureManager* textureManager, int boss_left, int boss_right, const std::string& dir, const std::string& mapname);
 
@@ -70,7 +71,12 @@ public:
 	
 
 	void UpdateWorld(Character* character, float delt) {
-		//update death enemy
+		//--------ITEM-----------//
+
+		itemManager->Update(character, delt);
+
+		//---------ENEMY------------//
+
 		for (auto it = enemy.begin(); it != enemy.end(); ++it) {
 			if ((*it)->IsDead() && !dynamic_cast<Boss*>(*it)) {
 				std::cout << "Deleting a dead enemy!\n";

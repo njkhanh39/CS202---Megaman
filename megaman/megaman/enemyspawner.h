@@ -1,6 +1,7 @@
 #pragma once
 #include "attackenemies.h"
 #include "boss_1.h"
+#include "boss_2.h"
 #include <fstream>
 #include <sstream>
 
@@ -16,13 +17,20 @@ struct EnemyInfo {
 	int right;
 	Direction dir;
 
-	EnemyInfo(int _type, int _no,int left, Vector2f _position):
+	EnemyInfo(int _type, int _no,int left, Vector2f _position): //4 pars
 	type(_type), no(_no), position(_position), left(left){
 		right = -1;
 		dir = Direction::Left;
 	}
 
-	EnemyInfo(int _type, int _no, int left, Vector2f _position, int right, bool yes) :
+	EnemyInfo(int _type, int _no, int left, Vector2f _position, bool yes) : //5 pars
+		type(_type), no(_no), position(_position), left(left) {
+		right = -1;
+		if (yes) dir = Direction::Right;
+		else dir = Direction::Left;
+	}
+
+	EnemyInfo(int _type, int _no, int left, Vector2f _position, int right, bool yes) : //6 pars
 		type(_type), no(_no), position(_position), left(left), right(right) {
 		if (yes) dir = Direction::Right;
 		else dir = Direction::Left;
@@ -83,7 +91,10 @@ public:
 			if ((int)coords.size() == 5) {
 				this->info.push_back(EnemyInfo(coords[0], coords[1], coords[2], Vector2f(coords[3], coords[4])));
 			}
-			else if ((int)coords.size() == 7) {
+			else if ((int)coords.size() == 6) { //direction, no rightlimit
+				this->info.push_back(EnemyInfo(coords[0], coords[1], coords[2], Vector2f(coords[3], coords[4]), coords[5]));
+			}
+			else if ((int)coords.size() == 7) {//both dir and right limit
 				this->auto_spawn_info.push_back(EnemyInfo(coords[0], coords[1], coords[2], Vector2f(coords[3], coords[4]), coords[5], coords[6]));
 			}
 		}
@@ -140,17 +151,29 @@ public:
 				enemy->push_back(nullptr);
 				enemy->back() = new ShooterEnemy3(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
 			}
+			else if (ptr->no == 4) {// miner that throws pickaxes
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy4(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
+			}
+			else if (ptr->no == 5) {//fixed flamethrower
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy5(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
+			}
 		}
 		else if (ptr->type == EnemyType::MOVING) {
 			if (ptr->no == 1) {
 				enemy->push_back(nullptr);
-				enemy->back() = new AttackEnemy1(textureManager, ptr->position.x, ptr->position.y);
+				enemy->back() = new AttackEnemy1(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
 			}
 		}
 		else if (ptr->type == EnemyType::BOSS) {
 			if (ptr->no == 1) {
 				enemy->push_back(nullptr);
-				enemy->back() = new Vile(textureManager, ptr->position.x, ptr->position.y, Vector2f(6730, 7080), 50.f);
+				enemy->back() = new Vile(textureManager, ptr->position.x, ptr->position.y, Vector2f(6730, 7080));
+			}
+			else if (ptr->no == 2) {
+				enemy->push_back(nullptr);
+				enemy->back() = new FlameMammoth(textureManager, ptr->position.x, ptr->position.y, Vector2f(7754, 8111));
 			}
 		}
 	}

@@ -17,7 +17,6 @@ void Projectile::ProjectileFly(float delt, Vector2f pos) {
 	}
 
 	velocityY += gravity * delt;
-
 	
 	if (direction == Direction::Right) {
 		MoveRight(delt);
@@ -98,7 +97,6 @@ bool Projectile::IsHit(Entity* en) {
 
 		//left <- right
 		if (l2 == r1 || (l2 < r1 && r1 - l2 < 1.f)) {
-			std::cout << "Hello?\n";
 			return true;
 		}
 	}
@@ -124,7 +122,9 @@ bool Projectile::IsHit(Entity* en) {
 }
 
 bool Projectile::IsStopped() {
-	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) return true;
+	if (isFired && clk.getElapsedTime().asSeconds() >= lifespan) {
+		return true;
+	}
 	return false;
 }
 

@@ -19,6 +19,7 @@ private:
 
 	//-----------------------//
 
+	const int maxHealth = 300;
 	const int IMMORTAL = 2e9;
 	int temphealth = -1;
 	
@@ -59,6 +60,11 @@ public:
 		if (temphealth == -1) return this->health;
 		else return temphealth;
 	}
+
+	void addHealth(int h) {
+		this->health = std::min(maxHealth, this->health + h);
+	}
+
 
 	bool IsInBossRegion(Vector2f bossRegion) {
 		if (getLeftMostX() >= bossRegion.x) return true;

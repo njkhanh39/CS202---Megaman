@@ -50,6 +50,7 @@ public:
 
 	//allow bullets animation
 
+
 	void LoadLeftTexture(const std::string& file);
 
 	void LoadRightTexture(const std::string& file);
@@ -62,6 +63,36 @@ public:
 	//scale animation
 
 	virtual void ScaleProjectileAnimation(float f1, float f2);
+
+	//setters
+
+	void SetVelocityX(float v) {
+		sampleBullet->setVelocityX(v);
+		for (auto& x : bullets) {
+			x->setVelocityX(v);
+		}
+	}
+
+	void SetVelocityY(float v) {
+		sampleBullet->setVelocityY(v);
+		for (auto& x : bullets) {
+			x->setVelocityY(v);
+		}
+	}
+
+	void SetVelocityX_One_ActiveBullet(float v) {
+		if (activeBullets == 0) {
+			return;
+		}
+		bullets[activeBullets - 1]->setVelocityX(v);
+	}
+
+	void SetVelocityY_One_ActiveBullet(float v) {
+		if (activeBullets == 0) {
+			return;
+		}
+		bullets[activeBullets - 1]->setVelocityY(v);
+	}
 protected:
 	//load
 
@@ -119,4 +150,102 @@ public:
 	void RenderProjectiles(RenderWindow* l_window) override;
 
 	void ScaleProjectileAnimation(float f1, float f2) override;
+};
+
+class SpecialShooter : public Shooter {
+public:
+	SpecialShooter(TextureManager* textureManager, float bulletsizeX, float bulletsizeY, float gravity, float velox, float veloy) :
+		Shooter(textureManager, bulletsizeX,  bulletsizeY,  gravity,  velox,  veloy) {
+
+	}
+
+	~SpecialShooter() {
+
+	}
+	void HandleProjectileCollision(Obstacle* obs, Entity* en) override {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			if (bullets[i]->IsHit(en) && en && !en->isInvisible()) {
+				en->TakeDamage(this->damage);
+				bullets[i]->setVelocityX(0);
+			}
+			if (bullets[i]->IsStopped()) {
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+			}
+			else {
+				bool test = true;
+				if (!bullets[i]->canMoveLeft(obs)) {
+					test = false;
+				}
+				if (!bullets[i]->canKeepFalling(obs)) {
+					test = false;
+				}
+				if (!bullets[i]->canMoveRight(obs)) {
+					test = false;
+				}
+
+				if (!test) {
+					bullets[i]->setVelocityX(0);
+					bullets[i]->fall = false;
+				}
+			}
+		}
+	}
+
+	void HandleProjectileCollision(Obstacle* obs) override {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			if (bullets[i]->IsStopped()) { //only when it ran out of time does we remove
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+			}
+			else {
+				bool test = true;
+				if (!bullets[i]->canMoveLeft(obs)) {
+					test = false;
+				}
+				if (!bullets[i]->canKeepFalling(obs)) {
+					test = false;
+				}
+				if (!bullets[i]->canMoveRight(obs)) {
+					test = false;
+				}
+
+				if (!test) {
+					bullets[i]->setVelocityX(0);
+					bullets[i]->fall = false;
+				}
+			}
+		}
+	}
+
+	void HandleProjectileCollision(Entity* en) override {
+		int n = bullets.size();
+		for (int i = n - 1; i >= activeBullets; --i) {
+			if (bullets[i]->IsHit(en) && en && !en->isInvisible()) {
+				en->TakeDamage(this->damage);
+				bullets[i]->setVelocityX(0);
+			}
+			if (bullets[i]->IsStopped()) { //only when it ran out of time does we remove
+				//pop that bullet out
+				std::swap(bullets[i], bullets[n - 1]);
+
+				//this bullet go out of scope, hence deleted
+				delete bullets.back();
+				bullets.pop_back();
+				--n;
+			}
+		}
+	}
 };

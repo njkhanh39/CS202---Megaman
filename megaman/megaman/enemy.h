@@ -55,7 +55,13 @@ protected:
 	virtual void InnitAnimation() = 0;
 
 
+	float DistanceToCharacter(Character* character) {
+		auto v = character->getCenterPosition();
+		auto u = getCenterPosition();
 
+		float dist = (u.x - v.x) * (u.x - v.x) + (u.y - v.y) * (u.y - v.y);
+		return std::sqrt(dist);
+	}
 	
 	//helpers to locate the character and attack
 
@@ -144,13 +150,14 @@ class MovingEnemy : public Enemy { //interface
 private:
 	Vector2f startPoint;
 	float distance;
+	Direction innitDir;
 public:
 
 	MovingEnemy(TextureManager* textureManager, float x, float y, float sizex, float sizey,
 		float _viewRange, Direction direction, Vector2f startPoint, float distance)
 		:Enemy(textureManager, x, y, sizex, sizey, _viewRange), startPoint(startPoint), distance(distance)
 	{
-
+		this->innitDir = direction;
 	}
 
 
@@ -167,17 +174,33 @@ protected:
 	//this new method which is common for most, we may improvise for harder enemies
 	virtual void UpdateEnemyBehaviour(Character* character, float delt) {
 		auto v = this->getPosition();
-		if (direction == Direction::Left) {
-			if (v.x >= startPoint.x - distance) {
-				this->MoveLeft(delt);
+		if (innitDir == Direction::Left) {
+			if (direction == Direction::Left) {
+				if (v.x >= startPoint.x - distance) {
+					this->MoveLeft(delt);
+				}
+				else FaceDirection(Direction::Right);
 			}
-			else FaceDirection(Direction::Right);
+			if (direction == Direction::Right) {
+				if (v.x <= startPoint.x) {
+					this->MoveRight(delt);
+				}
+				else FaceDirection(Direction::Left);
+			}
 		}
-		if (direction == Direction::Right) {
-			if (v.x <= startPoint.x) {
-				this->MoveRight(delt);
+		else {
+			if (direction == Direction::Left) {
+				if (v.x >= startPoint.x) {
+					this->MoveLeft(delt);
+				}
+				else FaceDirection(Direction::Right);
 			}
-			else FaceDirection(Direction::Left);
+			if (direction == Direction::Right) {
+				if (v.x <= startPoint.x + distance) {
+					this->MoveRight(delt);
+				}
+				else FaceDirection(Direction::Left);
+			}
 		}
 	}
 };

@@ -125,7 +125,7 @@ public:
 
 			this->charHealthBar->Update(m_character, camera->GetViewCenter(), camera->GetViewSize());
 			if (m_boss) this->bossHealthBar->Update(m_boss, camera->GetViewCenter(), camera->GetViewSize());
-	//-----------------CHARACTER--------------------
+		//-----------------CHARACTER--------------------
 			if (!m_character->IsDead()) {
 				
 
@@ -222,7 +222,9 @@ private:
 	//-----------------WORLD 2-----------------//
 	void CreateCameraMap2() {
 		//these are restricted regions in a map that the camera cannot access
-		std::vector<FloatRect> tmp = {FloatRect(0,512,1884,10), FloatRect(0,0,2941,270)};
+		std::vector<FloatRect> tmp = {FloatRect(0,512,1884,10), FloatRect(0,0,2941,270), FloatRect(4413,232,962,58), 
+		FloatRect(4158,-150, 1410,182), FloatRect(5368,512,2054,100), FloatRect(5725,25, 2030,247), FloatRect(7756,125,688,154),
+		FloatRect(7391,480,365,255), FloatRect(7421,125,335,156)};
 
 		camera = new Camera(0, 0, 350, 200, MAP2CONST::LEFTLIMIT2, MAP2CONST::RIGHTLIMIT2, MAP2CONST::UPLIMIT2,
 			MAP2CONST::DOWNLIMIT2, MAP2CONST::BOSS_REGION_LEFT2, MAP2CONST::BOSS_REGION_RIGHT2, this->stateview, tmp);
@@ -235,7 +237,7 @@ private:
 	//-----------------------------------------//
 
 	void CreateCharacterAndHealthBar() {
-		m_character = new Character(textureManager, 50, 350);
+		m_character = new Character(textureManager, 7308, 327);
 
 		charHealthBar = new HealthBar(textureManager, "Animation\\X\\X_Healthbar.png",
 			m_character->getHealth(), 30, 2.f, 2.f);

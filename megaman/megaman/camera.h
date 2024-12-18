@@ -6,7 +6,7 @@ enum MAP1CONST {
 };
 
 enum MAP2CONST {
-	LEFTLIMIT2 = 0, RIGHTLIMIT2 = 8174, UPLIMIT2 = 0, DOWNLIMIT2 = 767, BOSS_REGION_LEFT2 = 7756, BOSS_REGION_RIGHT2 = 8159
+	LEFTLIMIT2 = 0, RIGHTLIMIT2 = 8174, UPLIMIT2 = 0, DOWNLIMIT2 = 767, BOSS_REGION_LEFT2 = 7754, BOSS_REGION_RIGHT2 = 8111
 };
 
 class Camera {//follows the character
@@ -77,6 +77,7 @@ public:
 			else {
 				center.x = boss_region_left + width / 2; //desired
 			}
+
 		}
 		else {
 

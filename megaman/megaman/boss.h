@@ -84,6 +84,64 @@ protected:
 		}
 	}
 
+	void UpdateEntity(float delt) override {
+
+		//Death
+		if (this->IsDead()) return;
+
+		//invisibility 
+
+		if (this->invisible) { //true = is being hurt
+			this->invisibleTimer += 100 * delt;
+
+			if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
+				this->invisible = false;
+				this->invisibleTimer = 0;
+			}
+		}
+
+
+		//---Movement----
+
+		if (isJumping || fall) {
+			//Entity fall
+
+
+
+			velocityY += gravity * delt;
+			isGrabbing = false;
+
+
+			//when reaches a limit, fall & isJumping will be turned to false
+			//by our canKeepFalling function
+
+
+			//move our 2 attributes
+
+			sprite.move(0, velocityY * delt);
+			frame.setPosition({ frame.getPosition().x, frame.getPosition().y + velocityY * delt });
+		}
+		else velocityY = 0.0f; //not falling & not jumping = 0 velocityY ?? :D
+
+		//-----ANIMATION UPDATE---------
+
+		//from first if to last if, it follows the animation priority
+
+		//if (invisible) { //play the hurt animation
+		//	movingAnimation->Play("HurtAnimation", delt / 2); //make animation slower by dividing
+		//}
+
+		std::string dr = "_left";
+		if (this->direction == Direction::Right) dr = "_right";
+
+		for (int i = 0; i < 7; ++i) {
+			if (flags[i]) {
+				movingAnimation->Play("Command" + std::to_string(i) + dr, delt);
+				break;
+			}
+		}
+	}
+
 	virtual void ExecuteCommand(Character* character, float delt, BOSSCOMMANDS com) = 0;
 
 

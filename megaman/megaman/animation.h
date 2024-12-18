@@ -95,7 +95,7 @@ private:
 					currentRect.left = startRect.left;
 				}
 
-				//note this, since sprite can changes textureSheet explicitly!
+				//note this, since sprite can change textureSheet explicitly!
 				sprite->setTexture(*textureSheet, true);
 				sprite->setTextureRect(currentRect);
 			}

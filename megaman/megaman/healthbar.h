@@ -63,16 +63,15 @@ private:
 	}
 
 	void UpdateHealth(Entity* character) {
-		if (character->isInvisible() || character->IsDead()) { //only update when needed for best performance
-			int curhealth = character->getHealth(); //multiple of 10
+		int curhealth = character->getHealth(); //multiple of 10
 
-			//update curbars
+		//update curbars
 
-			curbars = (this->totalbars) * curhealth / (this->totalhealth);
+		curbars = (this->totalbars) * curhealth / (this->totalhealth);
 
-			//update black rect
+		//update black rect
 
-			blackrect.setSize(Vector2f(defaultsize.x, (totalbars - curbars) * defaultsize.y));
-		}
+		blackrect.setSize(Vector2f(defaultsize.x, (totalbars - curbars) * defaultsize.y));
+		
 	}
 };

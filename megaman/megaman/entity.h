@@ -213,6 +213,15 @@ public:
 
 	Vector2f getFrameSize();
 
+	FloatRect getFloatRect() {
+		FloatRect res(frame.getPosition(), frame.getSize());
+		return res;
+	}
+
+	RectangleShape getFrame() {
+		return this->frame;
+	}
+
 	//setters
 
 	void setIdleLeftTexture(const std::string& file) {
@@ -236,9 +245,6 @@ public:
 	void setGravity(float _g);
 
 	void setPosition(Vector2f pos);
-
-
-
 	//helpers
 
 
