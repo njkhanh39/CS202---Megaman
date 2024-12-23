@@ -136,7 +136,6 @@ void Entity::Jump(float delt) {
 void Entity::PushedUpward(float delt) {
 	isJumping = true;
 	velocityY = -delt;
-
 	//move sprite
 	sprite.move(0, velocityY);
 	//move frame
@@ -447,10 +446,12 @@ void Entity::UpdateEntity(float delt) {
 
 	if (this->invisible) { //true = is being hurt
 		this->invisibleTimer += 100 * delt;
+		//std::cout << "invisible";
 
 		if (this->invisibleTimer >= this->invisibleMaxTimer) { // we are done with invisibility!
 			this->invisible = false;
 			this->invisibleTimer = 0;
+			//std::cout << "DONE";
 		}
 	}
 
@@ -481,10 +482,12 @@ void Entity::UpdateEntity(float delt) {
 
 	//from first if to last if, it follows the animation priority
 
-	if (invisible) { //play the hurt animation
-		movingAnimation->Play("HurtAnimation", delt/2); //make animation slower by dividing
-	}
-	else if (isJumping) {
+	//if (invisible) { //play the hurt animation
+	//	movingAnimation->Play("HurtAnimation", delt/2); //make animation slower by dividing
+	//}
+	//else 
+	
+	if (isJumping) {
 		if (isShooting) {
 			if (direction == Direction::Right && texture_shoot_jump_right) sprite.setTexture(*texture_shoot_jump_right, true);
 			if (direction == Direction::Left && texture_shoot_jump_left) sprite.setTexture(*texture_shoot_jump_left, true);
@@ -529,7 +532,8 @@ void Entity::UpdateEntity(float delt) {
 		}
 		else {
 			//plays idle
-			this->idleAnimation->Play("Idle", delt);
+			if (this->direction == Direction::Left) this->idleAnimation->Play("Idle_Left", delt);
+			else this->idleAnimation->Play("Idle_Right", delt);
 		}
 	}
 }
@@ -543,6 +547,7 @@ bool Entity::IsDead() {
 
 void Entity::TakeDamage(int damage) {
 	if (damage <= 0) return;
+	std::cout << "lose " << damage << "health ";
 	health = std::max(0, health - damage);
 
 	if (health == 0) {

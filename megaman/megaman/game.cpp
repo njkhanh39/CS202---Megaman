@@ -4,20 +4,15 @@ Game::Game() : m_window("Chapter 2", Vector2u(1280, 720)){
 
 
 	this->initStateQueue();
-	//----ALL OF OUR TEXTURES ARE INITIALIZED HERE
+
 
 	this->initTextureManager();
 
 	//------------STATE------------
-	
-	//this->initGameState();
 
 	
 	this->initMainMenuState();
 	 
-	
-
-	//in actual project, world may be loaded somewhere else -> yeah, in gamestate silly
 
 } 
 

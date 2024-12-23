@@ -3,8 +3,11 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Auxiliarie
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\character.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\entity.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\entity.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\game.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\game.obj
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\TextureManager.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\TextureManager.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\megaman.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\megaman.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\obstacle.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\obstacle.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\projectile.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\projectile.obj
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\shooter.obj
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\WeaponManager.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\WeaponManager.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\window.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\window.obj
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.cpp;C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\x64\Release\world.obj

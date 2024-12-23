@@ -56,50 +56,6 @@ public:
 
 };
 
-class FlameThrower : public SpecialShooter {
-private:
-	sf::Clock clk; // for delay
-
-	float delay = 0.75;
-	bool firstShot = false;
-public:
-	FlameThrower(TextureManager* textureManager) :
-		SpecialShooter(textureManager, 16.f, 16.f, 0, 150.f, 0.f) {
-
-		//damage
-
-		this->damage = 30;
-
-
-		//animation
-
-		this->LoadAnimationForBullet("Animation\\Own_By_Many\\fire_left.png",
-			"Animation\\Own_By_Many\\fire_right.png"
-			, 100.f, 0, 0, 2, 0, 16, 12); //doesnt need to scale
-	}
-
-	void Shoot(Direction dir) override {
-
-		//----We add this----//
-
-		if (clk.getElapsedTime().asSeconds() < delay && firstShot == true) {
-			return;
-		}
-		else if (firstShot == false) {
-			this->firstShot = true;
-		}
-
-		clk.restart();
-
-		//------------------//
-
-		this->Shooter::Shoot(dir);
-	}
-
-	void SetClockDelay(float tmp) {
-		this->delay = tmp;
-	}
-};
 
 class FlameMammoth : public Boss {
 private:
@@ -114,7 +70,7 @@ private:
 
 public:
 	FlameMammoth(TextureManager* textureManager, float x, float y, Vector2f bounded) :
-		Boss(textureManager, x, y, 41, 65, 300, bounded, 2000) //no scaling
+		Boss(textureManager, x, y, 41, 65, 300, bounded, 200) //no scaling
 	{
 
 		InnitBossAttributes(x, y);
@@ -342,7 +298,7 @@ private:
 		this->gravity = 200.f;
 		this->delay = 4000.f;
 		this->velocityX = 120.f;
-		this->health = 1000;
+		this->health = 1500;
 		this->jumpStrength = 140.f;
 		this->collisiondamage = 30.f;
 		this->deathAnimationMaxTimer = 4800.f;

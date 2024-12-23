@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 #include "camera.h"
 #include "healthbar.h"
+#include "weaponbar.h"
 #include "PauseMenu.h"
 #include "world.h"
 
@@ -11,20 +12,36 @@ private:
 	Character* m_character;
 	Boss* m_boss; //borrow from world
 	HealthBar* charHealthBar, *bossHealthBar;
+	WeaponBar* charWeaponBar;
 	Camera* camera;
 	PauseMenu* pauseMenu;
+
+	short int current_map;
 public:
-	GameState(MainWindow* window, TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue):
+	GameState(MainWindow* window, TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue, short int map_idx):
 		State(window, textureManager, statequeue)
-	, pauseMenu(nullptr), charHealthBar(nullptr), bossHealthBar(nullptr), m_boss(nullptr){
+	, pauseMenu(nullptr), charHealthBar(nullptr), bossHealthBar(nullptr), m_boss(nullptr), current_map(map_idx){
 
 		std::cout << "Creating GameState\n";
 
-		CreateCameraMap2();
+		if(map_idx==1){
+			CreateCameraMap1();
+			CreateWorld1();
+			CreateCharacterAndUIs(50,50);
+		}
+		else if (map_idx == 2) {
+			CreateCameraMap2();
+			CreateWorld2();
+			CreateCharacterAndUIs(55,322);
+		}
+		else {
+			CreateCameraMap3();
+			CreateWorld3();
+			CreateCharacterAndUIs(15,1052);
+		}
+		
 
-		CreateWorld2();
-
-		CreateCharacterAndHealthBar();
+		
 
 		CreateBossHealthBar();
 
@@ -41,6 +58,7 @@ public:
 		if (camera) delete camera;
 		if (charHealthBar) delete charHealthBar;
 		if (bossHealthBar) delete bossHealthBar;
+		if (charWeaponBar) delete charWeaponBar;
 	}
 
 	////dont call inside class
@@ -55,6 +73,10 @@ public:
 
 	void UpdateKeyBinds(const float& dt) override {
 		
+	}
+
+	void UpdateAudio() {
+
 	}
 
 
@@ -122,7 +144,7 @@ public:
 
 
 		//------CAMERA
-
+			this->charWeaponBar->Update(camera->GetViewCenter(), camera->GetViewSize(), m_character->GetActiveWeaponIndex());
 			this->charHealthBar->Update(m_character, camera->GetViewCenter(), camera->GetViewSize());
 			if (m_boss) this->bossHealthBar->Update(m_boss, camera->GetViewCenter(), camera->GetViewSize());
 		//-----------------CHARACTER--------------------
@@ -147,7 +169,10 @@ public:
 				if (!this->lockQueueCommand) {
 					lockQueueCommand = true;
 					this->statequeue->push(QUIT);
-					this->statequeue->push(PUSH_GAMEOVER);
+
+					if (this->current_map == 1) this->statequeue->push(PUSH_GAMEOVER_1);
+					else if (this->current_map == 2) this->statequeue->push(PUSH_GAMEOVER_2);
+					else this->statequeue->push(PUSH_GAMEOVER_3);
 				}
 			}
 
@@ -185,6 +210,7 @@ public:
 
 			//draw the healthbar
 			this->charHealthBar->Render(target);
+			this->charWeaponBar->Render(target);
 
 			if (m_boss) this->bossHealthBar->Render(target);
 
@@ -197,9 +223,14 @@ public:
 
 			//draw the healthbar
 			this->charHealthBar->Render(target);
+			this->charWeaponBar->Render(target);
 
 			if (m_boss) this->bossHealthBar->Render(target);
 		}
+	}
+
+	short int GetCurrentMap() {
+		return this->current_map;
 	}
 
 private:
@@ -236,16 +267,37 @@ private:
 	}
 	//-----------------------------------------//
 
-	void CreateCharacterAndHealthBar() {
-		m_character = new Character(textureManager, 7308, 327);
+
+	//-----------------WORLD 3-----------------//
+	void CreateCameraMap3() {
+		//these are restricted regions in a map that the camera cannot access
+		std::vector<FloatRect> tmp = {FloatRect(213,0,2252,292), FloatRect(1020,491,595,200), FloatRect(1852,705,1071,225),
+		FloatRect(2466,292,594,116), FloatRect(3098,705, 1342,208), FloatRect(4439,526,1262,223), FloatRect(5576,208,717,210)};
+
+		camera = new Camera(0, 0, 350, 200, MAP3CONST::LEFTLIMIT3, MAP3CONST::RIGHTLIMIT3, MAP3CONST::UPLIMIT3,
+			MAP3CONST::DOWNLIMIT3, MAP3CONST::BOSS_REGION_LEFT3, MAP3CONST::BOSS_REGION_RIGHT3, this->stateview, tmp);
+	}
+
+	void CreateWorld3() {
+		m_world = new World(textureManager, MAP3CONST::BOSS_REGION_LEFT3, MAP3CONST::BOSS_REGION_RIGHT3, "Animation\\Map3\\"
+			, "snow_fortress.png");
+	}
+
+
+	//-----------------------------------------//
+
+	void CreateCharacterAndUIs(float x, float y) {
+		m_character = new Character(textureManager,x, y);
 
 		charHealthBar = new HealthBar(textureManager, "Animation\\X\\X_Healthbar.png",
 			m_character->getHealth(), 30, 2.f, 2.f);
+
+		charWeaponBar = new WeaponBar(textureManager, m_character->GetWeaponsIDs());
 	}
 
 	void CreateBossHealthBar() {
 		bossHealthBar = new HealthBar(textureManager, "Animation\\Map1\\Vile\\Vile_HealthBar.png",
-			1000, 40, 332.f, 2.f);
+			1500, 40, 332.f, 2.f);
 	}
 
 	void CreatePauseMenu() {

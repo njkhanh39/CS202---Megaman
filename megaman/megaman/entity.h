@@ -41,7 +41,7 @@ protected:
 
 	bool invisible = false;  // after taking a hit, entity may become invisible for a short period
 	float invisibleTimer = 0.f;
-	float invisibleMaxTimer = 0.f; //for character, this = 100.f
+	float invisibleMaxTimer = 100.f; //for character, this = 100.f
 
 
 	//the distance between sprite and frame

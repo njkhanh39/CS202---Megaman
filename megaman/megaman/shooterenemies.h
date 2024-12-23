@@ -24,7 +24,7 @@ class ShooterEnemy1: public ShooterEnemy { //that big robot with electric shock
 private: //no scaling
 	float timer = 0.f; //prepare shooting
 
-	float timerPrepare = 1400.f;
+	float timerPrepare2 = 1400.f;
 	
 	float timerFinish = 2800.f;
 	bool alreadyShoot = false;
@@ -63,7 +63,7 @@ public: //view range = 150.f
 	}
 private:
 	void InnitDelaySpeed() {
-		this->timerPrepare = 1400.f;
+		this->timerPrepare2 = 1400.f;
 		this->timerFinish = 2800.f;
 	}
 
@@ -103,7 +103,7 @@ private:
 
 		timer += 600 * delt;
 		
-		if (timer <= timerPrepare) {
+		if (timer <= timerPrepare2) {
 			isShooting = true; //this invokes the animation
 		}
 		
@@ -631,6 +631,361 @@ private:
 			texture_idle_left);
 		this->textureManager->BorrowTexture("Animation\\Map2\\ShooterEnemy5\\idle_right.png",
 			texture_idle_right);
+	}
+};
+
+class Shooter6 : public Shooter { //snowball shooter
+public:
+	Shooter6(TextureManager* textureManager) :
+		Shooter(textureManager, 13, 13, 40, 80, 0) {
+
+		this->damage = 20;
+
+		this->LoadAnimationForBullet("Animation\\Map3\\ShooterEnemy6\\snowball.png",
+			"Animation\\Map3\\ShooterEnemy6\\snowball.png", 100, 0, 0, 0, 0, 13, 13);
+	}
+};
+
+class ShooterEnemy6 : public ShooterEnemy {//snow cannon
+private:
+	float timer = 0;
+	float timerFinish = 2000.f;
+
+	std::vector<float> bullet_range;
+	int cur_range = 0;
+public:
+	ShooterEnemy6(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 44, 28, 300) {
+
+		InnitShooterType();
+		InnitAnimation();
+
+		this->gravity = 0.f;
+		this->health = 100;
+
+		FaceDirection(dir);
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+private:
+	void InnitShooterType() override {
+		this->weapon = new Shooter6(this->textureManager);
+		bullet_range = { 100,150,200 };
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		if (this->direction == Direction::Left) {
+			weapon->UpdateMovingProjectiles(delt, { pos.x, pos.y });
+		}
+		else weapon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!CharacterInRange(character)) {
+			timer = 0;
+			return;
+		}
+		timer += 600 * delt;
+
+		if (timer >= timerFinish) {
+
+			if (cur_range >= (int)bullet_range.size()) {
+				cur_range = 0;
+			}
+
+			this->weapon->SetVelocityX(bullet_range[cur_range]);
+			this->weapon->Shoot(this->direction);
+
+			timer = 0;
+			++cur_range;
+		}
+	}
+
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+		this->textureManager->BorrowTexture("Animation\\Map3\\ShooterEnemy6\\idle_left.png",
+			texture_idle_left);
+		this->textureManager->BorrowTexture("Animation\\Map3\\ShooterEnemy6\\idle_right.png",
+			texture_idle_right);
+	}
+};
+
+class Shooter7 : public Shooter {//saw blade
+public:
+	Shooter7(TextureManager* textureManager) :
+		Shooter(textureManager, 16, 16, 10, 70, 0) {
+
+		this->damage = 20;
+
+		this->LoadAnimationForBullet("Animation\\Map3\\ShooterEnemy7\\saw_blade.png", "Animation\\Map3\\ShooterEnemy7\\saw_blade.png",
+			100.f, 0, 0, 2, 0, 16, 16);
+	}
+};
+
+class ShooterEnemy7 : public ShooterEnemy {// ostrich with blade
+private:
+	float timer = 0;
+	float timerFinishShoot = 4600.f;
+	float timerDelay = 2800.f;
+	bool alreadyShoot = false;
+
+	const Vector2f shoot_dilation = { 5.f,0 };
+	const Vector2f regular_dilation = { 0,0 };
+public:
+	ShooterEnemy7(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 30, 73, 150.f) {
+
+		//overrides
+		InnitShooterType();
+		InnitAnimation();
+
+		this->health = 100;
+		this->FaceDirection(dir);
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+private:
+	void InnitShooterType() override {
+		this->weapon = new Shooter7(this->textureManager);
+	}
+
+
+	//From entity
+	void Shoot(float delt) override {
+		isShooting = true;
+		this->weapon->Shoot(this->direction);
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		if(this->direction == Direction::Left) weapon->UpdateMovingProjectiles(delt, { pos.x, pos.y});
+		else weapon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!CharacterInRange(character)) {
+
+			if(this->direction == Direction::Left) movingAnimation->Play("Idle_Left", delt);
+			else movingAnimation->Play("Idle_Right", delt);
+
+			this->dilation = regular_dilation;
+
+			setPosition(getUpLeftPosition());
+
+			isShooting = false;
+
+			alreadyShoot = false;
+
+			timer = 0;
+			return;
+		}
+
+		auto dir = LocateCharacterDir(character);
+
+
+		if (dir == Direction::Left && this->direction != Direction::Left) TurnLeft();
+		if (dir == Direction::Right && this->direction != Direction::Right) TurnRight();
+
+
+		timer += 600 * delt;
+
+		if (timer >= timerDelay) {
+
+			if (!this->alreadyShoot) {
+				this->Shoot(delt);
+				this->alreadyShoot = true;
+
+				//set dilation for animation
+
+				this->dilation = shoot_dilation;
+				setPosition(getUpLeftPosition());
+			}
+
+			if (timer >= timerFinishShoot) {
+				
+
+				this->dilation = regular_dilation;
+				setPosition(getUpLeftPosition());
+
+				this->isShooting = false;
+				timer = 0;
+				alreadyShoot = false;
+			}
+		}
+		else {
+			if (this->direction == Direction::Left) movingAnimation->Play("Idle_Left", delt);
+			else movingAnimation->Play("Idle_Right", delt);
+		}
+		
+	}
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+
+		//idle
+		this->movingAnimation->AddAnimation("Idle_Left", "Animation\\Map3\\ShooterEnemy7\\idle_left.png"
+			,400.f, 0, 0, 6, 0, 30, 73);
+		this->movingAnimation->AddAnimation("Idle_Right", "Animation\\Map3\\ShooterEnemy7\\idle_right.png"
+			, 400.f, 0, 0, 6, 0, 30, 73);
+		
+		this->movingAnimation->AddAnimation("ShootLeft", "Animation\\Map3\\ShooterEnemy7\\shoot_left.png"
+			, 200.f, 0, 0, 8, 0, 40, 73);
+		this->movingAnimation->AddAnimation("ShootRight", "Animation\\Map3\\ShooterEnemy7\\shoot_right.png"
+			, 200.f, 0, 0, 8, 0, 40, 73);
+	}
+};
+
+class Shooter8 : public Shooter { //snow catapult
+public:
+	Shooter8(TextureManager* textureManager) :
+		Shooter(textureManager, 13, 13, 40, 80, -50) {
+
+		this->damage = 20;
+
+		this->LoadAnimationForBullet("Animation\\Map3\\ShooterEnemy6\\snowball.png",
+			"Animation\\Map3\\ShooterEnemy6\\snowball.png", 100, 0, 0, 0, 0, 13, 13);
+	}
+};
+
+class ShooterEnemy8 : public ShooterEnemy { //snow thrower
+private:
+	float timer = 0;
+	float timerFinish = 2800.f;
+	float timerDelay = 1400.f;
+	const Vector2f left_dilation = { 0,13.f };
+	const Vector2f right_dilation = { 17.f, 13.f };
+public:
+	ShooterEnemy8(TextureManager* textureManager, float x, float y, Direction dir) :
+		ShooterEnemy(textureManager, x, y, 20, 41, 200) {
+
+		//overrides
+		InnitShooterType();
+		InnitAnimation();
+
+		this->health = 100;
+		this->FaceDirection(dir);
+
+		//dilation
+		if (this->direction == Direction::Left) {
+			this->dilation = left_dilation;
+		}
+		else this->dilation = right_dilation;
+
+		//to activate dilation
+		setPosition({ x,y });
+	}
+
+	void Update(Character* character, float delt) override {
+		if (this->IsDead()) return;
+		this->Entity::UpdateEntity(delt);
+		UpdateEnemyBehaviour(character, delt);
+		UpdateEnemyProjectiles(delt);
+
+	}
+
+	void Render(RenderWindow* l_window) override {
+		//l_window->draw(frame);
+		if (this->IsDead()) return;
+		l_window->draw(sprite);
+		weapon->RenderProjectiles(l_window);
+
+	}
+private:
+	void InnitShooterType() override {
+		this->weapon = new Shooter8(this->textureManager);
+	}
+
+	void UpdateEnemyProjectiles(float delt) override {
+		Vector2f pos = getPosition();
+		Vector2f size = getFrameSize();
+
+		if (this->direction == Direction::Left) weapon->UpdateMovingProjectiles(delt, { pos.x, pos.y });
+		else weapon->UpdateMovingProjectiles(delt, { pos.x + size.x, pos.y });
+	}
+
+	void AttackCharacter(Character* character, float delt) override {
+		if (!CharacterInRange(character)) {
+			isShooting = false;
+			this->movingAnimation->Reset();
+			timer = 0;
+		}
+
+		auto dir = LocateCharacterDir(character);
+
+		if (this->direction != dir) this->FaceDirection(dir);
+
+		timer += 600 * delt;
+		
+
+		if (timer >= timerDelay) {
+
+			isShooting = true; //for animation playing
+			if (timer >= timerFinish) {
+
+				//attack
+				this->weapon->Shoot(this->direction);
+
+				//reset
+				timer = 0;
+				isShooting = false;
+			}
+		}
+	}
+	void UpdateEnemyBehaviour(Character* character, float delt) override {
+		AttackCharacter(character, delt);
+	}
+
+	void InnitAnimation() override {
+
+		//idle
+		this->textureManager->BorrowTexture("Animation\\Map3\\ShooterEnemy8\\idle_left.png",
+			texture_idle_left);
+
+		this->textureManager->BorrowTexture("Animation\\Map3\\ShooterEnemy8\\idle_right.png",
+			texture_idle_right);
+
+		this->movingAnimation->AddAnimation("ShootLeft", "Animation\\Map3\\ShooterEnemy8\\shoot_left.png"
+			, 200.f, 0, 0, 6, 0, 37, 54);
+		this->movingAnimation->AddAnimation("ShootRight", "Animation\\Map3\\ShooterEnemy8\\shoot_right.png"
+			, 200.f, 0, 0, 6, 0, 37, 54);
 	}
 };
 

@@ -46,10 +46,6 @@ private:
 		textureManager = new TextureManager();
 	}
 
-	void initGameState() {
-		this->states.push(new GameState(&this->m_window,textureManager, statequeue));
-	}
-
 	void initMainMenuState() {
 		this->states.push(new MainMenu(&this->m_window, textureManager, statequeue));
 	}
@@ -64,14 +60,29 @@ private:
 				states.pop();
 			}
 
-			if (cmd == PUSH_GAMEOVER) {
-				this->states.push(new GameoverState(&m_window, textureManager, statequeue));
+			if (cmd == PUSH_GAMEOVER_1) {
+				this->states.push(new GameoverState(&m_window, textureManager, statequeue, 1));
 			}
-			if (cmd == PUSH_GAMESTATE) {
-				this->states.push(new GameState(&m_window, textureManager, statequeue));
+			if (cmd == PUSH_GAMEOVER_2) {
+				this->states.push(new GameoverState(&m_window, textureManager, statequeue, 2));
+			}
+			if (cmd == PUSH_GAMEOVER_3) {
+				this->states.push(new GameoverState(&m_window, textureManager, statequeue, 3));
+			}
+			if (cmd == PUSH_GAMESTATE_1) {
+				this->states.push(new GameState(&m_window, textureManager, statequeue, 1));
+			}
+			if (cmd == PUSH_GAMESTATE_2) {
+				this->states.push(new GameState(&m_window, textureManager, statequeue, 2));
+			}
+			if (cmd == PUSH_GAMESTATE_3) {
+				this->states.push(new GameState(&m_window, textureManager, statequeue, 3));
 			}
 			if (cmd == PUSH_MAINMENU) {
 				this->states.push(new MainMenu(&m_window, textureManager, statequeue));
+			}
+			if (cmd == PUSH_STAGESELECTION) {
+				this->states.push(new StageSelection(&m_window, textureManager, statequeue));
 			}
 		}
 	}

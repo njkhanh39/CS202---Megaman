@@ -28,8 +28,8 @@ public:
 		text->setFont(fnt);
 		text->setCharacterSize(10);
 
-		resume = new Button(x+15.f, y+25.f, 50, 15, fnt,10, "RESUME", Color::White, Color(255, 153, 51), Color(255, 153, 51));
-		quit = new Button(x+75.f, y+25.f, 50, 15, fnt,10, "QUIT", Color::White, Color(255, 153, 51), Color(255, 153, 51));
+		resume = new Button(x+15.f, y+25.f, 50, 15, fnt, 10, "RESUME", Color::White, Color(255, 153, 51), Color(255, 153, 51));
+		quit = new Button(x+75.f, y+25.f, 50, 15, fnt, 10, "QUIT", Color::White, Color(255, 153, 51), Color(255, 153, 51));
 
 	}
 

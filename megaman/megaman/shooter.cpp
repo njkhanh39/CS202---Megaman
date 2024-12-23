@@ -61,6 +61,9 @@ void Shooter::RenderProjectiles(RenderWindow* l_window) {
 		bullets[i]->Render(l_window);
 	}
 }
+void Shooter::ChargeShoot(Direction dir) {
+
+}
 
 void Shooter::Shoot(Direction dir) {
 
@@ -308,7 +311,7 @@ XBuster::XBuster(TextureManager* textureManager) : Shooter(textureManager, 8.f, 
 	semicharge = new SemiChargeBuster(textureManager);
 	
 	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_SingleShot.png", "Animation\\X\\XBuster_SingleShot.png",
-		100.f, 0, 0, 0, 0, 8.f, 6.f);
+	100.f, 0, 0, 0, 0, 8.f, 6.f);
 }
 
 XBuster::~XBuster() {

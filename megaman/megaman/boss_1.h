@@ -2,50 +2,7 @@
 #include "boss.h"
 #include "shooter.h"
 
-class ElectricCannon : public Shooter {
-private:
-	sf::Clock clk; // for delay
 
-	float delay = 1.f;
-	bool firstShot = false;
-public:
-	ElectricCannon(TextureManager* textureManager) :
-		Shooter(textureManager, 16.f, 16.f, 0, 150.f, 0.f) {
-
-		//damage
-
-		this->damage = 60;
-		
-
-		//animation
-
-		this->LoadAnimationForBullet("Animation\\Own_By_Many\\electric_left.png",
-			"Animation\\Own_By_Many\\electric_right.png"
-			, 70.f, 0, 0, 3, 0, 16, 16); //doesnt need to scale
-	}
-
-	void Shoot(Direction dir) override {
-
-		//----We add this----//
-
-		if (clk.getElapsedTime().asSeconds() < delay && firstShot==true) {
-			return;
-		}
-		else if (firstShot == false) {
-			this->firstShot = true;
-		}
-
-		clk.restart();
-
-		//------------------//
-
-		this->Shooter::Shoot(dir);
-	}
-
-	void SetClockDelay(float tmp) {
-		this->delay = tmp;
-	}
-};
 
 class Vile: public Boss {
 private:
@@ -277,7 +234,7 @@ protected:
 
 		this->gravity = 500.f;
 		this->delay = 2000.f;
-		this->health = 1000;
+		this->health = 1500;
 		this->jumpStrength = 250.f;
 		this->velocityX = this->normalVelocityX;
 		this->collisiondamage = 30.f;

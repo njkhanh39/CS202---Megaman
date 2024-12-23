@@ -2,6 +2,7 @@
 #include "attackenemies.h"
 #include "boss_1.h"
 #include "boss_2.h"
+#include "boss_3.h"
 #include <fstream>
 #include <sstream>
 
@@ -17,8 +18,8 @@ struct EnemyInfo {
 	int right;
 	Direction dir;
 
-	EnemyInfo(int _type, int _no,int left, Vector2f _position): //4 pars
-	type(_type), no(_no), position(_position), left(left){
+	EnemyInfo(int _type, int _no, int left, Vector2f _position) : //4 pars
+		type(_type), no(_no), position(_position), left(left) {
 		right = -1;
 		dir = Direction::Left;
 	}
@@ -159,9 +160,21 @@ public:
 				enemy->push_back(nullptr);
 				enemy->back() = new ShooterEnemy5(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
 			}
+			else if (ptr->no == 6) {//snow cannon
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy6(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
+			}
+			else if (ptr->no == 7) {//ostrich
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy7(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
+			}
+			else if (ptr->no == 8) {//snow catapult
+				enemy->push_back(nullptr);
+				enemy->back() = new ShooterEnemy8(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
+			}
 		}
 		else if (ptr->type == EnemyType::MOVING) {
-			if (ptr->no == 1) {
+			if (ptr->no == 1) { //spike wheel
 				enemy->push_back(nullptr);
 				enemy->back() = new AttackEnemy1(textureManager, ptr->position.x, ptr->position.y, ptr->dir);
 			}
@@ -174,6 +187,10 @@ public:
 			else if (ptr->no == 2) {
 				enemy->push_back(nullptr);
 				enemy->back() = new FlameMammoth(textureManager, ptr->position.x, ptr->position.y, Vector2f(7754, 8111));
+			}
+			else if (ptr->no == 3) {
+				enemy->push_back(nullptr);
+				enemy->back() = new ChillPenguin(textureManager, ptr->position.x, ptr->position.y, Vector2f(5927, 6237));
 			}
 		}
 	}

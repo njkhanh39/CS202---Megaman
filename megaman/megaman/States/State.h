@@ -8,9 +8,12 @@
 #include <SFML/Graphics.hpp>
 #include "window.h"
 #include "Auxiliaries/Button.h"
+#include "Manager//SoundManager.h"
 
 enum STATECOMMAND {
-	QUIT, PUSH_MAINMENU, PUSH_GAMEOVER, PUSH_GAMESTATE
+	QUIT, PUSH_MAINMENU, PUSH_GAMEOVER_1, PUSH_GAMEOVER_2, PUSH_GAMEOVER_3,
+	PUSH_GAMESTATE_1, PUSH_GAMESTATE_2, PUSH_GAMESTATE_3, PUSH_STAGESELECTION
+
 };
 
 class State {
@@ -47,6 +50,8 @@ public:
 	//Innit
 
 	virtual void innitButtons(){}
+
+	virtual void innitAudio(){}
 
 	virtual ~State() {
 		delete stateview;
@@ -109,6 +114,8 @@ public:
 	virtual void UpdateKeyBinds(const float& dt) = 0; //Ex: ESC to pause in GameState
 
 	virtual void UpdateButtons() = 0;
+
+	virtual void UpdateAudio() = 0;
 
 	// for states, call in Update()
 	void UpdateMouse() {//state-based detection of mouse

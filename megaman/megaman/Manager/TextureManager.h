@@ -36,7 +36,9 @@ public:
 	}
 
 	void InnitMap() { //dont even need
-		//this->AddTexture("Animation\\highway.png");
+		this->AddTexture("Animation\\Map1\\highway.png");
+		this->AddTexture("Animation\\Map2\\factory.png");
+		this->AddTexture("Animation\\Map3\\snow_fortress.png");
 	}
 
 	void AddTexture(const std::string& name) {

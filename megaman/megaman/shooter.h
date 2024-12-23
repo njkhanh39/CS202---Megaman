@@ -32,9 +32,13 @@ public:
 
 
 	//shoot
+	virtual void ChargeShoot(Direction dir);
 
 	virtual void Shoot(Direction dir);
 
+	virtual void Charge(){}
+
+	virtual void UnCharge() {}
 
 	virtual void UpdateMovingProjectiles(float delt, Vector2f pos);
 
@@ -132,11 +136,11 @@ public:
 	
 	~XBuster() override;
 
-	void Charge();
+	void Charge() override;
 
-	void UnCharge();
+	void UnCharge() override;
 
-	void ChargeShoot(Direction dir);
+	void ChargeShoot(Direction dir) override;
 
 	//overrides
 
@@ -156,7 +160,6 @@ class SpecialShooter : public Shooter {
 public:
 	SpecialShooter(TextureManager* textureManager, float bulletsizeX, float bulletsizeY, float gravity, float velox, float veloy) :
 		Shooter(textureManager, bulletsizeX,  bulletsizeY,  gravity,  velox,  veloy) {
-
 	}
 
 	~SpecialShooter() {
@@ -165,8 +168,8 @@ public:
 	void HandleProjectileCollision(Obstacle* obs, Entity* en) override {
 		int n = bullets.size();
 		for (int i = n - 1; i >= activeBullets; --i) {
-			if (bullets[i]->IsHit(en) && en && !en->isInvisible()) {
-				en->TakeDamage(this->damage);
+			if (bullets[i]->IsHit(en)) {
+				if(en && !en->isInvisible()) en->TakeDamage(this->damage);
 				bullets[i]->setVelocityX(0);
 			}
 			if (bullets[i]->IsStopped()) {
@@ -233,8 +236,8 @@ public:
 	void HandleProjectileCollision(Entity* en) override {
 		int n = bullets.size();
 		for (int i = n - 1; i >= activeBullets; --i) {
-			if (bullets[i]->IsHit(en) && en && !en->isInvisible()) {
-				en->TakeDamage(this->damage);
+			if (bullets[i]->IsHit(en)) {
+				if (en && !en->isInvisible()) en->TakeDamage(this->damage);
 				bullets[i]->setVelocityX(0);
 			}
 			if (bullets[i]->IsStopped()) { //only when it ran out of time does we remove
@@ -247,5 +250,135 @@ public:
 				--n;
 			}
 		}
+	}
+};
+
+class ElectricCannon : public Shooter {
+private:
+	sf::Clock clk; // for delay
+
+	float delay = 1.f;
+	bool firstShot = false;
+public:
+	ElectricCannon(TextureManager* textureManager) :
+		Shooter(textureManager, 16.f, 16.f, 0, 150.f, 0.f) {
+
+		//damage
+
+		this->damage = 40;
+
+
+		//animation
+
+		this->LoadAnimationForBullet("Animation\\Own_By_Many\\electric_left.png",
+			"Animation\\Own_By_Many\\electric_right.png"
+			, 70.f, 0, 0, 3, 0, 16, 16); //doesnt need to scale
+	}
+
+	void Shoot(Direction dir) override {
+
+		//----We add this----//
+
+		if (clk.getElapsedTime().asSeconds() < delay && firstShot == true) {
+			return;
+		}
+		else if (firstShot == false) {
+			this->firstShot = true;
+		}
+
+		clk.restart();
+
+		//------------------//
+
+		this->Shooter::Shoot(dir);
+	}
+
+	void SetClockDelay(float tmp) {
+		this->delay = tmp;
+	}
+};
+
+class FlameThrower : public SpecialShooter {
+private:
+	sf::Clock clk; // for delay
+
+	float delay = 0.75;
+	bool firstShot = false;
+public:
+	FlameThrower(TextureManager* textureManager) :
+		SpecialShooter(textureManager, 16.f, 16.f, 0, 150.f, 0.f) {
+
+		//damage
+
+		this->damage = 15;
+
+
+		//animation
+
+		this->LoadAnimationForBullet("Animation\\Own_By_Many\\fire_left.png",
+			"Animation\\Own_By_Many\\fire_right.png"
+			, 100.f, 0, 0, 2, 0, 16, 12); //doesnt need to scale
+	}
+
+	void Shoot(Direction dir) override {
+
+		//----We add this----//
+
+		if (clk.getElapsedTime().asSeconds() < delay && firstShot == true) {
+			return;
+		}
+		else if (firstShot == false) {
+			this->firstShot = true;
+		}
+
+		clk.restart();
+
+		//------------------//
+
+		this->Shooter::Shoot(dir);
+	}
+
+	void SetClockDelay(float tmp) {
+		this->delay = tmp;
+	}
+
+};
+
+class IceShotgun : public Shooter {
+private:
+	sf::Clock clk; // for delay
+
+	float delay = 0.75;
+	bool firstShot = false;
+public:
+	IceShotgun(TextureManager* textureManager) :
+		Shooter(textureManager, 7, 7, 0, 160, 0) {
+
+		this->damage = 15;
+
+		this->LoadAnimationForBullet("Animation\\Own_By_Many\\iceberg.png", "Animation\\Own_By_Many\\iceberg.png",
+			100.f, 0, 0, 0, 0, 7, 7);
+	}
+
+	void Shoot(Direction dir) override {
+		//shoots three times
+		if (clk.getElapsedTime().asSeconds() < delay && firstShot == true) {
+			return;
+		}
+		else if (firstShot == false) {
+			this->firstShot = true;
+		}
+		clk.restart();
+
+		this->SetVelocityY_One_ActiveBullet(-25);
+		this->Shooter::Shoot(dir);
+
+		this->SetVelocityY_One_ActiveBullet(0);
+		this->Shooter::Shoot(dir);
+
+		this->SetVelocityY_One_ActiveBullet(25);
+		this->Shooter::Shoot(dir);
+
+
 	}
 };

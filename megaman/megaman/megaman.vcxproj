@@ -149,6 +149,8 @@
     <ClCompile Include="obstacle.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="shooter.cpp" />
+    <ClCompile Include="Manager\SoundManager.cpp" />
+    <ClCompile Include="WeaponManager.cpp" />
     <ClCompile Include="window.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
@@ -159,6 +161,7 @@
     <ClInclude Include="boss.h" />
     <ClInclude Include="boss_1.h" />
     <ClInclude Include="boss_2.h" />
+    <ClInclude Include="boss_3.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />
     <ClInclude Include="enemy.h" />
@@ -175,11 +178,15 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="shooter.h" />
     <ClInclude Include="shooterenemies.h" />
+    <ClInclude Include="Manager\SoundManager.h" />
     <ClInclude Include="States\GameoverState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\MainMenu.h" />
     <ClInclude Include="States\PauseMenu.h" />
+    <ClInclude Include="States\StageSelection.h" />
     <ClInclude Include="States\State.h" />
+    <ClInclude Include="weaponbar.h" />
+    <ClInclude Include="WeaponManager.h" />
     <ClInclude Include="window.h" />
     <ClInclude Include="world.h" />
   </ItemGroup>

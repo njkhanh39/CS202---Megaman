@@ -1,18 +1,19 @@
-#pragma once
+#ifndef CHARACTER_H
+#define CHARACTER_H
+
 #include <iostream>
 #include "entity.h"
 #include <SFML/Graphics.hpp>
-#include "shooter.h"
 
 using namespace sf;
 
-
+class WeaponManager;
 
 class Character: public Entity {
 private:
 	//------Weapon----------//
 
-	XBuster* blaster;
+	WeaponManager* weaponManager;
 
 	const float scaleFactor = 0.25f;
 	const Vector2f framesize = { 20.f, 35.f };
@@ -41,10 +42,10 @@ public:
 	//Handle instant keyboard inputs
 	void HandleMovements(Time& elapsed);
 
-	//Shooting
-	void Shoot(float delt) override;
+	////Shooting
+	//void Shoot(float delt) override;
 
-	void ChargeShoot();
+	//void ChargeShoot();
 	//-----collision checks-----
 
 	void HandleProjectileCollision(Obstacle* obs);
@@ -56,20 +57,16 @@ public:
 
 	//virtual
 
-	int getHealth() override {
-		if (temphealth == -1) return this->health;
-		else return temphealth;
-	}
+	int getHealth() override;
 
-	void addHealth(int h) {
-		this->health = std::min(maxHealth, this->health + h);
-	}
+	void addHealth(int h);
 
 
-	bool IsInBossRegion(Vector2f bossRegion) {
-		if (getLeftMostX() >= bossRegion.x) return true;
-		return false;
-	}
+	bool IsInBossRegion(Vector2f bossRegion);
+
+	std::vector<short int> GetWeaponsIDs();
+
+	short int GetActiveWeaponIndex();
 	//-------UPDATING-------
 
 	//literally everything
@@ -89,3 +86,5 @@ private:
 
 
 };
+
+#endif

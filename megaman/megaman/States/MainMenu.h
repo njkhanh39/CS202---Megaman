@@ -1,13 +1,15 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-#include "GameoverState.h"
+#include "StageSelection.h"
 
 
 class MainMenu : public State {
 private:
 	RectangleShape* background;
 	Button* new_game_btn, *quit_game_btn;
+
+	Button* title_text;
 public:
 	MainMenu(MainWindow* window,TextureManager* textureManager, std::queue<STATECOMMAND>* statequeue):
 		background(nullptr) , State(window,textureManager, statequeue) {
@@ -15,15 +17,25 @@ public:
 		background->setFillColor(Color::Black);
 
 		this->innitButtons();
+		this->innitAudio();
 	}
 
 	//innit button
 	void innitButtons() override {
-		sf::Font fnt; fnt.loadFromFile("Fonts\\palatinobold.ttf");
+		sf::Font fnt; fnt.loadFromFile("Fonts\\audiowide.ttf");
 
-		new_game_btn = new Button(600, 300, 150, 50, fnt, "NEW GAME", Color::White, Color(255, 153, 51),
+		new_game_btn = new Button(500, 300, 300, 80, fnt, 30, "PLAY", Color::White, Color(255, 153, 51),
 			Color(255, 153, 51));
+
 		quit_game_btn = nullptr;
+
+		title_text = new Button(100, 100, 1080, 100, fnt, 100, "MEGAMAN X", Color::Cyan, Color::Transparent, Color::Transparent
+			, Color::Transparent);
+	}
+
+	void innitAudio() override {
+		SoundManager::GetInstance().LoadSound("menu", "Audio\\MainMenu\\mainmenu.mp3");
+		SoundManager::GetInstance().PlaySound("menu", false);
 	}
 
 	virtual ~MainMenu() {
@@ -31,6 +43,8 @@ public:
 
 		//buttons
 		if(new_game_btn) delete new_game_btn;
+
+		if (title_text) delete title_text;
 	}
 
 	/*void EndState() override {
@@ -42,20 +56,23 @@ public:
 
 		if (this->new_game_btn->isPressed()) {
 			std::cout << "New game button pressed :>\n";
-			//push game state
 			this->new_game_btn->SetIdle();
 			
-			//QUEUE GAME STATE
+			//QUEUE STAGE SELECTION
 
 		//	this->statequeue->push(STATECOMMAND::QUIT); 
 			if (lockQueueCommand == false) {
 				lockQueueCommand = true;
-				this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE);
+				this->statequeue->push(STATECOMMAND::PUSH_STAGESELECTION);
 			}
 		}
 	}
 
 	void UpdateKeyBinds(const float& dt) override {
+		
+	}
+
+	void UpdateAudio() override{
 		
 	}
 
@@ -86,6 +103,10 @@ public:
 
 		//------------BUTTON
 		this->UpdateButtons();
+
+		//audio
+
+		this->UpdateAudio();
 	}
 
 	//-----------RENDER------------------------------
@@ -93,6 +114,7 @@ public:
 	void Render(RenderWindow* target) override {
 		target->draw(*background);
 		new_game_btn->Render(target);
+		title_text->Render(target);
 	}
 };
 

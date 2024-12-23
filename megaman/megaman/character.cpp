@@ -1,5 +1,5 @@
 #include "character.h"
-
+#include "WeaponManager.h"
 
 Character::Character(TextureManager* textureManager, float x, float y): Entity(textureManager, x,y) {
 
@@ -11,7 +11,7 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 
 	//Weapon
 
-	blaster = new XBuster(textureManager);
+	weaponManager = new WeaponManager(textureManager);
 
 
 	//Health
@@ -36,14 +36,14 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 
 	//scale image, but dont forget the hitbox!
 	this->sprite.setScale(scaleFactor, scaleFactor); //already set frame size ~ scaled animation
-	this->blaster->ScaleProjectileAnimation(scaleFactor, 0.85); //note that projectile's frame size needs = scaled animation
+	//this->blaster->ScaleProjectileAnimation(scaleFactor, 0.85); //note that projectile's frame size needs = scaled animation
 }
 
 Character::~Character() {
 
 	//others
 	std::cout << "Destructor of Character.\n";
-	delete blaster;
+	delete weaponManager;
 }
 
 //virtual drawing
@@ -51,7 +51,7 @@ Character::~Character() {
 void Character::Render(RenderWindow* l_window) {
 	//l_window->draw(frame);
 	l_window->draw(sprite);
-	blaster->RenderProjectiles(l_window);
+	weaponManager->RenderProjectiles(l_window);
 }
 
 
@@ -62,15 +62,7 @@ void Character::Render(RenderWindow* l_window) {
 void Character::HandleEventInput(Event& evt, Time& elapsed) {
 	if (this->invisible) return; //when invisible, cannot do anything
 
-	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::Enter) {
-		Shoot(elapsed.asSeconds());
-	}
-	else if (evt.type == Event::KeyReleased && evt.key.code == Keyboard::Enter) {
-		std::cout << "Release!\n";
-
-		ChargeShoot();
-	}
-	else isChargeShooting = false;
+	weaponManager->HandleEventInput(evt, elapsed, this);
 	
 }
 
@@ -112,35 +104,18 @@ void Character::HandleMovements(Time& elapsed) {
 	// (right,left,jump) flags are modified by World::HandleCollision() in game loop
 }
 
-void Character::Shoot(float delt) {
-	if (!isShooting) {
-		isChargeShooting = false;
-		blaster->Shoot(direction);
-		blaster->Charge();
-		isShooting = true;
-	}
-}
-
-
-void Character::ChargeShoot() {
-	isShooting = false;
-	blaster->UnCharge();
-	blaster->ChargeShoot(direction);
-	isChargeShooting = true;
-}
-
 //-----collision checks-----
 
 void Character::HandleProjectileCollision(Obstacle* obs) {
-	blaster->HandleProjectileCollision(obs);
+	weaponManager->HandleProjectileCollision(obs);
 }
 
 void Character::HandleProjectileCollision(Obstacle* obs, Entity* en) {
-	blaster->HandleProjectileCollision(obs, en);
+	weaponManager->HandleProjectileCollision(obs, en);
 }
 
 void Character::HandleProjectileCollision(Entity* en) {
-	blaster->HandleProjectileCollision(en);
+	weaponManager->HandleProjectileCollision(en);
 }
 
 
@@ -261,6 +236,29 @@ void Character::UpdateEntity(float delt)  {
 	}
 }
 
+std::vector<short int>  Character::GetWeaponsIDs() {
+	return this->weaponManager->GetWeaponsIDs();
+}
+
+short int Character::GetActiveWeaponIndex() {
+	return this->weaponManager->GetActiveWeaponIndex();
+}
+
+int Character::getHealth()  {
+	if (temphealth == -1) return this->health;
+	else return temphealth;
+}
+
+void Character::addHealth(int h) {
+	this->health = std::min(maxHealth, this->health + h);
+}
+
+
+bool Character::IsInBossRegion(Vector2f bossRegion) {
+	if (getLeftMostX() >= bossRegion.x) return true;
+	return false;
+}
+
 //--------------------PRIVATES-----------------------
 
 void Character::LoadAndAddAnimations() {
@@ -289,12 +287,8 @@ void Character::LoadAndAddAnimations() {
 //-------UPDATING-------
 
 void Character::UpdateCharacterProjectiles(float delt) {
-
-	Vector2f pos = getPosition();
-	Vector2f size = getFrameSize();
-
 	//update char's projectiles by updating his gun's projectiles
-	blaster->UpdateMovingProjectiles( delt, getCenterPosition() + Vector2f(0.f,-10.f));
+	weaponManager->UpdateMovingProjectiles( delt, this);
 }
 
 

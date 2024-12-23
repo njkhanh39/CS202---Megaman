@@ -8,9 +8,11 @@ private:
 	Texture* texture; //borrow 612 x 108
 	Sprite* background;
 	Button* yesButton, * noButton;
+
+	short int current_map;
 public:
-	GameoverState(MainWindow* window, TextureManager* textureManager,std::queue<STATECOMMAND>* statequeue) :
-		State(window, textureManager, statequeue){
+	GameoverState(MainWindow* window, TextureManager* textureManager,std::queue<STATECOMMAND>* statequeue, short int current_map) :
+		State(window, textureManager, statequeue), yesButton(nullptr), noButton(nullptr), current_map(current_map){
 		this->textureManager->BorrowTexture("Animation\\gameover.jpg", this->texture);
 
 
@@ -67,7 +69,10 @@ public:
 			if (!this->lockQueueCommand) {
 				lockQueueCommand = true;
 				this->statequeue->push(QUIT);
-				this->statequeue->push(PUSH_GAMESTATE);
+
+				if(this->current_map == 1) this->statequeue->push(PUSH_GAMESTATE_1);
+				else if(this->current_map == 2) this->statequeue->push(PUSH_GAMESTATE_2);
+				else this->statequeue->push(PUSH_GAMESTATE_3);
 			}
 		}
 	}
@@ -76,6 +81,9 @@ public:
 
 	}
 
+	void UpdateAudio() {
+
+	}
 
 	//----FUNCTIONS CALLED IN GAME HANDLING----//
 
