@@ -127,7 +127,8 @@ void Entity::MoveRight(float delt) {
 void Entity::Jump(float delt) {
 	if (!isJumping) {
 		//std::cout << "Jump!" << '\n';
-
+		SoundManager::GetInstance().LoadSound("entity_jump", "Audio\\SFX\\08 - MMX - X Jump.wav");
+		SoundManager::GetInstance().PlaySound("entity_jump", false);
 		isJumping = true;
 		velocityY = -jumpStrength;
 	}

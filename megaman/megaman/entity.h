@@ -5,7 +5,7 @@
 #include "animation.h"
 #include "enumdirection.h"
 #include <algorithm>
-//#include "Manager/TextureManager.h"
+#include "Manager/SoundManager.h"
 
 using namespace sf;
 
@@ -183,7 +183,7 @@ public:
 	//helper update
 	bool IsDead();
 
-	void TakeDamage(int damage);
+	virtual void TakeDamage(int damage);
 
 
 	//getters

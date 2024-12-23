@@ -18,6 +18,13 @@ public:
 			, 70.f, 0, 0, 2, 0, 17, 17); //doesnt need to scale
 	}
 
+	void Shoot(Direction dir) override {
+		//sound
+		SoundManager::GetInstance().LoadSound("electric_bolt", "Audio\\SFX\\55 - MMX - Electric Bolt.wav");
+		SoundManager::GetInstance().PlaySound("electric_bolt", false);
+
+		this->Shooter::Shoot(dir);
+	}
 };
 
 class ShooterEnemy1: public ShooterEnemy { //that big robot with electric shock

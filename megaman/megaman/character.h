@@ -54,6 +54,8 @@ public:
 
 	void HandleProjectileCollision(Entity* en);
 
+	//
+	void TakeDamage(int damage) override;
 
 	//virtual
 

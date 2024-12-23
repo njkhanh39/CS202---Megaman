@@ -118,6 +118,14 @@ void Character::HandleProjectileCollision(Entity* en) {
 	weaponManager->HandleProjectileCollision(en);
 }
 
+void Character::TakeDamage(int damage) {
+	if (damage > 0) {
+		SoundManager::GetInstance().LoadSound("x_hurt", "Audio\\SFX\\10 - MMX - X Hurt.wav");
+		SoundManager::GetInstance().PlaySound("x_hurt", false);
+	}
+	this->Entity::TakeDamage(damage);
+}
+
 
 void Character::Update(float delt) {
 

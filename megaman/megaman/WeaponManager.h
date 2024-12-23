@@ -1,7 +1,6 @@
 #ifndef WEAPONMANAGER_H
 #define WEAPONMANAGER_H
 
-
 #include "shooter.h"
 #include <fstream>
 #include <sstream>

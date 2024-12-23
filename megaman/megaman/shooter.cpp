@@ -210,12 +210,10 @@ void Shooter::Load(Direction dir) {
 
 //-------FULL CHARGE
 
-XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 0, 0, -25.f, -30.f, -10.f) {
-//XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 37.5, 22.5, 0, 150.f, 0) {
-	this->Shooter::LoadAnimationForBullet("Animation\\X\\enemi.jpg", "Animation\\X\\enemi.jpg",
-		0, 0, 0, 0, 0, 1080, 1080);
-	//this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
-	//	70.f, 0, 0, 5, 0, 150, 90);
+
+XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 37.5, 22.5, 0, 150.f, 0) {
+	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
+		70.f, 0, 0, 5, 0, 150, 90);
 
 	this->damage = 50;
 }
@@ -324,16 +322,34 @@ XBuster::~XBuster() {
 
 void XBuster::Charge() {
 	clk.restart();
+
+	if (clk.getElapsedTime().asSeconds() == 0.f) {
+		SoundManager::GetInstance().LoadSound("x_charge", "Audio\\SFX\\04 - MMX - X Charge.wav");
+		SoundManager::GetInstance().PlaySound("x_charge", false);
+	}
 }
 
 void XBuster::UnCharge() {
 	deltCharge = std::min(maxTime, clk.getElapsedTime().asSeconds());
+	SoundManager::GetInstance().StopSound("x_charge");
+}
+
+void XBuster::Shoot(Direction dir) {
+	//sound
+	/*SoundManager::GetInstance().LoadSound("x_shoot", "Audio\\SFX\\01 - MMX - X Regular Shot.wav");
+	SoundManager::GetInstance().PlaySound("x_shoot", false);*/
+
+	
+	this->Shooter::Shoot(dir);
 }
 
 void XBuster::ChargeShoot(Direction dir) {
 	if (deltCharge < 0.2f) {
 		return; //delay
 	}
+
+	SoundManager::GetInstance().LoadSound("x_charge_shot", "Audio\\SFX\\02 - MMX - X Charge Shot.wav");
+	SoundManager::GetInstance().PlaySound("x_charge_shot", false);
 
 	if (deltCharge > 0.7 && deltCharge <= 2.0f) {
 		std::cout << deltCharge << '\n';

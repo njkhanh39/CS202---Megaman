@@ -29,6 +29,10 @@ public:
 
 
 		innitButtons();
+
+		//stop sound
+
+		SoundManager::GetInstance().StopSound();
 	}
 
 	virtual ~GameoverState() {

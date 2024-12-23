@@ -1,4 +1,5 @@
 #pragma once
+#include "Manager/SoundManager.h"
 #include "enumdirection.h"
 #include "projectile.h"
 #include <iostream>
@@ -139,6 +140,8 @@ public:
 	void Charge() override;
 
 	void UnCharge() override;
+
+	void Shoot(Direction dir) override;
 
 	void ChargeShoot(Direction dir) override;
 
@@ -289,7 +292,8 @@ public:
 		clk.restart();
 
 		//------------------//
-
+		SoundManager::GetInstance().LoadSound("electric_bolt", "Audio\\SFX\\55 - MMX - Electric Bolt.wav");
+		SoundManager::GetInstance().PlaySound("electric_bolt", false);
 		this->Shooter::Shoot(dir);
 	}
 
@@ -335,6 +339,8 @@ public:
 
 		//------------------//
 
+		SoundManager::GetInstance().LoadSound("flame_thrower", "Audio\\SFX\\24 - MMX - X Fire Wave.wav");
+		SoundManager::GetInstance().PlaySound("flame_thrower", false);
 		this->Shooter::Shoot(dir);
 	}
 
@@ -369,6 +375,9 @@ public:
 			this->firstShot = true;
 		}
 		clk.restart();
+
+		SoundManager::GetInstance().LoadSound("ice_shotgun", "Audio\\SFX\\36 - MMX - Ice Break.wav");
+		SoundManager::GetInstance().PlaySound("ice_shotgun", false);
 
 		this->SetVelocityY_One_ActiveBullet(-25);
 		this->Shooter::Shoot(dir);

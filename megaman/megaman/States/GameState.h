@@ -28,11 +28,12 @@ public:
 			CreateCameraMap1();
 			CreateWorld1();
 			CreateCharacterAndUIs(50,50);
+			
 		}
 		else if (map_idx == 2) {
 			CreateCameraMap2();
 			CreateWorld2();
-			CreateCharacterAndUIs(55,322);
+			CreateCharacterAndUIs(55,302);
 		}
 		else {
 			CreateCameraMap3();
@@ -49,6 +50,7 @@ public:
 		//this comes after camera. Every time we open, it needs to readjust
 		
 		CreatePauseMenu();
+		innitAudio();
 	}
 	~GameState(){
 		std::cout << "GameState destructor!\n";
@@ -90,6 +92,16 @@ public:
 		//toggling
 		if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::Escape) {
 			this->paused = !this->paused;
+
+			if (this->paused) SoundManager::GetInstance().PauseSound();
+
+			if (!this->paused) {
+				//resume
+
+				if (this->current_map == 3) SoundManager::GetInstance().PlaySound("chillpenguin", true);
+				if (this->current_map == 2) SoundManager::GetInstance().PlaySound("flamemammoth", true);
+				if (this->current_map == 1) SoundManager::GetInstance().PlaySound("vile", true);
+			}
 		}
 
 		if (evt.type == evt.KeyPressed && evt.key.code == sf::Keyboard::P) {
@@ -131,10 +143,14 @@ public:
 	//---FUNCTIONS CALLED IN GAME UPDATE-----//
 
 	void Update(const float& dt) override {
+
+
+	
 		//------------MOUSE
 		this->UpdateMouse(); //state-based detection of mouse
 
 		if (!this->paused) {
+
 			this->UpdateKeyBinds(dt);
 
 			
@@ -182,11 +198,10 @@ public:
 
 		}
 		else { //update the pause menu
-
+			
 			pauseMenu->Update(mousePos, Vector2f(getCenterViewX(), getCenterViewY())); //appearance
 
 			if (pauseMenu->ReturnQuit()) { //if returns quit, we go all the way to main menu
-
 				if (this->lockQueueCommand == false) {
 					lockQueueCommand = true;
 					this->statequeue->push(QUIT);
@@ -302,6 +317,25 @@ private:
 
 	void CreatePauseMenu() {
 		pauseMenu = new PauseMenu(window, this->getCenterViewX(), this->getCenterViewY());
+	}
+
+	void innitAudio() override {
+		SoundManager::GetInstance().StopSound("menu");
+		if (current_map == 1) {
+			SoundManager::GetInstance().LoadSound("vile", "Audio\\Map1\\vile.mp3");
+			SoundManager::GetInstance().SetSoundVolume("vile", 50);
+			SoundManager::GetInstance().PlaySound("vile", true);
+		}
+		if (current_map == 2) {
+			SoundManager::GetInstance().LoadSound("flamemammoth", "Audio\\Map2\\flamemammoth.mp3");
+			SoundManager::GetInstance().SetSoundVolume("flamemammoth", 50);
+			SoundManager::GetInstance().PlaySound("flamemammoth", true);
+		}
+		if (current_map == 3) {
+			SoundManager::GetInstance().LoadSound("chillpenguin", "Audio\\Map3\\chillpenguin.mp3");
+			SoundManager::GetInstance().SetSoundVolume("chillpenguin", 50);
+			SoundManager::GetInstance().PlaySound("chillpenguin", true);
+		}
 	}
 };
 

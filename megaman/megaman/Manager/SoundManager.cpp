@@ -3,7 +3,7 @@
 
 void SoundManager::LoadSound(const std::string& name, const std::string& filepath) {
 	if (soundBuffers.find(name) != soundBuffers.end()) {
-		throw std::runtime_error("Sound already loaded: " + name);
+		return;
 	}
 
 	soundBuffers[name] = new sf::SoundBuffer();
@@ -44,8 +44,29 @@ void SoundManager::PlayMusic(const std::string& name, bool loop) {
 	sounds[name]->setLoop(loop);
 }
 
-void SoundManager::StopMusic() {
-	for (auto& m : music) {
-		m.second->stop();
+void SoundManager::StopSound(const std::string& name) {
+	if (!sounds[name]) return;
+	sounds[name]->stop();
+}
+
+void SoundManager::StopMusic(const std::string& name) {
+	if (!sounds[name]) return;
+	music[name]->stop();
+}
+
+void SoundManager::PauseSound(const std::string& name) {
+	if (!sounds[name]) return;
+	sounds[name]->pause();
+}
+
+void SoundManager::PauseSound() {
+	for (auto& s : sounds) {
+		s.second->pause();
+	}
+}
+
+void SoundManager::StopSound() {
+	for (auto& s : sounds) {
+		s.second->stop();
 	}
 }

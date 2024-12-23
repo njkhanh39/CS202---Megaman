@@ -85,9 +85,9 @@ public:
 
 					if(i==0) this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE_1);
 					else if (i == 1) {
-						this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE_2);
+						this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE_3); //a little weird here
 					}
-					else this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE_3);
+					else this->statequeue->push(STATECOMMAND::PUSH_GAMESTATE_2);
 				}
 			}
 		}
