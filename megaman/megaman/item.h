@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "character.h"
+#include "Manager/SoundManager.h"
 
 enum ItemType {
 	HEALTH = 1
@@ -82,7 +83,12 @@ public:
 
 		if (this->taken && !this->done) {
 			//give health to char
- 			character->addHealth(hp);
+
+			SoundManager::GetInstance().LoadSound("x_gain_health", "Audio\\SFX\\12 - MMX - X Life Gain.wav");
+			SoundManager::GetInstance().SetSoundVolume("x_gain_health", 200);
+			SoundManager::GetInstance().PlaySound("x_gain_health", false);
+			
+			character->addHealth(hp);
 			this->done = true;
 		}
 	}
