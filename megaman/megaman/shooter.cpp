@@ -210,9 +210,12 @@ void Shooter::Load(Direction dir) {
 
 //-------FULL CHARGE
 
-XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 37.5, 22.5, 0, 150.f, 0) {
-	this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
-		70.f, 0, 0, 5, 0, 150, 90);
+XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 0, 0, -25.f, -30.f, -10.f) {
+//XBuster::FullChargeBuster::FullChargeBuster(TextureManager* textureManager) : Shooter(textureManager, 37.5, 22.5, 0, 150.f, 0) {
+	this->Shooter::LoadAnimationForBullet("Animation\\X\\enemi.jpg", "Animation\\X\\enemi.jpg",
+		0, 0, 0, 0, 0, 1080, 1080);
+	//this->Shooter::LoadAnimationForBullet("Animation\\X\\XBuster_FullChargeLeft.png", "Animation\\X\\XBuster_FullChargeRight.png",
+	//	70.f, 0, 0, 5, 0, 150, 90);
 
 	this->damage = 50;
 }
