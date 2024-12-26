@@ -18,15 +18,12 @@ enum STATECOMMAND {
 
 class State {
 protected:
-	MainWindow* window; //points to game->m_window??
+	MainWindow* window; 
 	bool quit;
 	bool paused;
 
 	//mouse
 	sf::Vector2f mousePos;
-
-	//it needs to know this, so that states can be pushed from a state
-	//std::stack<State*>* states;
 
 	std::queue<STATECOMMAND>* statequeue;
 	bool lockQueueCommand = false; //since we update twice, commands can be queued twice, which is bad

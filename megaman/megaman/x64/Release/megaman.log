@@ -8,10 +8,10 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(209,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(241,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'game.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooterenemies.h(169,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
@@ -468,10 +468,10 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(209,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(241,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'megaman.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooterenemies.h(169,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data

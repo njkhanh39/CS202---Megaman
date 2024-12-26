@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : m_window("Chapter 2", Vector2u(1280, 720)){
+Game::Game() : m_window("Megaman X Spinoff", Vector2u(1280, 720)){
 
 
 	this->initStateQueue();

@@ -38,7 +38,7 @@ public:
 		else {
 			CreateCameraMap3();
 			CreateWorld3();
-			CreateCharacterAndUIs(15,1052);
+			CreateCharacterAndUIs(5400,53); //15 1052
 		}
 		
 

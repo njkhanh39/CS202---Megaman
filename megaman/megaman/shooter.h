@@ -173,6 +173,7 @@ public:
 		for (int i = n - 1; i >= activeBullets; --i) {
 			if (bullets[i]->IsHit(en)) {
 				if(en && !en->isInvisible()) en->TakeDamage(this->damage);
+				
 				bullets[i]->setVelocityX(0);
 			}
 			if (bullets[i]->IsStopped()) {
