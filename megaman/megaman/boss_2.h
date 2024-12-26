@@ -296,7 +296,7 @@ private:
 		//-----------//
 
 		this->gravity = 200.f;
-		this->delay = 4000.f;
+		this->delay = 2000.f;
 		this->velocityX = 120.f;
 		this->health = 1500;
 		this->jumpStrength = 140.f;

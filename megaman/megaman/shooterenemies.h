@@ -180,6 +180,13 @@ public:
 			}
 		}
 	}
+
+	void Shoot(Direction dir) override {
+		this->Shooter::Shoot(dir);
+		//sound
+		SoundManager::GetInstance().LoadSound("missile_launch", "Audio\\Map1\\60 - MMX - Enemy Missle Fire.wav");
+		SoundManager::GetInstance().PlaySound("missile_launch", false);
+	}
 };
 
 class ShooterEnemy2 : public ShooterEnemy { //this wasp behaves both like shooter and moving. Scaled 0.75. IT FLIES

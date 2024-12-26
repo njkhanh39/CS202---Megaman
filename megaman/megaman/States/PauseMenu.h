@@ -7,8 +7,10 @@ class PauseMenu {
 private:
 	MainWindow* window;
 
-	Button* pauseFrame;
-	Text* text;
+	Sprite* sprite;
+
+	Texture* borrow;
+	TextureManager* textureManager; //borrow
 
 	Button* resume, * quit;
 
@@ -17,25 +19,29 @@ private:
 	bool returnResume = false, returnQuit = false;
 public:
 
-	PauseMenu(MainWindow* win, float x, float y) : window(win), text(nullptr), isActive(false) {
-		sf::Font fnt; fnt.loadFromFile("Fonts\\palatinobold.ttf");
-		pauseFrame = new Button(x, y, 150, 50, fnt, "", Color(47, 79, 79), Color(47, 79, 79),
-			Color(47, 79, 79));
+	PauseMenu(MainWindow* win,TextureManager* textureManager, float x, float y) : window(win), isActive(false),
+	textureManager(textureManager){
 
-		text = new Text();
-		text->setString("PAUSE");
-		text->setPosition({x+50.f, y+15.f});
-		text->setFont(fnt);
-		text->setCharacterSize(10);
+		sf::Font fnt;
+		fnt.loadFromFile("Fonts\\audiowide.ttf");
+		
+		textureManager->BorrowTexture("Animation\\PauseMenu\\pause.png", borrow);
 
-		resume = new Button(x+15.f, y+25.f, 50, 15, fnt, 10, "RESUME", Color::White, Color(255, 153, 51), Color(255, 153, 51));
-		quit = new Button(x+75.f, y+25.f, 50, 15, fnt, 10, "QUIT", Color::White, Color(255, 153, 51), Color(255, 153, 51));
+
+		sprite = new Sprite();
+		if(borrow) sprite->setTexture(*borrow);
+
+		resume = new Button(x+9.f, y+56.f, 50, 10, fnt, 10, "", Color::Transparent, Color(255, 153, 51), Color(255, 153, 51));
+		quit = new Button(x+84.f, y+56.f, 50, 10, fnt, 10, "", Color::Transparent, Color(255, 153, 51), Color(255, 153, 51));
+
+		//set pos
+
+		this->UpdateButtonPositions(Vector2f(x, y));
 
 	}
 
 	~PauseMenu() {
-		delete pauseFrame;
-		delete text;
+		delete sprite;
 		delete resume;
 		delete quit;
 	}
@@ -84,7 +90,7 @@ public:
 	}
 
 	void Render(RenderWindow* target) {
-		pauseFrame->Render(target);
+		target->draw(*sprite);
 		resume->Render(target);
 		quit->Render(target);
 
@@ -97,14 +103,15 @@ public:
 	}
 
 private:
-	void UpdateButtonPositions(Vector2f newPos) {
-		float x = newPos.x;
-		float y = newPos.y;
+	void UpdateButtonPositions(Vector2f viewCenter) {
+		float x = viewCenter.x;
+		float y = viewCenter.y;
 
-		pauseFrame->setPosition(newPos);
-		text->setPosition({ x + 50.f, y + 15.f });
-		resume->setPosition(Vector2f(x + 15.f, y + 25.f));
-		quit->setPosition(Vector2f(x + 75.f, y + 25.f));
+		Vector2f newPos = Vector2f(x - borrow->getSize().x / 2, y - borrow->getSize().y / 2);
+
+		sprite->setPosition(newPos);
+		resume->setPosition(Vector2f(newPos.x + 9.f, newPos.y + 56.f));
+		quit->setPosition(Vector2f(newPos.x + 84.f, newPos.y + 56.f));
 	}
 };
 

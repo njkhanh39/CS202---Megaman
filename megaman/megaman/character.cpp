@@ -19,7 +19,8 @@ Character::Character(TextureManager* textureManager, float x, float y): Entity(t
 	this->health = 300;
 	this->invisibleMaxTimer = 100.f; //the bigger, the longer character remains invisible
 	this->velocityX = 120;
-	this->gravity = 500;
+	this->gravity = 300;
+	this->jumpStrength = 180.f;
 
 
 	//dilation

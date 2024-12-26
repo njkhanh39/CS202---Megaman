@@ -12,7 +12,7 @@
 class SoundManager {
 public:
 	static SoundManager& GetInstance() {
-		static SoundManager instance;
+		static SoundManager instance; //only initialized one
 		return instance;
 	}
 

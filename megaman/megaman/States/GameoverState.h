@@ -1,7 +1,7 @@
 #ifndef GAMEOVERSTATE_H
 #define GAMEOVERSTATE_H
 
-#include "GameState.h"
+#include "WinState.h"
 
 class GameoverState: public State {
 private:

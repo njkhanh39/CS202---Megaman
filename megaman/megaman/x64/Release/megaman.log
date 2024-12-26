@@ -1,37 +1,4 @@
-﻿  WeaponManager.cpp
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\SoundManager.h(33,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  (compiling source file 'WeaponManager.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'WeaponManager.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'WeaponManager.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'WeaponManager.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.h(24,23): warning C4244: 'initializing': conversion from 'double' to 'const int', possible loss of data
-  (compiling source file 'WeaponManager.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\WeaponManager.cpp(136,53): warning C4305: 'argument': truncation from 'double' to 'float'
-  character.cpp
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\SoundManager.h(33,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  (compiling source file 'character.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.h(24,23): warning C4244: 'initializing': conversion from 'double' to 'const int', possible loss of data
-  (compiling source file 'character.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'character.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'character.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'character.cpp')
-  
-  game.cpp
+﻿  game.cpp
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\SoundManager.h(33,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   (compiling source file 'game.cpp')
   
@@ -160,108 +127,108 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManage
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:             T=float
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:             T=float
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(310,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(338,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(311,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(339,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         ]
   (compiling source file 'game.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         ]
   (compiling source file 'game.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\camera.h(39,37): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
@@ -433,6 +400,18 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\healthbar.
   (compiling source file 'game.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\healthbar.h(21,29): warning C4305: 'initializing': truncation from 'double' to 'const float'
+  (compiling source file 'game.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(102,89): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'game.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(106,90): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'game.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(110,90): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'game.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(192,29): warning C4553: '==': result of expression not used; did you intend '='?
   (compiling source file 'game.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameoverState.h(27,49): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
@@ -608,108 +587,108 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManage
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:             T=float
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,37): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:             T=float
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(132,19): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(310,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(338,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(311,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(339,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,67): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,56): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,45): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(376,34): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,67): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,56): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,45): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(379,34): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,45): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(418,34): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,45): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         ]
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         with
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         [
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:             _Ty=int
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(421,34): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\camera.h(39,37): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
@@ -883,6 +862,18 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\healthbar.
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\healthbar.h(21,29): warning C4305: 'initializing': truncation from 'double' to 'const float'
   (compiling source file 'megaman.cpp')
   
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(102,89): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'megaman.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(106,90): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'megaman.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(110,90): warning C4305: 'argument': truncation from 'int' to 'bool'
+  (compiling source file 'megaman.cpp')
+  
+C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameState.h(192,29): warning C4553: '==': result of expression not used; did you intend '='?
+  (compiling source file 'megaman.cpp')
+  
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameoverState.h(27,49): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameoverState.h(27,49): warning C4244:         with
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameoverState.h(27,49): warning C4244:         [
@@ -927,267 +918,9 @@ C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\Gam
 C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\States\GameoverState.h(28,46): warning C4244:         ]
   (compiling source file 'megaman.cpp')
   
-  shooter.cpp
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\SoundManager.h(33,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  (compiling source file 'shooter.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'shooter.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'shooter.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'shooter.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(59,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(78,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(90,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(98,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(117,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(132,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(226,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(260,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(296,109): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(315,26): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(315,21): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.cpp(391,8): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  world.cpp
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\Manager\SoundManager.h(33,27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\character.h(24,23): warning C4244: 'initializing': conversion from 'double' to 'const int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(172,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(208,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooter.h(240,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\shooterenemies.h(169,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_1.h(240,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(12,17): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(13,17): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(14,17): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(41,39): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(45,39): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(49,39): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_2.h(303,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_3.h(37,9): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\boss_3.h(294,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,97): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(93,86): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,97): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(96,86): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,108): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244: 'argument': conversion from '_Ty' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         ]
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         and
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\enemyspawner.h(99,97): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,67): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\ItemManager.h(65,58): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,37): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244: 'argument': conversion from 'const int' to 'T', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:             T=float
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(104,19): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(310,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(311,18): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,67): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,56): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,45): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(348,34): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,67): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,56): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,45): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(351,34): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,45): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(390,34): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,45): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         with
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         [
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:             _Ty=int
-C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\megaman\world.h(393,34): warning C4244:         ]
-  (compiling source file 'world.cpp')
-  
   Generating code
-  1 of 2291 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2353 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    103 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   megaman.vcxproj -> C:\Users\Admin\Documents\HCMUS\GitHub\CS202---Megaman\megaman\x64\Release\megaman.exe

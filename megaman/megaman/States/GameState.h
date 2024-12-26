@@ -98,9 +98,18 @@ public:
 			if (!this->paused) {
 				//resume
 
-				if (this->current_map == 3) SoundManager::GetInstance().PlaySound("chillpenguin", true);
-				if (this->current_map == 2) SoundManager::GetInstance().PlaySound("flamemammoth", true);
-				if (this->current_map == 1) SoundManager::GetInstance().PlaySound("vile", true);
+				if (this->current_map == 3) {
+					if(this->m_world->isBossFight) SoundManager::GetInstance().PlaySound("boss_music", 300);
+					else SoundManager::GetInstance().PlaySound("chillpenguin", true);
+				}
+				if (this->current_map == 2) {
+					if (this->m_world->isBossFight) SoundManager::GetInstance().PlaySound("boss_music", 300);
+					else SoundManager::GetInstance().PlaySound("flamemammoth", true);
+				}
+				if (this->current_map == 1) {
+					if (this->m_world->isBossFight) SoundManager::GetInstance().PlaySound("boss_music", 300);
+					else SoundManager::GetInstance().PlaySound("vile", true);
+				}
 			}
 		}
 
@@ -174,7 +183,24 @@ public:
 				if (m_character->IsInBossRegion(m_world->GetBossRegion())) {
 					m_world->isBossFight = true;
 
+
+
 					 if(m_world->GetBossPointer() && !m_boss) m_boss = m_world->GetBossPointer();
+
+					 //finish boss fight
+					 if (m_world->isBossFight == true && m_world->GetBossPointer() && m_world->GetBossPointer()->FinishedDeathAnimation()) {
+						 m_world->isBossFight == false;
+
+						 //turn off music
+
+						 SoundManager::GetInstance().StopSound("boss_music");
+
+						 if (!this->lockQueueCommand) {
+							 this->statequeue->push(STATECOMMAND::PUSH_WIN_STATE);
+							 this->lockQueueCommand = true;
+						 }
+
+					 }
 				}
 
 				//update view
@@ -316,7 +342,7 @@ private:
 	}
 
 	void CreatePauseMenu() {
-		pauseMenu = new PauseMenu(window, this->getCenterViewX(), this->getCenterViewY());
+		pauseMenu = new PauseMenu(window,textureManager, this->getCenterViewX(), this->getCenterViewY());
 	}
 
 	void innitAudio() override {

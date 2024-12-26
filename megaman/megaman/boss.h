@@ -55,6 +55,10 @@ public:
 	//void HandleProjectileCollision(Entity* en) override {}
 
 	//void HandleProjectileCollision(Obstacle* obs) override {}
+
+	bool FinishedDeathAnimation() {
+		return this->finishDeathAnimation;
+	}
 protected:
 	
 

@@ -10,10 +10,14 @@ void  WeaponManager::HandleEventInput(Event& evt, Time& elapsed, Character* char
 	if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::Q) {
 		--cur;
 		if (cur < 0) cur = (int)weapons.size() - 1;
+
+		SoundManager::GetInstance().StopSound("x_charge");
 	}
 	else if (evt.type == Event::KeyPressed && evt.key.code == Keyboard::E) {
 		++cur;
 		if (cur >= (int)weapons.size()) cur = 0;
+
+		SoundManager::GetInstance().StopSound("x_charge");
 	}
 
 	if (dynamic_cast<XBuster*>(weapons[cur])) {

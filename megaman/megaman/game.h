@@ -84,6 +84,9 @@ private:
 			if (cmd == PUSH_STAGESELECTION) {
 				this->states.push(new StageSelection(&m_window, textureManager, statequeue));
 			}
+			if (cmd == PUSH_WIN_STATE) {
+				this->states.push(new WinState(&m_window, textureManager, statequeue));
+			}
 		}
 	}
 };

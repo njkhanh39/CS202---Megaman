@@ -32,6 +32,7 @@ public:
 
 	bool isBossFight = false;
 	bool lockBossRegion = false;
+	bool playBossMusic = false;
 
 	//---------------------//
 
@@ -97,6 +98,33 @@ public:
 
 		if (this->isBossFight && lockBossRegion==false) {
 			LockBossZone();
+			//stop all sound to play boss music			
+		}
+		if (GetBossPointer() && !this->playBossMusic) {
+			
+			if (dynamic_cast<Vile*>(GetBossPointer())) {
+				SoundManager::GetInstance().StopSound("vile");
+			}
+			else if (dynamic_cast<FlameMammoth*>(GetBossPointer())) {
+				SoundManager::GetInstance().StopSound("flamemammoth");
+			}
+			else if (dynamic_cast<ChillPenguin*>(GetBossPointer())) {
+				SoundManager::GetInstance().StopSound("chillpenguin");
+			}
+
+			SoundManager::GetInstance().LoadSound("boss_music", "Audio\\Boss\\kingslayer.mp3");
+			SoundManager::GetInstance().SetSoundVolume("boss_music", 300);
+			SoundManager::GetInstance().PlaySound("boss_music", true);
+			
+			this->playBossMusic = true;
+		}
+
+		//receive weapon
+
+		if (this->isBossFight) {
+			if (GetBossPointer() && GetBossPointer()->IsDead()) { //boss defeated
+				ReceiveWeapon(GetBossPointer());
+			}
 		}
 	}
 
@@ -399,4 +427,72 @@ private:
 		fin.close();
 	}
 
+	void ReceiveWeapon(Boss* ptr) {
+		int num = 0;
+
+		if (dynamic_cast<Vile*>(ptr)) {
+			num = 2;
+		}
+		else if (dynamic_cast<FlameMammoth*>(ptr)) {
+			num = 3;
+		}
+		else {
+			num = 4;
+		}
+
+
+		std::string file = "Animation\\X\\weapons.txt";
+
+		std::ifstream fin;
+
+		fin.open(file);
+
+		if (!fin.is_open()) {
+			fin.close();
+			std::cout << "Error opening " << file << '\n';
+			return;
+		}
+
+		std::vector<int> nums;
+
+		std::string line;
+		while (std::getline(fin, line)) {
+			std::stringstream sstr(line);
+			std::string field;
+
+			while (std::getline(sstr, field, ',')) {
+				nums.push_back(std::stoi(field));
+			}
+		}
+
+		fin.close();
+
+		
+		//if already has gun then ok
+
+		for (int i = 0; i < (int)nums.size(); ++i) {
+			if (nums[i] == num) { //finish
+				return;
+			}
+		}
+
+		std::ofstream fout;
+		fout.open(file);
+
+		if (!fout.is_open()) {
+			fout.close();
+			std::cout << "Error opening " << file << '\n';
+			return;
+		}
+
+		nums.push_back(num);
+
+		sort(nums.begin(), nums.end());
+
+		for (int i = 0; i < (int)nums.size(); ++i) {
+			fout << nums[i] << '\n';
+		}
+
+		fout.close();
+	}
 };
